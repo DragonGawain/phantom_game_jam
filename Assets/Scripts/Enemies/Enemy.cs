@@ -48,6 +48,8 @@ public class Enemy : Movement
 
     Rigidbody2D rb;
 
+    int hp = 10;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -268,5 +270,17 @@ public class Enemy : Movement
             rb.velocity = maxMoveSpeed * (targetPos - transform.position).normalized;
         else
             rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            hp -= other.GetComponent<Bullet>().GetBulletDamage();
+            if (hp <= 0)
+                Destroy(this.gameObject);
+
+            Destroy(other.gameObject);
+        }
     }
 }

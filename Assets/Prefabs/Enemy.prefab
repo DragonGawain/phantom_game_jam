@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1604204931891690051}
   - component: {fileID: 681992054555173479}
   - component: {fileID: 3387603340584614030}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,6 +110,7 @@ MonoBehaviour:
   targetArc: 5
   turnSpeed: 1
   moveState: 0
+  holdTimer: 0
   targetPos: {x: 0, y: 0, z: 0}
   hasTarget: 0
   preferedTurnDir: 1
@@ -184,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7472741709744795525}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1915822956450562557}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5393814455377766268}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ForwardDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
