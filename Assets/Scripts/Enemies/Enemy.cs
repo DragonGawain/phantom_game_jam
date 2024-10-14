@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Movement
 {
     [SerializeField, Range(1f, 10f)]
     float visionDistance = 3f;
@@ -13,11 +13,6 @@ public class Enemy : MonoBehaviour
     [SerializeField, Range(1, 5)]
     int precision = 2;
 
-    [SerializeField, Range(1f, 5f)]
-    int maxSpeed = 2;
-
-    [SerializeField, Range(0.001f, 1f)]
-    int moveDrag = 2;
     Transform fDot;
     int hitLeft = 0;
     int hitRight = 0;
@@ -101,6 +96,6 @@ public class Enemy : MonoBehaviour
             transform.Rotate(0, 0, -1f);
         }
 
-        rb.velocity = (fDot.position - transform.position) * maxSpeed;
+        rb.velocity = (fDot.position - transform.position) * maxMoveSpeed;
     }
 }

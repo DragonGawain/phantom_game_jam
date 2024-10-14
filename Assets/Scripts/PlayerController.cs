@@ -2,18 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Movement
 {
     Inputs inputs;
     Vector2 movementInput;
 
     Rigidbody2D rb;
-
-    [SerializeField, Range(1f, 5f)]
-    float maxMoveSpeed = 2f;
-
-    [SerializeField, Range(0f, 1f)]
-    float slowdownDrag = 0.2f;
 
     // Start is called before the first frame update
     void Awake()
@@ -37,16 +31,5 @@ public class PlayerController : MonoBehaviour
             rb.velocity -= rb.velocity.normalized * slowdownDrag;
         if (rb.velocity.magnitude < 0)
             rb.velocity = Vector2.zero;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        bool hasComponentWhatever = false;
-        if (other.gameObject.GetComponent<TerrainType>().GetTerrainType() == TerrainTypes.ASPHALT)
-        {
-            if (hasComponentWhatever)
-                maxMoveSpeed += 2f;
-            maxMoveSpeed += other.gameObject.GetComponent<TerrainType>().GetMaxMoveSpeedModifier();
-        }
     }
 }
