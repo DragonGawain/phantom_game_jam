@@ -14,3 +14,10 @@ public static class Extensions
         );
     }
 }
+
+public enum TerrainTypes
+{
+    NORMAL,
+    SWAMP,
+    ASPHALT
+}
