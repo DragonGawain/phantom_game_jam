@@ -129,8 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d472653a5e3b745946d4e8438e0536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveSpeed: 1
+  maxMoveSpeed: 3
   slowdownDrag: 0.2
+  inventory: []
+  inventorySize: 10
 --- !u!50 &1257584646230942265
 Rigidbody2D:
   serializedVersion: 4
