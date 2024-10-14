@@ -55,6 +55,8 @@ public class Enemy : MonoBehaviour
         bool hit;
         Vector3 forward;
         float deltaAngle;
+        hitLeft = 0;
+        hitRight = 0;
         // left
         for (int i = 0; i <= precision; i++)
         {
@@ -82,6 +84,7 @@ public class Enemy : MonoBehaviour
 
     void Move()
     {
+        Debug.Log(hitRight + ", " + hitLeft);
         if (hitLeft == hitRight && hitLeft > 0)
         {
             // turn to a side

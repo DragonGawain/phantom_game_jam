@@ -38,4 +38,15 @@ public class PlayerController : MonoBehaviour
         if (rb.velocity.magnitude < 0)
             rb.velocity = Vector2.zero;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        bool hasComponentWhatever = false;
+        if (other.gameObject.GetComponent<TerrainType>().GetTerrainType() == TerrainTypes.ASPHALT)
+        {
+            if (hasComponentWhatever)
+                maxMoveSpeed += 2f;
+            maxMoveSpeed += other.gameObject.GetComponent<TerrainType>().GetMaxMoveSpeedModifier();
+        }
+    }
 }
