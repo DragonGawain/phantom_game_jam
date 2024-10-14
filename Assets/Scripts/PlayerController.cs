@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(1f, 5f)]
     float maxMoveSpeed = 2f;
 
-    [SerializeField, Range(0f, 5f)]
+    [SerializeField, Range(0f, 1f)]
     float slowdownDrag = 0.2f;
 
     // Start is called before the first frame update
