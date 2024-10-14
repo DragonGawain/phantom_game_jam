@@ -9,4 +9,19 @@ public class Movement : MonoBehaviour
 
     [SerializeField, Range(0f, 1f)]
     protected float slowdownDrag = 0.2f;
+
+    private float originalMaxSpeed;
+    private void Start()  // saving original value
+    {
+        originalMaxSpeed = maxMoveSpeed;
+    }
+
+    public void SetMaxMoveSpeed(float n)
+    {
+        maxMoveSpeed = n;
+    }
+    public float GetOriginalSpeed()
+    {
+        return originalMaxSpeed;
+    }
 }
