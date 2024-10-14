@@ -35,5 +35,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.ClampMagnitude(rb.velocity + movementInput, maxMoveSpeed);
         if (rb.velocity.magnitude > 0)
             rb.velocity -= rb.velocity.normalized * slowdownDrag;
+        if (rb.velocity.magnitude < 0)
+            rb.velocity = Vector2.zero;
     }
 }
