@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class Enemy : Movement
 {
+    enum MoveState
+    {
+        NONE,
+        HOLD,
+        ROT_TARGET,
+        ROT_OBSTACLE_L,
+        ROT_OBSTACLE_R,
+        MOV_TARGET
+    }
+
     [SerializeField, Range(1f, 10f)]
     float visionDistance = 3f;
 
@@ -13,9 +23,24 @@ public class Enemy : Movement
     [SerializeField, Range(1, 5)]
     int precision = 2;
 
+    [SerializeField, Range(0.5f, 15f)]
+    float targetArc = 5;
+
+    [SerializeField, Range(0.5f, 5f)]
+    float turnSpeed = 1;
+
+    [SerializeField]
+    MoveState moveState = MoveState.NONE;
+
+    public int holdTimer;
     Transform fDot;
+    Transform rDot;
+    Transform lDot;
     int hitLeft = 0;
     int hitRight = 0;
+
+    bool farLeft;
+    bool farRight;
 
     public Vector3 targetPos;
     public bool hasTarget = false;
@@ -27,6 +52,8 @@ public class Enemy : Movement
     void Awake()
     {
         fDot = transform.Find("ForwardDot");
+        rDot = transform.Find("RDot");
+        lDot = transform.Find("LDot");
 
         preferedTurnDir = (int)Mathf.Sign(Random.Range(-1f, 1f));
         rb = GetComponent<Rigidbody2D>();
@@ -41,6 +68,10 @@ public class Enemy : Movement
         {
             VisionCast();
             Move();
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
         }
     }
 
@@ -69,6 +100,22 @@ public class Enemy : Movement
                 hitLeft++;
         }
 
+        Debug.DrawRay(
+            lDot.position,
+            new Vector3(1, 1, 0).Rotate(this.transform.localEulerAngles.z - 30).normalized
+                * visionDistance,
+            Color.green
+        );
+        hit = Physics2D.Raycast(
+            lDot.position,
+            new Vector3(1, 1, 0).Rotate(this.transform.localEulerAngles.z - 30).normalized,
+            visionDistance,
+            LayerMask.GetMask("Obstacle")
+        );
+        farLeft = false;
+        if (hit)
+            farLeft = true;
+
         // right
         for (int i = precision + 1; i <= 2 * precision + 1; i++)
         {
@@ -82,33 +129,144 @@ public class Enemy : Movement
                 visionDistance,
                 LayerMask.GetMask("Obstacle")
             );
-            Debug.Log(hit);
             if (hit)
                 hitRight++;
         }
+
+        Debug.DrawRay(
+            rDot.position,
+            new Vector3(1, -1, 0).Rotate(this.transform.localEulerAngles.z + 30).normalized
+                * visionDistance,
+            Color.red
+        );
+        hit = Physics2D.Raycast(
+            rDot.position,
+            new Vector3(1, -1, 0).Rotate(this.transform.localEulerAngles.z + 30).normalized,
+            visionDistance,
+            LayerMask.GetMask("Obstacle")
+        );
+        farRight = false;
+        if (hit)
+            farRight = true;
     }
 
     void Move()
     {
-        Debug.Log(hitRight + ", " + hitLeft);
-        if (hitLeft == hitRight && hitLeft > 0)
+        // states: rotating towards target, rotating to avoid obstacle, moving towards target.
+
+
+        // rotating to avoid obstacle
+        // if (!farRight || !farLeft)
+        //     moveState = MoveState.NONE;
+        // if (hitLeft > 0 || hitRight > 0)
+        //     moveState = MoveState.ROT_OBSTACLE;
+
+        // set rotation direction
+        if (moveState != MoveState.ROT_OBSTACLE_L && moveState != MoveState.ROT_OBSTACLE_R)
         {
-            // turn to a side
-            transform.Rotate(0, 0, 1f * preferedTurnDir);
-        }
-        else if (hitLeft > hitRight && ((hitLeft > 1 && hitRight == 0) || (hitRight > 0)))
-        {
+            if (hitLeft == hitRight && hitLeft > 0 && farLeft == farRight)
+            {
+                // turn to a side
+                // transform.Rotate(0, 0, 1f * preferedTurnDir * turnSpeed);
+                if (preferedTurnDir < 0)
+                    moveState = MoveState.ROT_OBSTACLE_R;
+                else
+                    moveState = MoveState.ROT_OBSTACLE_L;
+                // moveState = MoveState.ROT_OBSTACLE;
+            }
             // turn right
-            transform.Rotate(0, 0, 1f);
-        }
-        else if (
-            hitRight > hitLeft && hitRight > 1 && ((hitRight > 1 && hitLeft == 0) || (hitLeft > 0))
-        )
-        {
+            else if (
+                (hitLeft > hitRight && hitRight > 0)
+                || (hitLeft > 0 && hitRight == 0)
+                || (farLeft && hitLeft > 0 && !farRight)
+            )
+            {
+                // transform.Rotate(0, 0, -1f * turnSpeed);
+                moveState = MoveState.ROT_OBSTACLE_R;
+            }
             // turn left
-            transform.Rotate(0, 0, -1f);
+            else if (
+                (hitRight > hitLeft && hitLeft > 0)
+                || (hitRight > 0 && hitLeft == 0)
+                || (farRight && hitRight > 0 && !farLeft)
+            )
+            {
+                // transform.Rotate(0, 0, 1f * turnSpeed);
+                moveState = MoveState.ROT_OBSTACLE_L;
+            }
         }
 
-        rb.velocity = (fDot.position - transform.position) * maxMoveSpeed;
+        // keep turning left
+        if (moveState == MoveState.ROT_OBSTACLE_L)
+        {
+            if (!farRight)
+            {
+                moveState = MoveState.HOLD;
+                holdTimer = 25;
+            }
+            transform.Rotate(0, 0, 1f * turnSpeed);
+        }
+
+        // keep turning right
+        if (moveState == MoveState.ROT_OBSTACLE_R)
+        {
+            if (!farLeft)
+            {
+                moveState = MoveState.HOLD;
+                holdTimer = 25;
+            }
+            transform.Rotate(0, 0, -1f * turnSpeed);
+        }
+
+        if (holdTimer >= 0)
+            holdTimer--;
+
+        if (
+            moveState != MoveState.ROT_OBSTACLE_L
+            && moveState != MoveState.ROT_OBSTACLE_R
+            && holdTimer <= 0
+        )
+        {
+            float angle = Vector3.Angle(
+                (fDot.position - transform.position).normalized,
+                (targetPos - transform.position).normalized
+            );
+            float righterAngle = Vector3.Angle(
+                (fDot.position - transform.position).Rotate(0.4f).normalized,
+                (targetPos - transform.position).normalized
+            );
+            // move towards target
+            if (angle <= targetArc)
+            {
+                moveState = MoveState.MOV_TARGET;
+                // transform.rotation = Quaternion.SetFromToRotation(
+                //     (targetPos - transform.position).normalized,
+                //     new Vector3(0, 0, 0)
+                // );
+
+                // transform.rotation = Quaternion.FromToRotation(
+                //     (fDot.position - transform.position).normalized,
+                //     (targetPos - transform.position).normalized
+                // );
+            }
+
+            // rotate towards target
+            if (angle > targetArc)
+            {
+                moveState = MoveState.ROT_TARGET;
+                if (righterAngle < angle)
+                    transform.Rotate(0, 0, 0.7f * turnSpeed);
+                else
+                    transform.Rotate(0, 0, -0.7f * turnSpeed);
+            }
+        }
+
+        if (Vector3.Distance(transform.position, targetPos) < 2)
+            hasTarget = false;
+
+        if (moveState == MoveState.MOV_TARGET)
+            rb.velocity = maxMoveSpeed * (targetPos - transform.position).normalized;
+        else
+            rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
     }
 }
