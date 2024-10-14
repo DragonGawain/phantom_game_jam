@@ -74,9 +74,7 @@ public class Enemy : Movement
             Move();
         }
         else
-        {
             rb.velocity = Vector2.zero;
-        }
     }
 
     void VisionCast()
