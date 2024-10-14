@@ -59,7 +59,12 @@ public class Enemy : Movement
             deltaAngle = Mathf.Lerp(visionAngle, -visionAngle, (float)i / (precision * 2 + 1));
             forward = forward.Rotate(deltaAngle);
             Debug.DrawRay(transform.position, forward * visionDistance, Color.green);
-            hit = Physics2D.Raycast(transform.position, forward, visionDistance, 6);
+            hit = Physics2D.Raycast(
+                transform.position,
+                forward,
+                visionDistance,
+                LayerMask.GetMask("Obstacle")
+            );
             if (hit)
                 hitLeft++;
         }
@@ -71,7 +76,13 @@ public class Enemy : Movement
             deltaAngle = Mathf.Lerp(visionAngle, -visionAngle, (float)i / (precision * 2 + 1));
             forward = forward.Rotate(deltaAngle);
             Debug.DrawRay(transform.position, forward * visionDistance, Color.red);
-            hit = Physics2D.Raycast(transform.position, forward, visionDistance, 6);
+            hit = Physics2D.Raycast(
+                transform.position,
+                forward,
+                visionDistance,
+                LayerMask.GetMask("Obstacle")
+            );
+            Debug.Log(hit);
             if (hit)
                 hitRight++;
         }
@@ -85,12 +96,14 @@ public class Enemy : Movement
             // turn to a side
             transform.Rotate(0, 0, 1f * preferedTurnDir);
         }
-        else if (hitLeft > hitRight && hitLeft > 1)
+        else if (hitLeft > hitRight && ((hitLeft > 1 && hitRight == 0) || (hitRight > 0)))
         {
             // turn right
             transform.Rotate(0, 0, 1f);
         }
-        else if (hitRight > hitLeft && hitRight > 1)
+        else if (
+            hitRight > hitLeft && hitRight > 1 && ((hitRight > 1 && hitLeft == 0) || (hitLeft > 0))
+        )
         {
             // turn left
             transform.Rotate(0, 0, -1f);

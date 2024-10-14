@@ -11,7 +11,8 @@ public class Movement : MonoBehaviour
     protected float slowdownDrag = 0.2f;
 
     private float originalMaxSpeed;
-    private void Start()  // saving original value
+
+    private void Start() // saving original value
     {
         originalMaxSpeed = maxMoveSpeed;
     }
@@ -20,6 +21,7 @@ public class Movement : MonoBehaviour
     {
         maxMoveSpeed = n;
     }
+
     public float GetOriginalSpeed()
     {
         return originalMaxSpeed;

@@ -6,7 +6,6 @@ public class PlayerController : Movement
 {
     Inputs inputs;
     Vector2 movementInput;
-
     Rigidbody2D rb;
 
     // Start is called before the first frame update
