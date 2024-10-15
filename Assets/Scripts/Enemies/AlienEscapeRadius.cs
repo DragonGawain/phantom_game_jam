@@ -15,8 +15,6 @@ public class AlienEscapeRadius : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player") || other.CompareTag("Human"))
-        {
-            alienBase.StopAttack();
-        }
+            alienBase.ReduceAggro(other.transform);
     }
 }

@@ -26,21 +26,22 @@ public class Alien : Enemy
         wanderTimer = 0;
 
         fleePoint = alienBase.transform.position;
-        target = alienBase.transform;
+        if (target == null)
+            target = alienBase.transform;
     }
 
     public void SetTarget(Transform target)
     {
         this.target = target;
-        combatState = CombatState.CHASE;
+        combatState = CombatState.ARRIVE;
     }
 
-    public void StopAttack() => combatState = CombatState.NONE;
+    public void StopAttack() => combatState = CombatState.WANDER;
 
     public void SetBase(AlienBase ab) => alienBase = ab;
 
     // wander
-    protected override void Arrive()
+    protected override void Wander()
     {
         // deal with the timer
         wanderTimer--;
@@ -101,11 +102,6 @@ public class Alien : Enemy
             rb.velocity = maxMoveSpeed * (wanderTarget - transform.position).normalized;
         else
             rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
-    }
-
-    protected override void Chase()
-    {
-        base.Arrive();
     }
 
     private void OnDestroy()

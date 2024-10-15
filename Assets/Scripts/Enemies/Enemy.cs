@@ -17,8 +17,8 @@ public class Enemy : Movement
 
     protected enum CombatState
     {
-        NONE,
-        CHASE,
+        ARRIVE,
+        WANDER,
         FLEE,
         ATTACK
     }
@@ -46,7 +46,7 @@ public class Enemy : Movement
     protected MoveState moveState = MoveState.NONE;
 
     [SerializeField]
-    protected CombatState combatState = CombatState.NONE;
+    protected CombatState combatState = CombatState.ARRIVE;
 
     public int holdTimer;
     protected Transform fDot;
@@ -87,11 +87,11 @@ public class Enemy : Movement
             // we chose a movement pattern based on the current combat state
             switch (combatState)
             {
-                case CombatState.NONE:
+                case CombatState.ARRIVE:
                     Arrive();
                     break;
-                case CombatState.CHASE:
-                    Chase();
+                case CombatState.WANDER:
+                    Wander();
                     break;
                 case CombatState.FLEE:
                     Flee();
@@ -294,7 +294,7 @@ public class Enemy : Movement
     }
 
     // Chase combat target to get within a certain range
-    protected virtual void Chase() { }
+    protected virtual void Wander() { }
 
     // Run away from a target -> try to run towards ship/base?
     // This is mainly a copy of ARRIVE, but with the direction flipped, and some gentle bias towards running towards their base

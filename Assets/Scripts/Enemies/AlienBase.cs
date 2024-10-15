@@ -21,8 +21,8 @@ public class AlienBase : MonoBehaviour
 
     int spawnTimer = 0;
     bool isSpawning = true;
-    Transform target;
-    int isAttacking = 0;
+
+    public List<Transform> targets = new();
 
     // Start is called before the first frame update
     void Start()
@@ -65,8 +65,10 @@ public class AlienBase : MonoBehaviour
         aliens.Add(al);
         al.SetBase(this);
 
-        if (isAttacking > 0)
-            al.SetTarget(target);
+        if (targets.Count > 0)
+            al.SetTarget(targets[Random.Range(0, targets.Count)]);
+        else
+            al.StopAttack();
     }
 
     public void KillAlien(Alien alien)
@@ -81,21 +83,33 @@ public class AlienBase : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("Human"))
         {
+            if (!targets.Contains(other.transform))
+                targets.Add(other.transform);
             foreach (Alien al in aliens)
-            {
-                al.SetTarget(other.transform);
-            }
-            target = other.transform;
-            isAttacking++;
+                al.SetTarget(targets[Random.Range(0, targets.Count)]);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    // private void OnTriggerExit2D(Collider2D other)
+    // {
+    //     if (other.CompareTag("Player") || other.CompareTag("Human"))
+    //     {
+    //         isAttacking--;
+    //         if (isAttacking <= 0)
+    //             StopAttack();
+    //     }
+    // }
+
+    public void ReduceAggro(Transform target)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Human"))
-        {
-            isAttacking--;
-        }
+        if (targets.Contains(target))
+            targets.Remove(target);
+
+        if (targets.Count == 0)
+            StopAttack();
+        else
+            foreach (Alien al in aliens)
+                al.SetTarget(targets[Random.Range(0, targets.Count)]);
     }
 
     public void StopAttack()
