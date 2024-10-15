@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4055976041945653995}
   - component: {fileID: 1517670149136900607}
-  - component: {fileID: 4499364644335485238}
+  - component: {fileID: -1863179852329027550}
   - component: {fileID: 681992054555173479}
   - component: {fileID: 3387603340584614030}
   m_Layer: 7
-  m_Name: HumanEnemy
-  m_TagString: Human
+  m_Name: AlienEnemy
+  m_TagString: Alien
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.10564661, g: 0, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -90,7 +90,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4499364644335485238
+--- !u!114 &-1863179852329027550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4020554289347170467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57e381f5d3d2ff64fa14c73655d40421, type: 3}
+  m_Script: {fileID: 11500000, guid: 679752da999ea594f93c3ac24123fd07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxMoveSpeed: 2
@@ -113,11 +113,6 @@ MonoBehaviour:
   combatState: 0
   holdTimer: 0
   target: {fileID: 0}
-  ship: {fileID: 0}
-  inventory: []
-  shipInventory: []
-  inventorySize: 10
-  shipInventorySize: 10
 --- !u!50 &681992054555173479
 Rigidbody2D:
   serializedVersion: 4

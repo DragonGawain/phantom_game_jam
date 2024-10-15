@@ -13,6 +13,8 @@ TagManager:
   - solid_boosters
   - engines
   - rcs
+  - Human
+  - Alien
   layers:
   - Default
   - TransparentFX

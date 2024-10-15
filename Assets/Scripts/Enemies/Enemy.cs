@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Enemy : Movement
@@ -12,6 +13,14 @@ public class Enemy : Movement
         ROT_OBSTACLE_L,
         ROT_OBSTACLE_R,
         MOV_TARGET
+    }
+
+    protected enum CombatState
+    {
+        NONE,
+        CHASE,
+        FLEE,
+        ATTACK
     }
 
     [SerializeField, Range(1f, 10f)]
@@ -29,8 +38,12 @@ public class Enemy : Movement
     [SerializeField, Range(0.5f, 5f)]
     float turnSpeed = 1;
 
+    // HACK:: Serialized just so that we can see them in the inspector
     [SerializeField]
     MoveState moveState = MoveState.NONE;
+
+    [SerializeField]
+    protected CombatState combatState = CombatState.NONE;
 
     public int holdTimer;
     Transform fDot;
@@ -43,12 +56,11 @@ public class Enemy : Movement
     bool farRight;
 
     public Transform target;
-    public bool hasTarget = false;
-    protected int preferedTurnDir = 1;
+    protected bool hasTarget = false;
+    protected int hp = 10;
+    int preferedTurnDir = 1;
 
     Rigidbody2D rb;
-
-    int hp = 10;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,7 +69,7 @@ public class Enemy : Movement
         rDot = transform.Find("RDot");
         lDot = transform.Find("LDot");
 
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        // target = GameObject.FindGameObjectWithTag("Player").transform;
 
         preferedTurnDir = (int)Mathf.Sign(Random.Range(-1f, 1f));
         rb = GetComponent<Rigidbody2D>();
@@ -68,7 +80,24 @@ public class Enemy : Movement
         if (hasTarget)
         {
             VisionCast();
-            Move();
+            ObstacleAvoidance();
+            // we chose a movement pattern based on the current combat state
+            switch (combatState)
+            {
+                case CombatState.NONE:
+                    Arrive();
+                    break;
+                case CombatState.CHASE:
+                    Chase();
+                    break;
+                case CombatState.FLEE:
+                    Flee();
+                    break;
+                case CombatState.ATTACK:
+                    Attack();
+                    break;
+            }
+            Arrive();
         }
         else
             rb.velocity = Vector2.zero;
@@ -78,6 +107,7 @@ public class Enemy : Movement
 
     protected virtual void DoFixedUpdate() { }
 
+    // Cast the vision rays used in ObstacleAvoidance
     void VisionCast()
     {
         // RaycastHit2D
@@ -153,29 +183,20 @@ public class Enemy : Movement
             farRight = true;
     }
 
-    void Move()
+    // none, chase, flee, attack
+    // Parse vision rays and turn to avoid obstacles
+    void ObstacleAvoidance()
     {
-        // states: rotating towards target, rotating to avoid obstacle, moving towards target.
-
-
-        // rotating to avoid obstacle
-        // if (!farRight || !farLeft)
-        //     moveState = MoveState.NONE;
-        // if (hitLeft > 0 || hitRight > 0)
-        //     moveState = MoveState.ROT_OBSTACLE;
-
         // set rotation direction
         if (moveState != MoveState.ROT_OBSTACLE_L && moveState != MoveState.ROT_OBSTACLE_R)
         {
             if (hitLeft == hitRight && hitLeft > 0 && farLeft == farRight)
             {
                 // turn to a side
-                // transform.Rotate(0, 0, 1f * preferedTurnDir * turnSpeed);
                 if (preferedTurnDir < 0)
                     moveState = MoveState.ROT_OBSTACLE_R;
                 else
                     moveState = MoveState.ROT_OBSTACLE_L;
-                // moveState = MoveState.ROT_OBSTACLE;
             }
             // turn right
             else if (
@@ -184,7 +205,6 @@ public class Enemy : Movement
                 || (farLeft && hitLeft > 0 && !farRight)
             )
             {
-                // transform.Rotate(0, 0, -1f * turnSpeed);
                 moveState = MoveState.ROT_OBSTACLE_R;
             }
             // turn left
@@ -194,7 +214,6 @@ public class Enemy : Movement
                 || (farRight && hitRight > 0 && !farLeft)
             )
             {
-                // transform.Rotate(0, 0, 1f * turnSpeed);
                 moveState = MoveState.ROT_OBSTACLE_L;
             }
         }
@@ -223,7 +242,11 @@ public class Enemy : Movement
 
         if (holdTimer >= 0)
             holdTimer--;
+    }
 
+    // Go directly to the target
+    void Arrive()
+    {
         if (
             moveState != MoveState.ROT_OBSTACLE_L
             && moveState != MoveState.ROT_OBSTACLE_R
@@ -272,6 +295,15 @@ public class Enemy : Movement
         else
             rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
     }
+
+    // Chase combat target to get within a certain range
+    void Chase() { }
+
+    // Run away from a target -> try to run towards ship/base?
+    void Flee() { }
+
+    // maintain distance, and also fight back
+    void Attack() { }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

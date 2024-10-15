@@ -9,7 +9,7 @@ public class Human : Enemy
     // This might even make it possible for us to introduce allies - multiple enemies working together attached to the same ship?
     public Ship ship;
 
-    // public just to expose them in editor for debug purposes
+    // HACK:: public just to expose them in the inspector
     public List<Item> inventory = new();
     public List<ShipPiece> shipInventory = new();
 
@@ -29,6 +29,11 @@ public class Human : Enemy
         );
         hasTarget = true;
         ship.SetHuman(this);
+    }
+
+    protected override void DoFixedUpdate()
+    {
+        //
     }
 
     // inventory management

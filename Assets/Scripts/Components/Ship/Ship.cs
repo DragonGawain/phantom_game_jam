@@ -60,11 +60,7 @@ public class Ship : MonoBehaviour
                 )
                     potentialTargets.Add(sp);
         }
-        foreach (ShipPieces item in potentialTargets)
-        {
-            Debug.Log("looking for: " + item);
-        }
-        Debug.Log(potentialTargets.Count);
+
         if (potentialTargets.Count == 0)
         {
             // This means that an enemy has everything that they need.. They have a complete ship.
@@ -73,8 +69,7 @@ public class Ship : MonoBehaviour
         else
         {
             int selection = Random.Range(0, potentialTargets.Count);
-            Debug.Log("selection: " + selection);
-            Debug.Log(potentialTargets + "\n" + potentialTargets[selection]);
+
             GameObject[] potentialTargetLocs = potentialTargets[selection] switch
             {
                 ShipPieces.NOSE_GEAR => GameObject.FindGameObjectsWithTag("nose_gear"),
