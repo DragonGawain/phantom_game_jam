@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Alien : Enemy
 {
+    AlienBase alienBase;
+
     // // Start is called before the first frame update
     // void Start() { }
 
@@ -15,4 +17,15 @@ public class Alien : Enemy
         this.target = target;
         hasTarget = true;
     }
+
+    public void StopAttack() => hasTarget = false;
+
+    public void SetBase(AlienBase ab) => alienBase = ab;
+
+    private void OnDestroy()
+    {
+        alienBase.KillAlien(this);
+    }
+
+    // TODO:: override ARRIVE and replace it with WANDER
 }

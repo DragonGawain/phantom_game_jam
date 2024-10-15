@@ -97,7 +97,6 @@ public class Enemy : Movement
                     Attack();
                     break;
             }
-            Arrive();
         }
         else
             rb.velocity = Vector2.zero;
@@ -245,7 +244,7 @@ public class Enemy : Movement
     }
 
     // Go directly to the target
-    void Arrive()
+    protected void Arrive()
     {
         if (
             moveState != MoveState.ROT_OBSTACLE_L
@@ -297,13 +296,13 @@ public class Enemy : Movement
     }
 
     // Chase combat target to get within a certain range
-    void Chase() { }
+    protected void Chase() { }
 
     // Run away from a target -> try to run towards ship/base?
-    void Flee() { }
+    protected void Flee() { }
 
     // maintain distance, and also fight back
-    void Attack() { }
+    protected void Attack() { }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
