@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : Item
+public class healthRestore : MonoBehaviour
 {
     // Start is called before the first frame update
-    // protected override void OnStart()
-    // {
-    //     base.OnStart();
-    // }
+    void Start()
+    {
+        
+    }
 
     // Update is called once per frame
-    // void Update() { }
+    void Update()
+    {
+        
+    }
 }

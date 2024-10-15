@@ -9,7 +9,7 @@ public class PlayerController : Movement
     Vector2 movementInput;
     Rigidbody2D rb;
 
-    public List<Item> inventory = new();
+    public List<PlayerPiece> inventory = new();
 
     [SerializeField]
     int inventorySize = 10;
@@ -17,6 +17,8 @@ public class PlayerController : Movement
     Vector3 mousePos;
 
     GameObject bulletObject;
+
+    int hp;
 
     // Start is called before the first frame update
     void Awake()
@@ -40,18 +42,22 @@ public class PlayerController : Movement
     }
 
     // inventory management
-    public void AddToInventory(Item newItem)
+    public bool AddToInventory(PlayerPiece newItem)
     {
         if (newItem.GetComponentType() != ComponentType.PLAYER)
-            return;
+            return false;
         int size = 0;
-        foreach (Item item in inventory)
+        foreach (PlayerPiece item in inventory)
             size += item.GetSize();
         if (size + newItem.GetSize() <= inventorySize)
+        {
             inventory.Add(newItem);
+            return true;
+        }
+        return false;
     }
 
-    public void RemoveFromInventory(Item item)
+    public void RemoveFromInventory(PlayerPiece item)
     {
         if (inventory.Contains(item))
             inventory.Remove(item);
@@ -60,7 +66,7 @@ public class PlayerController : Movement
     // usable items
     void ShootGun(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        if (inventory.Any(it => it.TryGetComponent<Gun>(out Gun NA)))
+        if (inventory.Any(it => it.GetPlayerComponentType() == PlayerComponents.GUN))
         {
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos = new Vector3(mousePos.x, mousePos.y, 0);

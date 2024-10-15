@@ -4,31 +4,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Linq;
+using UnityEditor;
 
 public class Ship : MonoBehaviour
 {
-    static readonly Dictionary<ShipPieces, int> requiredInventory =
+    static readonly Dictionary<ShipComponents, int> requiredInventory =
         new()
         {
-            { ShipPieces.NOSE_GEAR, 1 },
-            { ShipPieces.LANDING_GEAR, 1 },
-            { ShipPieces.OXYGEN_TANK, 1 },
-            { ShipPieces.FUEL_TANK, 3 },
-            { ShipPieces.SOLID_BOOSTERS, 2 },
-            { ShipPieces.ENGINES, 1 },
-            { ShipPieces.RCS, 1 }
+            { ShipComponents.NOSE_GEAR, 1 },
+            { ShipComponents.LANDING_GEAR, 1 },
+            { ShipComponents.OXYGEN_TANK, 1 },
+            { ShipComponents.FUEL_TANK, 3 },
+            { ShipComponents.SOLID_BOOSTERS, 2 },
+            { ShipComponents.ENGINES, 1 },
+            { ShipComponents.RCS, 1 }
         };
 
-    Dictionary<ShipPieces, int> inventory =
+    Dictionary<ShipComponents, int> inventory =
         new()
         {
-            { ShipPieces.NOSE_GEAR, 0 },
-            { ShipPieces.LANDING_GEAR, 0 },
-            { ShipPieces.OXYGEN_TANK, 0 },
-            { ShipPieces.FUEL_TANK, 0 },
-            { ShipPieces.SOLID_BOOSTERS, 0 },
-            { ShipPieces.ENGINES, 0 },
-            { ShipPieces.RCS, 0 }
+            { ShipComponents.NOSE_GEAR, 0 },
+            { ShipComponents.LANDING_GEAR, 0 },
+            { ShipComponents.OXYGEN_TANK, 0 },
+            { ShipComponents.FUEL_TANK, 0 },
+            { ShipComponents.SOLID_BOOSTERS, 0 },
+            { ShipComponents.ENGINES, 0 },
+            { ShipComponents.RCS, 0 }
         };
 
     Human human;
@@ -48,13 +49,15 @@ public class Ship : MonoBehaviour
     )
     {
         Transform pos = source;
-        List<ShipPieces> potentialTargets = new();
+        List<ShipComponents> potentialTargets = new();
 
-        foreach (ShipPieces sp in Enum.GetValues(typeof(ShipPieces)))
+        foreach (ShipComponents sp in Enum.GetValues(typeof(ShipComponents)))
         {
-            if (ShipPiece.pieceSizes[sp] <= availableSPace)
+            if (Item.shipComponentSizes[sp] <= availableSPace)
                 for (
-                    int i = inventory[sp] + carrying.Where(it => it.GetShipPiece() == sp).Count();
+                    int i =
+                        inventory[sp]
+                        + carrying.Where(it => it.GetShipComponentType() == sp).Count();
                     i < requiredInventory[sp];
                     i++
                 )
@@ -72,13 +75,14 @@ public class Ship : MonoBehaviour
 
             GameObject[] potentialTargetLocs = potentialTargets[selection] switch
             {
-                ShipPieces.NOSE_GEAR => GameObject.FindGameObjectsWithTag("nose_gear"),
-                ShipPieces.LANDING_GEAR => GameObject.FindGameObjectsWithTag("landing_gear"),
-                ShipPieces.OXYGEN_TANK => GameObject.FindGameObjectsWithTag("oxygen_tank"),
-                ShipPieces.FUEL_TANK => GameObject.FindGameObjectsWithTag("fuel_tank"),
-                ShipPieces.SOLID_BOOSTERS => GameObject.FindGameObjectsWithTag("solid_boosters"),
-                ShipPieces.ENGINES => GameObject.FindGameObjectsWithTag("engines"),
-                ShipPieces.RCS => GameObject.FindGameObjectsWithTag("rcs"),
+                ShipComponents.NOSE_GEAR => GameObject.FindGameObjectsWithTag("nose_gear"),
+                ShipComponents.LANDING_GEAR => GameObject.FindGameObjectsWithTag("landing_gear"),
+                ShipComponents.OXYGEN_TANK => GameObject.FindGameObjectsWithTag("oxygen_tank"),
+                ShipComponents.FUEL_TANK => GameObject.FindGameObjectsWithTag("fuel_tank"),
+                ShipComponents.SOLID_BOOSTERS
+                    => GameObject.FindGameObjectsWithTag("solid_boosters"),
+                ShipComponents.ENGINES => GameObject.FindGameObjectsWithTag("engines"),
+                ShipComponents.RCS => GameObject.FindGameObjectsWithTag("rcs"),
                 _ => null
             };
 
@@ -96,7 +100,7 @@ public class Ship : MonoBehaviour
         return pos;
     }
 
-    public void AddPieceToShip(ShipPieces piece, int qt = 1)
+    public void AddPieceToShip(ShipComponents piece, int qt = 1)
     {
         if (inventory.ContainsKey(piece))
             inventory[piece] += qt;
@@ -104,7 +108,7 @@ public class Ship : MonoBehaviour
             inventory.Add(piece, qt);
     }
 
-    public bool RemovePieceFromShip(ShipPieces piece, int qt = 1)
+    public bool RemovePieceFromShip(ShipComponents piece, int qt = 1)
     {
         if (inventory.ContainsKey(piece))
         {
@@ -129,7 +133,7 @@ public class Ship : MonoBehaviour
                 foreach (ShipPiece sp in toAdd)
                 {
                     human.RemoveFromShipInventory(sp);
-                    AddPieceToShip(sp.GetShipPiece());
+                    AddPieceToShip(sp.GetShipComponentType());
                 }
                 human.FindNewShipPiece();
             }

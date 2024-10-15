@@ -1,57 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-// You will need all of these to be able to take off
-// IMPORTANT:: All of these must have a tag
-public enum ShipPieces
-{
-    NOSE_GEAR,
-    LANDING_GEAR,
-    OXYGEN_TANK,
-    FUEL_TANK, // will also have a fuel quantity that needs to be full -> this can be recoreded as just 'you need multiple fuel tanks'
-    SOLID_BOOSTERS,
-    ENGINES, // more engines = higher max speed
-    RCS, // more RCS = tighter turn radius (RCS stands for Rocket Control System)
-    // SAS?
-}
+using Random = UnityEngine.Random;
 
 public class ShipPiece : Item
 {
-    public static readonly Dictionary<ShipPieces, int> pieceSizes =
-        new()
-        {
-            { ShipPieces.NOSE_GEAR, 3 },
-            { ShipPieces.LANDING_GEAR, 2 },
-            { ShipPieces.OXYGEN_TANK, 4 },
-            { ShipPieces.FUEL_TANK, 5 },
-            { ShipPieces.SOLID_BOOSTERS, 3 },
-            { ShipPieces.ENGINES, 3 },
-            { ShipPieces.RCS, 1 }
-        };
-
     [SerializeField]
-    ShipPieces shipPieceType;
+    ShipComponents shipComponentType;
 
     protected override void OnStart()
     {
-        size = 4;
         componentType = ComponentType.SHIP;
 
-        gameObject.tag = shipPieceType switch
+        shipComponentType = (ShipComponents)
+            Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
+
+        size = shipComponentSizes[shipComponentType];
+        gameObject.tag = shipComponentType switch
         {
-            ShipPieces.NOSE_GEAR => "nose_gear",
-            ShipPieces.LANDING_GEAR => "landing_gear",
-            ShipPieces.OXYGEN_TANK => "oxygen_tank",
-            ShipPieces.FUEL_TANK => "fuel_tank",
-            ShipPieces.SOLID_BOOSTERS => "solid_boosters",
-            ShipPieces.ENGINES => "engines",
-            ShipPieces.RCS => "rcs",
+            ShipComponents.NOSE_GEAR => "nose_gear",
+            ShipComponents.LANDING_GEAR => "landing_gear",
+            ShipComponents.OXYGEN_TANK => "oxygen_tank",
+            ShipComponents.FUEL_TANK => "fuel_tank",
+            ShipComponents.SOLID_BOOSTERS => "solid_boosters",
+            ShipComponents.ENGINES => "engines",
+            ShipComponents.RCS => "rcs",
             _ => "Untagged"
         };
     }
 
-    public ShipPieces GetShipPiece() => shipPieceType;
+    public ShipComponents GetShipComponentType() => shipComponentType;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
