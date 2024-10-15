@@ -44,7 +44,7 @@ public class Enemy : Movement
 
     public Transform target;
     public bool hasTarget = false;
-    public int preferedTurnDir = 1;
+    protected int preferedTurnDir = 1;
 
     Rigidbody2D rb;
 
@@ -63,9 +63,6 @@ public class Enemy : Movement
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update() { }
-
     private void FixedUpdate()
     {
         if (hasTarget)
@@ -75,7 +72,11 @@ public class Enemy : Movement
         }
         else
             rb.velocity = Vector2.zero;
+
+        DoFixedUpdate();
     }
+
+    protected virtual void DoFixedUpdate() { }
 
     void VisionCast()
     {
@@ -263,7 +264,7 @@ public class Enemy : Movement
             }
         }
 
-        if (Vector3.Distance(transform.position, target.position) < 2)
+        if (Vector3.Distance(transform.position, target.position) < 0.5f)
             hasTarget = false;
 
         if (moveState == MoveState.MOV_TARGET)

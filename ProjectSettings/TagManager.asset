@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Bullet
   - GlabalLight
+  - nose_gear
+  - landing_gear
+  - oxygen_tank
+  - fuel_tank
+  - solid_boosters
+  - engines
+  - rcs
   layers:
   - Default
   - TransparentFX
