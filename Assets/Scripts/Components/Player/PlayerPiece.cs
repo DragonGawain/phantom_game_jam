@@ -17,7 +17,7 @@ public class PlayerPiece : Item
         {
             if (pc.AddToInventory(playerComponentType))
             {
-                gameObject.SetActive(false);
+                Destroy(gameObject);
             }
         }
         else if (other.TryGetComponent<Human>(out Human human))
