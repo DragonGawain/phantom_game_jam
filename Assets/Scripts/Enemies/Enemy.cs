@@ -15,7 +15,7 @@ public class Enemy : Movement
         MOV_TARGET
     }
 
-    protected enum CombatState
+    public enum CombatState
     {
         ARRIVE,
         WANDER,
@@ -267,6 +267,15 @@ public class Enemy : Movement
             if (angle <= targetArc)
             {
                 moveState = MoveState.MOV_TARGET;
+                // transform.rotation = Quaternion.FromToRotation(
+                //     (fDot.position - transform.position).normalized,
+                //     (target.position - transform.position).normalized
+                // );
+
+                // transform.rotation = Quaternion.FromToRotation(
+                //     Vector3.up,
+                //     (fDot.position - transform.position).normalized
+                // );
             }
 
             // rotate towards target

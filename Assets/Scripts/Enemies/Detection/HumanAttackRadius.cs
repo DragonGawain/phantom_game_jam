@@ -15,7 +15,7 @@ public class HumanAttackRadius : MonoBehaviour
     {
         if (other.CompareTag("Alien") || other.CompareTag("Player"))
         {
-            //
+            human.SetAttackTarget(other.transform);
         }
     }
 }

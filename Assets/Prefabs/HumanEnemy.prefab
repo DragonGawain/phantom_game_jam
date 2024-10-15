@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2935120006407127346}
   - component: {fileID: 7498789386075842531}
+  - component: {fileID: 6924711721773085953}
   m_Layer: 0
   m_Name: AttackRadiusExit
   m_TagString: Untagged
@@ -67,6 +68,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 25
+--- !u!114 &6924711721773085953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3788360001934180719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93c0f5dbe0d1ca40be5a86843d8a1ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4020554289347170467
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,6 +201,8 @@ MonoBehaviour:
   shipInventory: 
   inventorySize: 10
   shipInventorySize: 10
+  distFromAttackTarget: 10
+  distFromAttackTargetBuffer: 2
 --- !u!50 &681992054555173479
 Rigidbody2D:
   serializedVersion: 4
@@ -291,6 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 165652194921967917}
   - component: {fileID: 1202782277481036793}
+  - component: {fileID: 4459845878779695263}
   m_Layer: 0
   m_Name: AttackRadiusEnter
   m_TagString: Untagged
@@ -348,6 +364,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 15
+--- !u!114 &4459845878779695263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747683449428788864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220631ab460c96b438b120a028b12c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7343858735463207090
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,22 +23,33 @@ public class Human : Enemy
     [SerializeField, Range(8, 18)]
     float distFromAttackTarget = 10f;
 
+    [SerializeField, Range(1, 5)]
+    float distFromAttackTargetBuffer = 2f;
+
+    GameObject bulletObject;
+    int shootTimer = 0;
+
+    bool chase = true;
+
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
     {
         FindNewShipPiece();
         ship.SetHuman(this);
         fleePoint = ship.transform.position;
+
+        bulletObject = Resources.Load<GameObject>("Bullet");
     }
 
-    protected override void DoFixedUpdate()
-    {
-        //
-    }
+    public CombatState GetCombatState() => combatState;
+
+    public Transform GetTarget() => target;
 
     // Attack algo
     protected override void Attack()
     {
+        if (shootTimer > 0)
+            shootTimer--;
         // we start with the core of the base ARRIVE, but we need to edit the movement logic at the bottom, so we can't just call base.Arrive();
         if (
             moveState != MoveState.ROT_OBSTACLE_L
@@ -70,15 +82,81 @@ public class Human : Enemy
             }
         }
 
-        if (Vector3.Distance(transform.position, target.position) > distFromAttackTarget)
+        if (
+            chase
+            && Vector3.Distance(transform.position, target.position)
+                < (distFromAttackTarget - distFromAttackTargetBuffer)
+        )
+            chase = false;
+        else if (
+            !chase
+            && Vector3.Distance(transform.position, target.position)
+                > (distFromAttackTarget + distFromAttackTargetBuffer)
+        )
+            chase = true;
+
+        if (chase)
         {
-            if (moveState == MoveState.MOV_TARGET)
-                rb.velocity = maxMoveSpeed * (target.position - transform.position).normalized;
+            if (
+                Vector3.Distance(transform.position, target.position)
+                > (distFromAttackTarget + distFromAttackTargetBuffer)
+            )
+            {
+                if (moveState == MoveState.MOV_TARGET)
+                    rb.velocity = maxMoveSpeed * (target.position - transform.position).normalized;
+                else
+                    rb.velocity =
+                        0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
+            }
             else
-                rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
+            {
+                if (moveState == MoveState.MOV_TARGET)
+                    rb.velocity =
+                        0.55f * maxMoveSpeed * (target.position - transform.position).normalized;
+                else
+                    rb.velocity =
+                        0.5f * maxMoveSpeed * (fDot.position - transform.position).normalized;
+                Shoot();
+            }
         }
         else
-            rb.velocity = Vector2.zero;
+        {
+            if (moveState == MoveState.MOV_TARGET)
+                rb.velocity =
+                    0.55f * maxMoveSpeed * (transform.position - target.position).normalized;
+            else
+                rb.velocity = 0.5f * maxMoveSpeed * (transform.position - fDot.position).normalized;
+            Shoot();
+        }
+        // if(Vector3.Distance(transform.position, target.position) <= distFromAttackTarget)
+    }
+
+    public void SetAttackTarget(Transform target)
+    {
+        this.target = target;
+        combatState = CombatState.ATTACK;
+    }
+
+    public void StopAttack()
+    {
+        combatState = CombatState.ARRIVE;
+        FindNewShipPiece();
+    }
+
+    void Shoot()
+    {
+        if (shootTimer <= 0)
+        {
+            shootTimer = 100;
+            Vector3 dir = target.position - transform.position;
+            GameObject bullet = Instantiate(
+                bulletObject,
+                transform.position,
+                Quaternion.FromToRotation(Vector3.up, dir)
+            );
+            bullet.GetComponent<Bullet>().Launch(dir);
+            bullet.tag = "EvilBullet";
+        }
     }
 
     // inventory management

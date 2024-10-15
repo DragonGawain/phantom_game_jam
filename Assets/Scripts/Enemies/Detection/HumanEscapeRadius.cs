@@ -13,9 +13,10 @@ public class HumanEscapeRadius : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Alien") || other.CompareTag("Player"))
-        {
-            //
-        }
+        if (
+            human.GetCombatState() == Enemy.CombatState.ATTACK
+            && human.GetTarget() == other.transform
+        )
+            human.StopAttack();
     }
 }
