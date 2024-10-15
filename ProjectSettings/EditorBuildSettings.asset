@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CraigScene.unity
     guid: 72076b44e57324feca0a71e74c8230b2
+  - enabled: 1
+    path: Assets/Scenes/PauseMenu.unity
+    guid: bb869d3f37f74435ba4b3bd9b3aa3102
   m_configObjects: {}
