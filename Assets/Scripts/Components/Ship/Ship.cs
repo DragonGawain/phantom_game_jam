@@ -32,19 +32,22 @@ public class Ship : MonoBehaviour
             { ShipComponents.RCS, 0 }
         };
 
-    Human human;
+    Human human = null;
+    PlayerController player = null;
 
     public Vector3 GetPositionOfNearestNeededShipPiece(
         Transform source,
-        List<ShipPiece> carrying,
+        List<ShipComponents> carrying,
         int availableSPace
     ) => GetTransformOfNearestNeededShipPiece(source, carrying, availableSPace).position;
 
     public void SetHuman(Human human) => this.human = human;
 
+    public void SetPlayer(PlayerController player) => this.player = player;
+
     public Transform GetTransformOfNearestNeededShipPiece(
         Transform source,
-        List<ShipPiece> carrying,
+        List<ShipComponents> carrying,
         int availableSPace
     )
     {
@@ -58,9 +61,7 @@ public class Ship : MonoBehaviour
                 && GameObject.FindGameObjectsWithTag(sp.GetEnumDescription()).Length > 0
             )
                 for (
-                    int i =
-                        inventory[sp]
-                        + carrying.Where(it => it.GetShipComponentType() == sp).Count();
+                    int i = inventory[sp] + carrying.Where(it => it == sp).Count();
                     i < requiredInventory[sp];
                     i++
                 )
@@ -76,18 +77,10 @@ public class Ship : MonoBehaviour
         {
             int selection = Random.Range(0, potentialTargets.Count);
 
-            GameObject[] potentialTargetLocs = potentialTargets[selection] switch
-            {
-                ShipComponents.NOSE_GEAR => GameObject.FindGameObjectsWithTag("nose_gear"),
-                ShipComponents.LANDING_GEAR => GameObject.FindGameObjectsWithTag("landing_gear"),
-                ShipComponents.OXYGEN_TANK => GameObject.FindGameObjectsWithTag("oxygen_tank"),
-                ShipComponents.FUEL_TANK => GameObject.FindGameObjectsWithTag("fuel_tank"),
-                ShipComponents.SOLID_BOOSTERS
-                    => GameObject.FindGameObjectsWithTag("solid_boosters"),
-                ShipComponents.ENGINES => GameObject.FindGameObjectsWithTag("engines"),
-                ShipComponents.RCS => GameObject.FindGameObjectsWithTag("rcs"),
-                _ => null
-            };
+            // TODO:: make better
+            GameObject[] potentialTargetLocs = GameObject.FindGameObjectsWithTag(
+                potentialTargets[selection].GetEnumDescription()
+            );
 
             float dist = int.MaxValue;
             foreach (GameObject ptl in potentialTargetLocs)
@@ -132,13 +125,30 @@ public class Ship : MonoBehaviour
         {
             if (human = this.human)
             {
-                List<ShipPiece> toAdd = human.GetShipInventory().DeepCopy();
-                foreach (ShipPiece sp in toAdd)
+                List<ShipComponents> toAdd = human.GetShipInventory().DeepCopy();
+                foreach (ShipComponents sp in toAdd)
                 {
                     human.RemoveFromShipInventory(sp);
-                    AddPieceToShip(sp.GetShipComponentType());
+                    AddPieceToShip(sp);
                 }
                 human.FindNewShipPiece();
+            }
+        }
+        else if (other.TryGetComponent<PlayerController>(out PlayerController pc))
+        {
+            if (pc == this.player)
+            {
+                List<ShipComponents> toAdd = pc.GetShipInventory().DeepCopy();
+                foreach (ShipComponents sp in toAdd)
+                {
+                    pc.RemoveFromShipInventory(sp);
+                    AddPieceToShip(sp);
+                }
+
+                foreach (KeyValuePair<ShipComponents, int> sp in inventory)
+                {
+                    Debug.Log(sp.Key + " -> " + sp.Value);
+                }
             }
         }
     }

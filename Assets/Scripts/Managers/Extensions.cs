@@ -15,9 +15,9 @@ public static class Extensions
         );
     }
 
-    public static List<ShipPiece> DeepCopy(this List<ShipPiece> list)
+    public static List<ShipComponents> DeepCopy(this List<ShipComponents> list)
     {
-        List<ShipPiece> output = new();
+        List<ShipComponents> output = new();
         foreach (var item in list)
             output.Add(item);
         return output;

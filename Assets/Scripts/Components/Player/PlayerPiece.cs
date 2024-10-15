@@ -7,12 +7,7 @@ public class PlayerPiece : Item
     [SerializeField]
     PlayerComponents playerComponentType;
 
-    protected override void OnStart()
-    {
-        componentType = ComponentType.PLAYER;
-
-        size = playerComponentSizes[playerComponentType];
-    }
+    protected override void OnStart() { }
 
     public PlayerComponents GetPlayerComponentType() => playerComponentType;
 
@@ -20,7 +15,7 @@ public class PlayerPiece : Item
     {
         if (other.TryGetComponent<PlayerController>(out PlayerController pc))
         {
-            if (pc.AddToInventory(this))
+            if (pc.AddToInventory(playerComponentType))
             {
                 gameObject.SetActive(false);
             }

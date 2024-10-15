@@ -5,9 +5,6 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
-    protected int size;
-    protected ComponentType componentType;
-
     public static readonly Dictionary<ShipComponents, int> shipComponentSizes =
         new()
         {
@@ -23,26 +20,12 @@ public abstract class Item : MonoBehaviour
     public static readonly Dictionary<PlayerComponents, int> playerComponentSizes =
         new() { { PlayerComponents.GUN, 2 }, };
 
-    public int GetSize() => size;
-
-    public ComponentType GetComponentType() => componentType;
-
     protected virtual void Start()
     {
         OnStart();
     }
 
-    protected virtual void OnStart()
-    {
-        size = 2;
-        componentType = ComponentType.PLAYER;
-    }
-}
-
-public enum ComponentType
-{
-    SHIP,
-    PLAYER
+    protected abstract void OnStart();
 }
 
 // You will need all of these to be able to take off

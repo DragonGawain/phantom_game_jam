@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : Movement
 {
@@ -9,10 +10,15 @@ public class PlayerController : Movement
     Vector2 movementInput;
     Rigidbody2D rb;
 
-    public List<PlayerPiece> inventory = new();
+    public List<PlayerComponents> inventory = new();
+    public List<ShipComponents> shipInventory = new();
 
+    // HACK:: SF to expose in insector
     [SerializeField]
     int inventorySize = 10;
+
+    [SerializeField]
+    int shipInventorySize = 10;
 
     Vector3 mousePos;
 
@@ -22,6 +28,9 @@ public class PlayerController : Movement
     public int hp;
 
     int damageCooldown = 0;
+
+    [SerializeField]
+    Ship ship;
 
     // Start is called before the first frame update
     void Awake()
@@ -33,6 +42,7 @@ public class PlayerController : Movement
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
         hp = 15;
+        ship.SetPlayer(this);
     }
 
     private void FixedUpdate()
@@ -49,14 +59,13 @@ public class PlayerController : Movement
     }
 
     // inventory management
-    public bool AddToInventory(PlayerPiece newItem)
+    // personal
+    public bool AddToInventory(PlayerComponents newItem)
     {
-        if (newItem.GetComponentType() != ComponentType.PLAYER)
-            return false;
         int size = 0;
-        foreach (PlayerPiece item in inventory)
-            size += item.GetSize();
-        if (size + newItem.GetSize() <= inventorySize)
+        foreach (PlayerComponents item in inventory)
+            size += Item.playerComponentSizes[item];
+        if (size + Item.playerComponentSizes[newItem] <= inventorySize)
         {
             inventory.Add(newItem);
             return true;
@@ -64,16 +73,40 @@ public class PlayerController : Movement
         return false;
     }
 
-    public void RemoveFromInventory(PlayerPiece item)
+    public void RemoveFromInventory(PlayerComponents item)
     {
         if (inventory.Contains(item))
             inventory.Remove(item);
     }
 
+    // ship
+    public bool AddToShipInventory(ShipComponents newItem)
+    {
+        int size = 0;
+        foreach (ShipComponents item in shipInventory)
+            size += Item.shipComponentSizes[item];
+        // size += item.GetSize();
+
+        if (size + Item.shipComponentSizes[newItem] <= shipInventorySize)
+        {
+            shipInventory.Add(newItem);
+            return true;
+        }
+        return false;
+    }
+
+    public void RemoveFromShipInventory(ShipComponents item)
+    {
+        if (shipInventory.Contains(item))
+            shipInventory.Remove(item);
+    }
+
+    public List<ShipComponents> GetShipInventory() => shipInventory;
+
     // usable items
     void ShootGun(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        if (inventory.Any(it => it.GetPlayerComponentType() == PlayerComponents.GUN))
+        if (inventory.Contains(PlayerComponents.GUN))
         {
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos = new Vector3(mousePos.x, mousePos.y, 0);

@@ -11,12 +11,9 @@ public class ShipPiece : Item
 
     protected override void OnStart()
     {
-        componentType = ComponentType.SHIP;
-
         shipComponentType = (ShipComponents)
             Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
 
-        size = shipComponentSizes[shipComponentType];
         gameObject.tag = shipComponentType.GetEnumDescription();
     }
 
@@ -31,10 +28,14 @@ public class ShipPiece : Item
             // we can't destroy the gameobject cause then it would also be deleted from the inventory,
             // so for now I'll just set it no longer be active so other things can't pick it up
             // gameObject.SetActive(false);
+            if (pc.AddToShipInventory(shipComponentType))
+            {
+                gameObject.SetActive(false);
+            }
         }
         else if (other.TryGetComponent<Human>(out Human human))
         {
-            if (human.AddToShipInventory(this))
+            if (human.AddToShipInventory(shipComponentType))
             {
                 gameObject.SetActive(false);
                 human.CollectedShipPiece();

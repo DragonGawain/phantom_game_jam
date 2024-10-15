@@ -10,8 +10,8 @@ public class Human : Enemy
     public Ship ship;
 
     // HACK:: public just to expose them in the inspector
-    public List<Item> inventory = new();
-    public List<ShipPiece> shipInventory = new();
+    public List<PlayerComponents> inventory = new();
+    public List<ShipComponents> shipInventory = new();
 
     [SerializeField]
     int inventorySize = 10;
@@ -38,31 +38,27 @@ public class Human : Enemy
 
     // inventory management
     // player
-    public void AddToInventory(Item newItem)
+    public void AddToInventory(PlayerComponents newItem)
     {
-        if (newItem.GetComponentType() != ComponentType.PLAYER)
-            return;
         int size = 0;
-        foreach (Item item in inventory)
-            size += item.GetSize();
-        if (size + newItem.GetSize() <= inventorySize)
+        foreach (PlayerComponents item in inventory)
+            size += Item.playerComponentSizes[item];
+        if (size + Item.playerComponentSizes[newItem] <= inventorySize)
             inventory.Add(newItem);
     }
 
-    public void RemoveFromInventory(Item item)
+    public void RemoveFromInventory(PlayerComponents item)
     {
         if (inventory.Contains(item))
             inventory.Remove(item);
     }
 
     // ship
-    public bool AddToShipInventory(ShipPiece newItem)
+    public bool AddToShipInventory(ShipComponents newItem)
     {
-        if (newItem.GetComponentType() != ComponentType.SHIP)
-            return false;
         int size = GetSpaceLeftInShipInv();
 
-        if (size + newItem.GetSize() <= shipInventorySize)
+        if (size + Item.shipComponentSizes[newItem] <= shipInventorySize)
         {
             shipInventory.Add(newItem);
             return true;
@@ -70,13 +66,13 @@ public class Human : Enemy
         return false;
     }
 
-    public void RemoveFromShipInventory(ShipPiece item)
+    public void RemoveFromShipInventory(ShipComponents item)
     {
         if (shipInventory.Contains(item))
             shipInventory.Remove(item);
     }
 
-    public List<ShipPiece> GetShipInventory() => shipInventory;
+    public List<ShipComponents> GetShipInventory() => shipInventory;
 
     public void CollectedShipPiece()
     {
@@ -106,8 +102,8 @@ public class Human : Enemy
     int GetSpaceLeftInShipInv()
     {
         int size = 0;
-        foreach (ShipPiece item in shipInventory)
-            size += item.GetSize();
+        foreach (ShipComponents item in shipInventory)
+            size += Item.shipComponentSizes[item];
         return size;
     }
 }
