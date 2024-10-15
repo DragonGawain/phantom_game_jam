@@ -22,7 +22,11 @@ public class Human : Enemy
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
     {
-        target = ship.GetTransformOfNearestNeededShipPiece(transform, shipInventory);
+        target = ship.GetTransformOfNearestNeededShipPiece(
+            transform,
+            shipInventory,
+            shipInventorySize - GetSpaceLeftInShipInv()
+        );
         hasTarget = true;
         ship.SetHuman(this);
     }
@@ -51,9 +55,8 @@ public class Human : Enemy
     {
         if (newItem.GetComponentType() != ComponentType.SHIP)
             return false;
-        int size = 0;
-        foreach (ShipPiece item in shipInventory)
-            size += item.GetSize();
+        int size = GetSpaceLeftInShipInv();
+
         if (size + newItem.GetSize() <= shipInventorySize)
         {
             shipInventory.Add(newItem);
@@ -72,9 +75,7 @@ public class Human : Enemy
 
     public void CollectedShipPiece()
     {
-        int size = 0;
-        foreach (ShipPiece item in shipInventory)
-            size += item.GetSize();
+        int size = GetSpaceLeftInShipInv();
 
         if (size > 7)
         {
@@ -89,7 +90,19 @@ public class Human : Enemy
 
     public void FindNewShipPiece()
     {
-        target = ship.GetTransformOfNearestNeededShipPiece(transform, shipInventory);
+        target = ship.GetTransformOfNearestNeededShipPiece(
+            transform,
+            shipInventory,
+            shipInventorySize - GetSpaceLeftInShipInv()
+        );
         hasTarget = true;
+    }
+
+    int GetSpaceLeftInShipInv()
+    {
+        int size = 0;
+        foreach (ShipPiece item in shipInventory)
+            size += item.GetSize();
+        return size;
     }
 }

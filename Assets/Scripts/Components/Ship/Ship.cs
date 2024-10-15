@@ -35,27 +35,36 @@ public class Ship : MonoBehaviour
 
     public Vector3 GetPositionOfNearestNeededShipPiece(
         Transform source,
-        List<ShipPiece> carrying
-    ) => GetTransformOfNearestNeededShipPiece(source, carrying).position;
+        List<ShipPiece> carrying,
+        int availableSPace
+    ) => GetTransformOfNearestNeededShipPiece(source, carrying, availableSPace).position;
 
     public void SetHuman(Human human) => this.human = human;
 
     public Transform GetTransformOfNearestNeededShipPiece(
         Transform source,
-        List<ShipPiece> carrying
+        List<ShipPiece> carrying,
+        int availableSPace
     )
     {
         Transform pos = source;
         List<ShipPieces> potentialTargets = new();
 
         foreach (ShipPieces sp in Enum.GetValues(typeof(ShipPieces)))
-            for (
-                int i = inventory[sp] + carrying.Where(it => it.GetShipPiece() == sp).Count();
-                i < requiredInventory[sp];
-                i++
-            )
-                potentialTargets.Add(sp);
-
+        {
+            if (ShipPiece.pieceSizes[sp] <= availableSPace)
+                for (
+                    int i = inventory[sp] + carrying.Where(it => it.GetShipPiece() == sp).Count();
+                    i < requiredInventory[sp];
+                    i++
+                )
+                    potentialTargets.Add(sp);
+        }
+        foreach (ShipPieces item in potentialTargets)
+        {
+            Debug.Log("looking for: " + item);
+        }
+        Debug.Log(potentialTargets.Count);
         if (potentialTargets.Count == 0)
         {
             // This means that an enemy has everything that they need.. They have a complete ship.
