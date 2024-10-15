@@ -42,11 +42,13 @@ public class Enemy : Movement
     bool farLeft;
     bool farRight;
 
-    public Vector3 targetPos;
+    public Transform target;
     public bool hasTarget = false;
     public int preferedTurnDir = 1;
 
     Rigidbody2D rb;
+
+    int hp = 10;
 
     // Start is called before the first frame update
     void Awake()
@@ -54,6 +56,8 @@ public class Enemy : Movement
         fDot = transform.Find("ForwardDot");
         rDot = transform.Find("RDot");
         lDot = transform.Find("LDot");
+
+        target = GameObject.FindGameObjectWithTag("Player").transform;
 
         preferedTurnDir = (int)Mathf.Sign(Random.Range(-1f, 1f));
         rb = GetComponent<Rigidbody2D>();
@@ -70,9 +74,7 @@ public class Enemy : Movement
             Move();
         }
         else
-        {
             rb.velocity = Vector2.zero;
-        }
     }
 
     void VisionCast()
@@ -229,24 +231,24 @@ public class Enemy : Movement
         {
             float angle = Vector3.Angle(
                 (fDot.position - transform.position).normalized,
-                (targetPos - transform.position).normalized
+                (target.position - transform.position).normalized
             );
             float righterAngle = Vector3.Angle(
                 (fDot.position - transform.position).Rotate(0.4f).normalized,
-                (targetPos - transform.position).normalized
+                (target.position - transform.position).normalized
             );
             // move towards target
             if (angle <= targetArc)
             {
                 moveState = MoveState.MOV_TARGET;
                 // transform.rotation = Quaternion.SetFromToRotation(
-                //     (targetPos - transform.position).normalized,
+                //     (target.position - transform.position).normalized,
                 //     new Vector3(0, 0, 0)
                 // );
 
                 // transform.rotation = Quaternion.FromToRotation(
                 //     (fDot.position - transform.position).normalized,
-                //     (targetPos - transform.position).normalized
+                //     (target.position - transform.position).normalized
                 // );
             }
 
@@ -261,12 +263,24 @@ public class Enemy : Movement
             }
         }
 
-        if (Vector3.Distance(transform.position, targetPos) < 2)
+        if (Vector3.Distance(transform.position, target.position) < 2)
             hasTarget = false;
 
         if (moveState == MoveState.MOV_TARGET)
-            rb.velocity = maxMoveSpeed * (targetPos - transform.position).normalized;
+            rb.velocity = maxMoveSpeed * (target.position - transform.position).normalized;
         else
             rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            hp -= other.GetComponent<Bullet>().GetBulletDamage();
+            if (hp <= 0)
+                Destroy(this.gameObject);
+
+            Destroy(other.gameObject);
+        }
     }
 }

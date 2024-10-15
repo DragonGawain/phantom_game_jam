@@ -71,12 +71,6 @@ public class PlayerController : Movement
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
             bullet.GetComponent<Bullet>().Launch(dir);
-
-            Debug.Log("cool");
-        }
-        else
-        {
-            Debug.Log("also cool?");
         }
     }
 
