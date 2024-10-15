@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Enemy : Movement
 {
-    enum MoveState
+    protected enum MoveState
     {
         NONE,
         HOLD,
@@ -33,20 +33,20 @@ public class Enemy : Movement
     int precision = 2;
 
     [SerializeField, Range(0.5f, 15f)]
-    float targetArc = 5;
+    protected float targetArc = 5;
 
     [SerializeField, Range(0.5f, 5f)]
-    float turnSpeed = 1;
+    protected float turnSpeed = 1;
 
     // HACK:: Serialized just so that we can see them in the inspector
     [SerializeField]
-    MoveState moveState = MoveState.NONE;
+    protected MoveState moveState = MoveState.NONE;
 
     [SerializeField]
     protected CombatState combatState = CombatState.NONE;
 
     public int holdTimer;
-    Transform fDot;
+    protected Transform fDot;
     Transform rDot;
     Transform lDot;
     int hitLeft = 0;
@@ -60,7 +60,7 @@ public class Enemy : Movement
     protected int hp = 10;
     int preferedTurnDir = 1;
 
-    Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Awake()
@@ -244,7 +244,7 @@ public class Enemy : Movement
     }
 
     // Go directly to the target
-    protected void Arrive()
+    protected virtual void Arrive()
     {
         if (
             moveState != MoveState.ROT_OBSTACLE_L
@@ -264,11 +264,6 @@ public class Enemy : Movement
             if (angle <= targetArc)
             {
                 moveState = MoveState.MOV_TARGET;
-                // transform.rotation = Quaternion.SetFromToRotation(
-                //     (target.position - transform.position).normalized,
-                //     new Vector3(0, 0, 0)
-                // );
-
                 // transform.rotation = Quaternion.FromToRotation(
                 //     (fDot.position - transform.position).normalized,
                 //     (target.position - transform.position).normalized
@@ -286,7 +281,7 @@ public class Enemy : Movement
             }
         }
 
-        if (Vector3.Distance(transform.position, target.position) < 0.5f)
+        if (Vector3.Distance(transform.position, target.position) < 0.05f)
             hasTarget = false;
 
         if (moveState == MoveState.MOV_TARGET)
@@ -296,13 +291,13 @@ public class Enemy : Movement
     }
 
     // Chase combat target to get within a certain range
-    protected void Chase() { }
+    protected virtual void Chase() { }
 
     // Run away from a target -> try to run towards ship/base?
-    protected void Flee() { }
+    protected virtual void Flee() { }
 
     // maintain distance, and also fight back
-    protected void Attack() { }
+    protected virtual void Attack() { }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

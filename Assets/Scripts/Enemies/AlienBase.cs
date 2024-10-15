@@ -82,7 +82,9 @@ public class AlienBase : MonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("Human"))
         {
             foreach (Alien al in aliens)
+            {
                 al.SetTarget(other.transform);
+            }
             target = other.transform;
             isAttacking++;
         }

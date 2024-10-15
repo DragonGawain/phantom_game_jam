@@ -3312,6 +3312,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlienBase
       objectReference: {fileID: 0}
+    - target: {fileID: 4214184403916447145, guid: 1f58d172f7e9ee94fb433e3a4b48c210, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4416270306860633516, guid: 1f58d172f7e9ee94fb433e3a4b48c210, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.96
