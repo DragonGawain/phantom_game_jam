@@ -40,9 +40,11 @@ public class ShipPiece : Item
         }
         else if (other.TryGetComponent<Human>(out Human human))
         {
-            human.AddToShipInventory(this);
-            gameObject.SetActive(false);
-            human.CollectedShipPiece();
+            if (human.AddToShipInventory(this))
+            {
+                gameObject.SetActive(false);
+                human.CollectedShipPiece();
+            }
         }
         // if it's not a human enemy or the player, do nothing.
     }

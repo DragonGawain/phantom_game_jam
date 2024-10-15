@@ -13,6 +13,14 @@ public static class Extensions
             v.z
         );
     }
+
+    public static List<ShipPiece> DeepCopy(this List<ShipPiece> list)
+    {
+        List<ShipPiece> output = new();
+        foreach (var item in list)
+            output.Add(item);
+        return output;
+    }
 }
 
 public enum TerrainTypes

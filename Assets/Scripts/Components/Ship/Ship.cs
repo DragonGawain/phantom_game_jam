@@ -19,7 +19,7 @@ public class Ship : MonoBehaviour
             { ShipPieces.RCS, 1 }
         };
 
-    public Dictionary<ShipPieces, int> inventory =
+    Dictionary<ShipPieces, int> inventory =
         new()
         {
             { ShipPieces.NOSE_GEAR, 0 },
@@ -31,10 +31,14 @@ public class Ship : MonoBehaviour
             { ShipPieces.RCS, 0 }
         };
 
+    Human human;
+
     public Vector3 GetPositionOfNearestNeededShipPiece(
         Transform source,
         List<ShipPiece> carrying
     ) => GetTransformOfNearestNeededShipPiece(source, carrying).position;
+
+    public void SetHuman(Human human) => this.human = human;
 
     public Transform GetTransformOfNearestNeededShipPiece(
         Transform source,
@@ -45,20 +49,12 @@ public class Ship : MonoBehaviour
         List<ShipPieces> potentialTargets = new();
 
         foreach (ShipPieces sp in Enum.GetValues(typeof(ShipPieces)))
-        {
-            Debug.Log(
-                "Carrying "
-                    + carrying.Where(it => it.GetShipPiece() == sp).Count()
-                    + " components of type "
-                    + sp
-            );
             for (
                 int i = inventory[sp] + carrying.Where(it => it.GetShipPiece() == sp).Count();
                 i < requiredInventory[sp];
                 i++
             )
                 potentialTargets.Add(sp);
-        }
 
         if (potentialTargets.Count == 0)
         {
@@ -117,5 +113,22 @@ public class Ship : MonoBehaviour
             inventory[piece] = Mathf.Max(inventory[piece] - qt, 0);
         }
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Human>(out Human human))
+        {
+            if (human = this.human)
+            {
+                List<ShipPiece> toAdd = human.GetShipInventory().DeepCopy();
+                foreach (ShipPiece sp in toAdd)
+                {
+                    human.RemoveFromShipInventory(sp);
+                    AddPieceToShip(sp.GetShipPiece());
+                }
+                human.FindNewShipPiece();
+            }
+        }
     }
 }

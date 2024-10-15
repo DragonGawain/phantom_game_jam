@@ -9,6 +9,7 @@ public class Human : Enemy
     // This might even make it possible for us to introduce allies - multiple enemies working together attached to the same ship?
     public Ship ship;
 
+    // public just to expose them in editor for debug purposes
     public List<Item> inventory = new();
     public List<ShipPiece> shipInventory = new();
 
@@ -23,10 +24,8 @@ public class Human : Enemy
     {
         target = ship.GetTransformOfNearestNeededShipPiece(transform, shipInventory);
         hasTarget = true;
+        ship.SetHuman(this);
     }
-
-    // Update is called once per frame
-    void Update() { }
 
     // inventory management
     // player
@@ -48,15 +47,19 @@ public class Human : Enemy
     }
 
     // ship
-    public void AddToShipInventory(ShipPiece newItem)
+    public bool AddToShipInventory(ShipPiece newItem)
     {
         if (newItem.GetComponentType() != ComponentType.SHIP)
-            return;
+            return false;
         int size = 0;
         foreach (ShipPiece item in shipInventory)
             size += item.GetSize();
         if (size + newItem.GetSize() <= shipInventorySize)
+        {
             shipInventory.Add(newItem);
+            return true;
+        }
+        return false;
     }
 
     public void RemoveFromShipInventory(ShipPiece item)
@@ -64,6 +67,8 @@ public class Human : Enemy
         if (shipInventory.Contains(item))
             shipInventory.Remove(item);
     }
+
+    public List<ShipPiece> GetShipInventory() => shipInventory;
 
     public void CollectedShipPiece()
     {
@@ -78,8 +83,13 @@ public class Human : Enemy
         }
         else
         {
-            target = ship.GetTransformOfNearestNeededShipPiece(transform, shipInventory);
-            hasTarget = true;
+            FindNewShipPiece();
         }
+    }
+
+    public void FindNewShipPiece()
+    {
+        target = ship.GetTransformOfNearestNeededShipPiece(transform, shipInventory);
+        hasTarget = true;
     }
 }
