@@ -6,12 +6,6 @@ public class Alien : Enemy
 {
     AlienBase alienBase;
 
-    // // Start is called before the first frame update
-    // void Start() { }
-
-    // // Update is called once per frame
-    // void Update() { }
-
     static readonly float baseWanderDistance = 4f;
     static readonly float wanderDistanceModifier = 1.5f;
     static readonly int baseWanderTimer = 150;
@@ -30,6 +24,9 @@ public class Alien : Enemy
         wanderTimerReset =
             baseWanderTimer + Random.Range(-wanderTimerModifier, wanderTimerModifier);
         wanderTimer = 0;
+
+        fleePoint = alienBase.transform.position;
+        target = alienBase.transform;
     }
 
     public void SetTarget(Transform target)

@@ -38,6 +38,9 @@ public class Enemy : Movement
     [SerializeField, Range(0.5f, 5f)]
     protected float turnSpeed = 1;
 
+    [SerializeField, Range(15f, 100f)]
+    protected float fleeDistanceBuffer = 25f;
+
     // HACK:: Serialized just so that we can see them in the inspector
     [SerializeField]
     protected MoveState moveState = MoveState.NONE;
@@ -60,6 +63,7 @@ public class Enemy : Movement
     int preferedTurnDir = 1;
 
     protected Rigidbody2D rb;
+    protected Vector3 fleePoint;
 
     // Start is called before the first frame update
     void Awake()
@@ -293,7 +297,79 @@ public class Enemy : Movement
     protected virtual void Chase() { }
 
     // Run away from a target -> try to run towards ship/base?
-    protected virtual void Flee() { }
+    // This is mainly a copy of ARRIVE, but with the direction flipped, and some gentle bias towards running towards their base
+    protected virtual void Flee()
+    {
+        if (
+            moveState != MoveState.ROT_OBSTACLE_L
+            && moveState != MoveState.ROT_OBSTACLE_R
+            && holdTimer <= 0
+        )
+        {
+            float angle = Vector3.Angle(
+                (fDot.position - transform.position).normalized,
+                (target.position - transform.position).normalized
+            );
+            float righterAngle = Vector3.Angle(
+                (fDot.position - transform.position).Rotate(0.4f).normalized,
+                (target.position - transform.position).normalized
+            );
+            // move away from target
+            if (angle >= 180 - targetArc * 5) // by flipping this, we check for when we are facing directly away from the target
+            {
+                moveState = MoveState.MOV_TARGET;
+                // transform.rotation = Quaternion.FromToRotation(
+                //     (fDot.position - transform.position).normalized,
+                //     (target.position - transform.position).normalized
+                // );
+
+                // I want the bias to work on a cureve - the closer the angle is to 90, the stronger the bias will be.
+                // This will mean that the AI will gently turn towards the base if it happens to be running directly away from it,
+                // and the AI will smoothly aim itself at the fleePoint (base) as it's angle gets more precise.
+                // I'm also going to add in a condition that only activates the fleePoint bias if the AI is a certain distance away from it
+                Debug.Log("dist: " + Vector3.Distance(fleePoint, transform.position));
+                if (Vector3.Distance(fleePoint, transform.position) > fleeDistanceBuffer)
+                {
+                    Debug.Log("bias");
+                    // adding in the gentle base bias
+                    float fleeAngle = Vector3.Angle(
+                        (fDot.position - transform.position).normalized,
+                        (fleePoint - transform.position).normalized
+                    );
+                    int dir =
+                        Vector3.Angle(
+                            (fDot.position - transform.position).Rotate(0.4f).normalized,
+                            (fleePoint - transform.position).normalized
+                        ) < fleeAngle
+                            ? 1
+                            : -1;
+                    if (fleeAngle > 90)
+                        fleeAngle -= 90;
+                    fleeAngle /= 90;
+                    transform.Rotate(0, 0, Mathf.Lerp(0.25f, 0.85f, fleeAngle) * turnSpeed * dir);
+                }
+            }
+
+            // rotate towards target
+            // the turn directions have been inverted compared to ARRIVE
+            if (angle < 180 - targetArc * 5)
+            {
+                moveState = MoveState.ROT_TARGET;
+                if (righterAngle < angle)
+                    transform.Rotate(0, 0, -0.7f * turnSpeed); // right
+                else
+                    transform.Rotate(0, 0, 0.7f * turnSpeed); // left
+            }
+        }
+
+        // if (Vector3.Distance(transform.position, target.position) < 0.05f)
+
+
+        if (moveState == MoveState.MOV_TARGET)
+            rb.velocity = 1.25f * maxMoveSpeed * (transform.position - target.position).normalized;
+        else
+            rb.velocity = maxMoveSpeed * (fDot.position - transform.position).normalized;
+    }
 
     // maintain distance, and also fight back
     protected virtual void Attack() { }

@@ -11,7 +11,7 @@ public class ShipPiece : Item
 
     List<Human> seekers = new();
 
-    protected override void OnStart()
+    protected override void OnAwake()
     {
         shipComponentType = (ShipComponents)
             Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);

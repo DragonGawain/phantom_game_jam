@@ -24,6 +24,7 @@ public class Human : Enemy
     {
         FindNewShipPiece();
         ship.SetHuman(this);
+        fleePoint = ship.transform.position;
     }
 
     protected override void DoFixedUpdate()

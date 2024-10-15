@@ -20,12 +20,12 @@ public abstract class Item : MonoBehaviour
     public static readonly Dictionary<PlayerComponents, int> playerComponentSizes =
         new() { { PlayerComponents.GUN, 2 }, };
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        OnStart();
+        OnAwake();
     }
 
-    protected abstract void OnStart();
+    protected abstract void OnAwake();
 }
 
 // You will need all of these to be able to take off

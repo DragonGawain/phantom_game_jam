@@ -7,7 +7,7 @@ public class PlayerPiece : Item
     [SerializeField]
     PlayerComponents playerComponentType;
 
-    protected override void OnStart() { }
+    protected override void OnAwake() { }
 
     public PlayerComponents GetPlayerComponentType() => playerComponentType;
 
