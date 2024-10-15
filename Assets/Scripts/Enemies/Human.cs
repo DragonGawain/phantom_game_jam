@@ -19,6 +19,9 @@ public class Human : Enemy
     [SerializeField]
     int shipInventorySize = 10;
 
+    [SerializeField, Range(8, 18)]
+    float distFromAttackTarget = 10f;
+
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
     {
@@ -30,6 +33,52 @@ public class Human : Enemy
     protected override void DoFixedUpdate()
     {
         //
+    }
+
+    // Attack algo
+    protected override void Attack()
+    {
+        // we start with the core of the base ARRIVE, but we need to edit the movement logic at the bottom, so we can't just call base.Arrive();
+        if (
+            moveState != MoveState.ROT_OBSTACLE_L
+            && moveState != MoveState.ROT_OBSTACLE_R
+            && holdTimer <= 0
+        )
+        {
+            float angle = Vector3.Angle(
+                (fDot.position - transform.position).normalized,
+                (target.position - transform.position).normalized
+            );
+            float righterAngle = Vector3.Angle(
+                (fDot.position - transform.position).Rotate(0.4f).normalized,
+                (target.position - transform.position).normalized
+            );
+            // move towards target
+            if (angle <= targetArc)
+            {
+                moveState = MoveState.MOV_TARGET;
+            }
+
+            // rotate towards target
+            if (angle > targetArc)
+            {
+                moveState = MoveState.ROT_TARGET;
+                if (righterAngle < angle)
+                    transform.Rotate(0, 0, 0.7f * turnSpeed);
+                else
+                    transform.Rotate(0, 0, -0.7f * turnSpeed);
+            }
+        }
+
+        if (Vector3.Distance(transform.position, target.position) > distFromAttackTarget)
+        {
+            if (moveState == MoveState.MOV_TARGET)
+                rb.velocity = maxMoveSpeed * (target.position - transform.position).normalized;
+            else
+                rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
+        }
+        else
+            rb.velocity = Vector2.zero;
     }
 
     // inventory management

@@ -267,10 +267,6 @@ public class Enemy : Movement
             if (angle <= targetArc)
             {
                 moveState = MoveState.MOV_TARGET;
-                // transform.rotation = Quaternion.FromToRotation(
-                //     (fDot.position - transform.position).normalized,
-                //     (target.position - transform.position).normalized
-                // );
             }
 
             // rotate towards target
@@ -294,6 +290,7 @@ public class Enemy : Movement
     }
 
     // Chase combat target to get within a certain range
+    // possibly exclusive to the aliens?
     protected virtual void Wander() { }
 
     // Run away from a target -> try to run towards ship/base?
@@ -372,6 +369,7 @@ public class Enemy : Movement
     }
 
     // maintain distance, and also fight back
+    // possibly exclusive to humans (more precisly, exclusive to any enemy type that has a ranged attack)
     protected virtual void Attack() { }
 
     private void OnTriggerEnter2D(Collider2D other)
