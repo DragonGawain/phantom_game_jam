@@ -18,7 +18,10 @@ public class PlayerController : Movement
 
     GameObject bulletObject;
 
-    int hp;
+    // HACK:: public for inspector exposure
+    public int hp;
+
+    int damageCooldown = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -29,6 +32,7 @@ public class PlayerController : Movement
 
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
+        hp = 15;
     }
 
     private void FixedUpdate()
@@ -39,6 +43,9 @@ public class PlayerController : Movement
             rb.velocity -= rb.velocity.normalized * slowdownDrag;
         if (rb.velocity.magnitude < 0)
             rb.velocity = Vector2.zero;
+
+        if (damageCooldown > 0)
+            damageCooldown--;
     }
 
     // inventory management
@@ -77,6 +84,27 @@ public class PlayerController : Movement
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
             bullet.GetComponent<Bullet>().Launch(dir);
+        }
+    }
+
+    public void TakeDamage(int amt = 1)
+    {
+        if (damageCooldown > 0)
+            return;
+        hp -= amt;
+        damageCooldown = 150; // 3 seconds of I-frames (that sounds like a lot...)
+        if (hp <= 0)
+        {
+            Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN</color>");
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        // layer 7 => enemy, layer 8 => alien
+        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
+        {
+            TakeDamage();
         }
     }
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -1863179852329027550}
   - component: {fileID: 681992054555173479}
   - component: {fileID: 3387603340584614030}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: AlienEnemy
   m_TagString: Alien
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7472741709744795525}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: RDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1915822956450562557}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: LDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5393814455377766268}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: ForwardDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
