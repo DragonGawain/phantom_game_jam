@@ -30,13 +30,11 @@ public class Alien : Enemy
         wanderTimerReset =
             baseWanderTimer + Random.Range(-wanderTimerModifier, wanderTimerModifier);
         wanderTimer = 0;
-        hasTarget = true;
     }
 
     public void SetTarget(Transform target)
     {
         this.target = target;
-        hasTarget = true;
         combatState = CombatState.CHASE;
     }
 
@@ -64,7 +62,6 @@ public class Alien : Enemy
                 alienBase.transform.position.y + Random.Range(-wanderDist, wanderDist),
                 0
             );
-            hasTarget = true;
         }
 
         // base.Arrive(), but slightly modified

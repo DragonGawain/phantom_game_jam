@@ -9,6 +9,8 @@ public class ShipPiece : Item
     [SerializeField]
     ShipComponents shipComponentType;
 
+    List<Human> seekers = new();
+
     protected override void OnStart()
     {
         shipComponentType = (ShipComponents)
@@ -18,6 +20,12 @@ public class ShipPiece : Item
     }
 
     public ShipComponents GetShipComponentType() => shipComponentType;
+
+    public void AddToSeekers(Human human) => seekers.Add(human);
+
+    // This is some super fancy trickery I'm doing to get this to work and be very concise.
+    // Don't worry if you don't understand it, and feel free to ask me to explain it! - Craig.
+    public bool RemoveFromSeekers(Human human) => seekers.Contains(human) && seekers.Remove(human);
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -32,10 +40,19 @@ public class ShipPiece : Item
         {
             if (human.AddToShipInventory(shipComponentType))
             {
-                Destroy(gameObject);
                 human.CollectedShipPiece();
+                if (seekers.Contains(human))
+                    seekers.Remove(human);
+
+                Destroy(gameObject);
             }
         }
         // if it's not a human enemy or the player, do nothing.
+    }
+
+    private void OnDestroy()
+    {
+        foreach (Human seeker in seekers)
+            seeker.FindNewShipPiece();
     }
 }

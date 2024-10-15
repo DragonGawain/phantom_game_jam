@@ -56,7 +56,6 @@ public class Enemy : Movement
     bool farRight;
 
     public Transform target;
-    protected bool hasTarget = false;
     protected int hp = 10;
     int preferedTurnDir = 1;
 
@@ -77,7 +76,7 @@ public class Enemy : Movement
 
     private void FixedUpdate()
     {
-        if (hasTarget)
+        if (target != null)
         {
             VisionCast();
             ObstacleAvoidance();
@@ -281,8 +280,8 @@ public class Enemy : Movement
             }
         }
 
-        if (Vector3.Distance(transform.position, target.position) < 0.05f)
-            hasTarget = false;
+        // if (Vector3.Distance(transform.position, target.position) < 0.05f)
+
 
         if (moveState == MoveState.MOV_TARGET)
             rb.velocity = maxMoveSpeed * (target.position - transform.position).normalized;
