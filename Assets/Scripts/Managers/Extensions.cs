@@ -1,6 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.ComponentModel;
+using System;
 
 public static class Extensions
 {
@@ -20,6 +21,18 @@ public static class Extensions
         foreach (var item in list)
             output.Add(item);
         return output;
+    }
+
+    // Get the description of an enum value
+    public static string GetEnumDescription(this Enum enumValue)
+    {
+        var descAttr = (DescriptionAttribute[])
+            enumValue
+                .GetType()
+                .GetField(enumValue.ToString())
+                .GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+        return descAttr.Length > 0 ? descAttr[0].Description : enumValue.ToString();
     }
 }
 

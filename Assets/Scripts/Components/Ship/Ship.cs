@@ -53,7 +53,10 @@ public class Ship : MonoBehaviour
 
         foreach (ShipComponents sp in Enum.GetValues(typeof(ShipComponents)))
         {
-            if (Item.shipComponentSizes[sp] <= availableSPace)
+            if (
+                Item.shipComponentSizes[sp] <= availableSPace
+                && GameObject.FindGameObjectsWithTag(sp.GetEnumDescription()).Length > 0
+            )
                 for (
                     int i =
                         inventory[sp]

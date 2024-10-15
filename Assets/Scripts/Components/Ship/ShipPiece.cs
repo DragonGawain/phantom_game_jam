@@ -17,17 +17,7 @@ public class ShipPiece : Item
             Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
 
         size = shipComponentSizes[shipComponentType];
-        gameObject.tag = shipComponentType switch
-        {
-            ShipComponents.NOSE_GEAR => "nose_gear",
-            ShipComponents.LANDING_GEAR => "landing_gear",
-            ShipComponents.OXYGEN_TANK => "oxygen_tank",
-            ShipComponents.FUEL_TANK => "fuel_tank",
-            ShipComponents.SOLID_BOOSTERS => "solid_boosters",
-            ShipComponents.ENGINES => "engines",
-            ShipComponents.RCS => "rcs",
-            _ => "Untagged"
-        };
+        gameObject.tag = shipComponentType.GetEnumDescription();
     }
 
     public ShipComponents GetShipComponentType() => shipComponentType;
