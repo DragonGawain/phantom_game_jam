@@ -15,6 +15,7 @@ TagManager:
   - rcs
   - Human
   - Alien
+  - EvilBullet
   layers:
   - Default
   - TransparentFX

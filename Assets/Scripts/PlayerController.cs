@@ -136,8 +136,15 @@ public class PlayerController : Movement
     {
         // layer 7 => enemy, layer 8 => alien
         if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
-        {
             TakeDamage();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("EvilBullet"))
+        {
+            TakeDamage(other.gameObject.GetComponent<Bullet>().GetBulletDamage());
+            Destroy(other.gameObject);
         }
     }
 
