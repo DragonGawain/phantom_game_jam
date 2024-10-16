@@ -26,6 +26,7 @@ public class PlayerController : Movement
 
     // HACK:: public for inspector exposure
     public int hp;
+    int maxHp = 15;
 
     int damageCooldown = 0;
 
@@ -130,6 +131,11 @@ public class PlayerController : Movement
         {
             Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN</color>");
         }
+    }
+
+    public void RestoreHealth(int amt = 1)
+    {
+        hp = Mathf.Clamp(hp + amt, 0, maxHp);
     }
 
     private void OnCollisionStay2D(Collision2D other)

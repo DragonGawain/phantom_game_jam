@@ -11,10 +11,14 @@ public class ShipPiece : Item
 
     List<Human> seekers = new();
 
+    [SerializeField]
+    bool isSpecificItem = false;
+
     protected override void OnAwake()
     {
-        shipComponentType = (ShipComponents)
-            Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
+        if (!isSpecificItem)
+            shipComponentType = (ShipComponents)
+                Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
 
         gameObject.tag = shipComponentType.GetEnumDescription();
     }

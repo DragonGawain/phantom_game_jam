@@ -60,6 +60,7 @@ public class Enemy : Movement
 
     public Transform target;
     protected int hp = 10;
+    protected int maxHp = 10;
     protected int preferedTurnDir = 1;
 
     protected Rigidbody2D rb;
@@ -380,6 +381,11 @@ public class Enemy : Movement
     // maintain distance, and also fight back
     // possibly exclusive to humans (more precisly, exclusive to any enemy type that has a ranged attack)
     protected virtual void Attack() { }
+
+    public void RestoreHealth(int amt = 1)
+    {
+        hp = Mathf.Clamp(hp + amt, 0, maxHp);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
