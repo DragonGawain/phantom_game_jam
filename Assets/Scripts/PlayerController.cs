@@ -26,6 +26,7 @@ public class PlayerController : Movement
 
     // HACK:: public for inspector exposure
     public int hp;
+    readonly int maxHp = 15;
 
     int damageCooldown = 0;
 
@@ -132,12 +133,24 @@ public class PlayerController : Movement
         }
     }
 
+    public void RestoreHealth(int amt = 1)
+    {
+        hp = Mathf.Clamp(hp + amt, 0, maxHp);
+    }
+
     private void OnCollisionStay2D(Collision2D other)
     {
         // layer 7 => enemy, layer 8 => alien
         if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
-        {
             TakeDamage();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("EvilBullet"))
+        {
+            TakeDamage(other.gameObject.GetComponent<Bullet>().GetBulletDamage());
+            Destroy(other.gameObject);
         }
     }
 

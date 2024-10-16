@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class healthRestore : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField, Range(1, 5)]
+    int hpRestore = 1;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.TryGetComponent<PlayerController>(out PlayerController pc))
+        {
+            pc.RestoreHealth(hpRestore);
+            Destroy(gameObject);
+        }
+        else if (other.TryGetComponent<Human>(out Human human))
+        {
+            human.RestoreHealth(hpRestore);
+            Destroy(gameObject);
+        }
     }
 }

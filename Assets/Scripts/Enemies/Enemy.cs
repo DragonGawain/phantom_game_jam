@@ -15,7 +15,7 @@ public class Enemy : Movement
         MOV_TARGET
     }
 
-    protected enum CombatState
+    public enum CombatState
     {
         ARRIVE,
         WANDER,
@@ -50,8 +50,8 @@ public class Enemy : Movement
 
     public int holdTimer;
     protected Transform fDot;
-    Transform rDot;
-    Transform lDot;
+    protected Transform rDot;
+    protected Transform lDot;
     int hitLeft = 0;
     int hitRight = 0;
 
@@ -59,11 +59,14 @@ public class Enemy : Movement
     bool farRight;
 
     public Transform target;
-    protected int hp = 10;
-    int preferedTurnDir = 1;
+    public int hp = 10;
+    protected int maxHp = 10;
+    protected int preferedTurnDir = 1;
 
     protected Rigidbody2D rb;
     protected Vector3 fleePoint;
+
+    protected int id;
 
     // Start is called before the first frame update
     void Awake()
@@ -271,6 +274,11 @@ public class Enemy : Movement
                 //     (fDot.position - transform.position).normalized,
                 //     (target.position - transform.position).normalized
                 // );
+
+                // transform.rotation = Quaternion.FromToRotation(
+                //     Vector3.up,
+                //     (fDot.position - transform.position).normalized
+                // );
             }
 
             // rotate towards target
@@ -294,6 +302,7 @@ public class Enemy : Movement
     }
 
     // Chase combat target to get within a certain range
+    // possibly exclusive to the aliens?
     protected virtual void Wander() { }
 
     // Run away from a target -> try to run towards ship/base?
@@ -372,15 +381,25 @@ public class Enemy : Movement
     }
 
     // maintain distance, and also fight back
+    // possibly exclusive to humans (more precisly, exclusive to any enemy type that has a ranged attack)
     protected virtual void Attack() { }
+
+    public void RestoreHealth(int amt = 1)
+    {
+        hp = Mathf.Clamp(hp + amt, 0, maxHp);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Bullet"))
+        if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("EvilBullet"))
         {
+            if (other.GetComponent<Bullet>().GetShooterId() == id)
+                return;
             hp -= other.GetComponent<Bullet>().GetBulletDamage();
             if (hp <= 0)
+            {
                 Destroy(this.gameObject);
+            }
 
             Destroy(other.gameObject);
         }

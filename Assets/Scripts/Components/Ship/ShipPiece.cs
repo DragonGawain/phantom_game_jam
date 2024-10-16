@@ -11,10 +11,14 @@ public class ShipPiece : Item
 
     List<Human> seekers = new();
 
+    [SerializeField]
+    bool isSpecificItem = false;
+
     protected override void OnAwake()
     {
-        shipComponentType = (ShipComponents)
-            Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
+        if (!isSpecificItem)
+            shipComponentType = (ShipComponents)
+                Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
 
         gameObject.tag = shipComponentType.GetEnumDescription();
     }
@@ -41,8 +45,14 @@ public class ShipPiece : Item
             if (human.AddToShipInventory(shipComponentType))
             {
                 human.CollectedShipPiece();
-                if (seekers.Contains(human))
-                    seekers.Remove(human);
+                // bool check = seekers.Contains(human);
+                // if (check)
+                //     seekers.Remove(human);
+
+                _ = seekers.Contains(human) && seekers.Remove(human);
+
+                // if (!seekers.Contains(human))
+                //     seekers.Add(human);
 
                 Destroy(gameObject);
             }
@@ -53,6 +63,6 @@ public class ShipPiece : Item
     private void OnDestroy()
     {
         foreach (Human seeker in seekers)
-            seeker.FindNewShipPiece();
+            seeker.CollectedShipPiece();
     }
 }
