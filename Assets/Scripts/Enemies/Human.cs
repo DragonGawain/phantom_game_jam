@@ -244,7 +244,7 @@ public class Human : Enemy
             FindNewShipPiece();
     }
 
-    public void FindNewShipPiece()
+    void FindNewShipPiece()
     {
         target = ship.GetTransformOfNearestNeededShipPiece(
             transform,

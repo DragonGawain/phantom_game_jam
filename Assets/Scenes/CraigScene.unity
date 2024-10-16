@@ -189,8 +189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 4
+  isSpecificItem: 1
 --- !u!212 &39758046
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -406,8 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 3
+  isSpecificItem: 1
 --- !u!212 &124999177
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -506,8 +506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 3
+  isSpecificItem: 1
 --- !u!212 &142384656
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -804,7 +804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4020554289347170467, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4055976041945653995, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -850,6 +850,14 @@ PrefabInstance:
       propertyPath: ship
       value: 
       objectReference: {fileID: 1244862580}
+    - target: {fileID: 4499364644335485238, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
+      propertyPath: turnSpeed
+      value: 2.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499364644335485238, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
+      propertyPath: maxMoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1115,8 +1123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 3
+  isSpecificItem: 1
 --- !u!212 &279285459
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1294,8 +1302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 2
+  isSpecificItem: 1
 --- !u!212 &566372431
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2291,8 +2299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 4
+  isSpecificItem: 1
 --- !u!212 &1690702380
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3007,8 +3015,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 6
+  isSpecificItem: 1
 --- !u!212 &1939785427
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3377,8 +3385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 5
+  isSpecificItem: 1
 --- !u!212 &1960678997
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3872,6 +3880,22 @@ PrefabInstance:
       propertyPath: ship
       value: 
       objectReference: {fileID: 1713699751}
+    - target: {fileID: 4499364644335485238, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
+      propertyPath: turnSpeed
+      value: 2.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499364644335485238, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
+      propertyPath: maxMoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499364644335485238, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
+      propertyPath: inventory.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499364644335485238, guid: 95b08c15686296f4b9c70b2358f4dff0, type: 3}
+      propertyPath: shipInventory.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3908,8 +3932,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 0
-  isSpecificItem: 0
+  shipComponentType: 1
+  isSpecificItem: 1
 --- !u!212 &2084400174
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4044,7 +4068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipComponentType: 0
-  isSpecificItem: 0
+  isSpecificItem: 1
 --- !u!212 &2111527939
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4599,7 +4623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214184403916447145, guid: 1f58d172f7e9ee94fb433e3a4b48c210, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4416270306860633516, guid: 1f58d172f7e9ee94fb433e3a4b48c210, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4778,6 +4802,10 @@ PrefabInstance:
     - target: {fileID: 4546094602526704219, guid: 71d7485d9737d5e40a9e530371af144b, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546094602526704219, guid: 71d7485d9737d5e40a9e530371af144b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -26,7 +26,7 @@ public class PlayerController : Movement
 
     // HACK:: public for inspector exposure
     public int hp;
-    int maxHp = 15;
+    readonly int maxHp = 15;
 
     int damageCooldown = 0;
 

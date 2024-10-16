@@ -67,20 +67,34 @@ public class Ship : MonoBehaviour
                 )
                     potentialTargets.Add(sp);
         }
+        // Debug.Log("pot targets count: " + potentialTargets.Count);
 
         if (potentialTargets.Count == 0)
         {
             // This means that an enemy has everything that they need.. They have a complete ship.
             // Maybe this is a loss condition? Or maybe the enemy just despawn? I dunno.
+
+            // return to ship
+            Debug.Log("GO BACK TO SHIP");
+            return transform;
         }
         else
         {
             int selection = Random.Range(0, potentialTargets.Count);
 
+            // Debug.Log(
+            //     "select: "
+            //         + selection
+            //         + ", val: "
+            //         + potentialTargets[selection].GetEnumDescription()
+            // );
+
             // TODO:: make better
             GameObject[] potentialTargetLocs = GameObject.FindGameObjectsWithTag(
                 potentialTargets[selection].GetEnumDescription()
             );
+
+            // Debug.Log("num possibilties: " + potentialTargetLocs.Length);
 
             float dist = int.MaxValue;
             foreach (GameObject ptl in potentialTargetLocs)
@@ -102,6 +116,16 @@ public class Ship : MonoBehaviour
             inventory[piece] += qt;
         else
             inventory.Add(piece, qt);
+
+        if (CheckShipCompletionStatus())
+        {
+            if (player == null)
+                Debug.Log(
+                    "<color=orange>Enemy " + human.name + " has completed their ship!</color>"
+                );
+            else
+                Debug.Log("<color=orange>The player has completed their ship!</color>");
+        }
     }
 
     public bool RemovePieceFromShip(ShipComponents piece, int qt = 1)
@@ -119,11 +143,21 @@ public class Ship : MonoBehaviour
         return false;
     }
 
+    bool CheckShipCompletionStatus()
+    {
+        foreach (KeyValuePair<ShipComponents, int> sp in inventory)
+        {
+            if (sp.Value < requiredInventory[sp.Key])
+                return false;
+        }
+        return true;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<Human>(out Human human))
         {
-            if (human = this.human)
+            if (human == this.human)
             {
                 List<ShipComponents> toAdd = human.GetShipInventory().DeepCopy();
                 foreach (ShipComponents sp in toAdd)
@@ -131,7 +165,7 @@ public class Ship : MonoBehaviour
                     human.RemoveFromShipInventory(sp);
                     AddPieceToShip(sp);
                 }
-                human.FindNewShipPiece();
+                human.CollectedShipPiece();
             }
         }
         else if (other.TryGetComponent<PlayerController>(out PlayerController pc))

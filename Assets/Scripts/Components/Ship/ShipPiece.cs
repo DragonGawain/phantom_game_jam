@@ -45,8 +45,14 @@ public class ShipPiece : Item
             if (human.AddToShipInventory(shipComponentType))
             {
                 human.CollectedShipPiece();
-                if (seekers.Contains(human))
-                    seekers.Remove(human);
+                // bool check = seekers.Contains(human);
+                // if (check)
+                //     seekers.Remove(human);
+
+                _ = seekers.Contains(human) && seekers.Remove(human);
+
+                // if (!seekers.Contains(human))
+                //     seekers.Add(human);
 
                 Destroy(gameObject);
             }
@@ -57,6 +63,6 @@ public class ShipPiece : Item
     private void OnDestroy()
     {
         foreach (Human seeker in seekers)
-            seeker.FindNewShipPiece();
+            seeker.CollectedShipPiece();
     }
 }
