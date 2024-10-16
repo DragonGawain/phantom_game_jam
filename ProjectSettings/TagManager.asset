@@ -16,6 +16,8 @@ TagManager:
   - Human
   - Alien
   - EvilBullet
+  - MainMenu
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
