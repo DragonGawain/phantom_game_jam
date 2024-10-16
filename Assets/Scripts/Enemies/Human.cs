@@ -26,6 +26,9 @@ public class Human : Enemy
     [SerializeField, Range(1, 5)]
     float distFromAttackTargetBuffer = 2f;
 
+    [SerializeField, Range(0.5f, 5f)]
+    float attackRevolutionSpeed = 1.25f;
+
     GameObject bulletObject;
     int shootTimer = 0;
 
@@ -76,9 +79,9 @@ public class Human : Enemy
             {
                 moveState = MoveState.ROT_TARGET;
                 if (righterAngle < angle)
-                    transform.Rotate(0, 0, 0.7f * turnSpeed);
+                    transform.Rotate(0, 0, 1.25f * turnSpeed);
                 else
-                    transform.Rotate(0, 0, -0.7f * turnSpeed);
+                    transform.Rotate(0, 0, -1.25f * turnSpeed);
             }
         }
 
@@ -117,6 +120,18 @@ public class Human : Enemy
                     rb.velocity =
                         0.5f * maxMoveSpeed * (fDot.position - transform.position).normalized;
                 Shoot();
+                if (preferedTurnDir < 0)
+                    rb.velocity +=
+                        new Vector2(
+                            rDot.position.x - transform.position.x,
+                            rDot.position.y - transform.position.y
+                        ).normalized * attackRevolutionSpeed;
+                else
+                    rb.velocity +=
+                        new Vector2(
+                            lDot.position.x - transform.position.x,
+                            lDot.position.y - transform.position.y
+                        ).normalized * attackRevolutionSpeed;
             }
         }
         else
@@ -127,6 +142,18 @@ public class Human : Enemy
             else
                 rb.velocity = 0.5f * maxMoveSpeed * (transform.position - fDot.position).normalized;
             Shoot();
+            if (preferedTurnDir < 0)
+                rb.velocity +=
+                    new Vector2(
+                        rDot.position.x - transform.position.x,
+                        rDot.position.y - transform.position.y
+                    ).normalized * attackRevolutionSpeed;
+            else
+                rb.velocity +=
+                    new Vector2(
+                        lDot.position.x - transform.position.x,
+                        lDot.position.y - transform.position.y
+                    ).normalized * attackRevolutionSpeed;
         }
         // if(Vector3.Distance(transform.position, target.position) <= distFromAttackTarget)
     }

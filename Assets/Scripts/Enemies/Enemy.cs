@@ -50,8 +50,8 @@ public class Enemy : Movement
 
     public int holdTimer;
     protected Transform fDot;
-    Transform rDot;
-    Transform lDot;
+    protected Transform rDot;
+    protected Transform lDot;
     int hitLeft = 0;
     int hitRight = 0;
 
@@ -60,7 +60,7 @@ public class Enemy : Movement
 
     public Transform target;
     protected int hp = 10;
-    int preferedTurnDir = 1;
+    protected int preferedTurnDir = 1;
 
     protected Rigidbody2D rb;
     protected Vector3 fleePoint;
