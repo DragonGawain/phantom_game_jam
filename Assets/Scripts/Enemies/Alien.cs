@@ -28,6 +28,8 @@ public class Alien : Enemy
         fleePoint = alienBase.transform.position;
         if (target == null)
             target = alienBase.transform;
+
+        id = -1;
     }
 
     public void SetTarget(Transform target)

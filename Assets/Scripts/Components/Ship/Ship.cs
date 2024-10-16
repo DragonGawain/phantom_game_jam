@@ -145,10 +145,10 @@ public class Ship : MonoBehaviour
                     AddPieceToShip(sp);
                 }
 
-                foreach (KeyValuePair<ShipComponents, int> sp in inventory)
-                {
-                    Debug.Log(sp.Key + " -> " + sp.Value);
-                }
+                // foreach (KeyValuePair<ShipComponents, int> sp in inventory)
+                // {
+                //     Debug.Log(sp.Key + " -> " + sp.Value);
+                // }
             }
         }
     }

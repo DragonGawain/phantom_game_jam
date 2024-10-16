@@ -34,6 +34,8 @@ public class Human : Enemy
 
     bool chase = true;
 
+    static int idTracker = 0;
+
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
     {
@@ -42,7 +44,11 @@ public class Human : Enemy
         fleePoint = ship.transform.position;
 
         bulletObject = Resources.Load<GameObject>("Bullet");
+        id = idTracker;
+        idTracker++;
     }
+
+    public int GetId() => id;
 
     public CombatState GetCombatState() => combatState;
 
@@ -167,7 +173,7 @@ public class Human : Enemy
     public void StopAttack()
     {
         combatState = CombatState.ARRIVE;
-        FindNewShipPiece();
+        CollectedShipPiece();
     }
 
     void Shoot()
@@ -175,14 +181,16 @@ public class Human : Enemy
         if (shootTimer <= 0)
         {
             shootTimer = 100;
-            Vector3 dir = target.position - transform.position;
-            GameObject bullet = Instantiate(
+            Vector3 dir = (target.position - transform.position).normalized;
+            GameObject bulletO = Instantiate(
                 bulletObject,
                 transform.position,
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
-            bullet.GetComponent<Bullet>().Launch(dir);
-            bullet.tag = "EvilBullet";
+            Bullet bullet = bulletO.GetComponent<Bullet>();
+            bullet.Launch(dir);
+            bullet.SetShooterId(id);
+            bulletO.tag = "EvilBullet";
         }
     }
 
@@ -226,6 +234,8 @@ public class Human : Enemy
 
     public void CollectedShipPiece()
     {
+        if (combatState != CombatState.ARRIVE)
+            return;
         int size = GetSpaceLeftInShipInv();
 
         if (size > 7)

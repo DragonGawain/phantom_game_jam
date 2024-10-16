@@ -12,6 +12,8 @@ public class Bullet : MonoBehaviour
 
     int bulletLifeTimer = 500; // 50 FUs persecond -> this bullet will last for 10 seconds
 
+    int shooterId;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,6 +25,10 @@ public class Bullet : MonoBehaviour
         if (bulletLifeTimer <= 0)
             Destroy(this.gameObject);
     }
+
+    public void SetShooterId(int id) => shooterId = id;
+
+    public int GetShooterId() => shooterId;
 
     public void Launch(Vector2 vel)
     {

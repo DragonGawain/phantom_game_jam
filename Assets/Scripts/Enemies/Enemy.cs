@@ -59,12 +59,14 @@ public class Enemy : Movement
     bool farRight;
 
     public Transform target;
-    protected int hp = 10;
+    public int hp = 10;
     protected int maxHp = 10;
     protected int preferedTurnDir = 1;
 
     protected Rigidbody2D rb;
     protected Vector3 fleePoint;
+
+    protected int id;
 
     // Start is called before the first frame update
     void Awake()
@@ -389,11 +391,15 @@ public class Enemy : Movement
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Bullet"))
+        if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("EvilBullet"))
         {
+            if (other.GetComponent<Bullet>().GetShooterId() == id)
+                return;
             hp -= other.GetComponent<Bullet>().GetBulletDamage();
             if (hp <= 0)
+            {
                 Destroy(this.gameObject);
+            }
 
             Destroy(other.gameObject);
         }
