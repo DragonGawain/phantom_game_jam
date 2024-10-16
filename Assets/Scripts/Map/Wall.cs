@@ -1,13 +1,15 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
+    [SerializeField] bool checkBullet;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -15,17 +17,17 @@ public class Wall : MonoBehaviour
     {
 
     }
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        GameObject go = other.gameObject; // what game object collided?
-        //Bullet bullet= go.GetComponent<Bullet>();
         
-        if(go.CompareTag("EvilBullet")||go.CompareTag("Bullet"))
-        {
-            // when in contact bullet dissapears
-            Destroy(other.gameObject);
-        }
+        GameObject go = other.gameObject; // what game object collided?
 
+        // if bool is bool is true, wall will destroy Bullet    
+        if (checkBullet&&(go.CompareTag("EvilBullet") || go.CompareTag("Bullet")))
+            {
+                // when in contact bullet dissapears
+                Destroy(other.gameObject);
+            }
     }
 
 }
