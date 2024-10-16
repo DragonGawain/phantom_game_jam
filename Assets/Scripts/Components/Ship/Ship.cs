@@ -32,8 +32,16 @@ public class Ship : MonoBehaviour
             { ShipComponents.RCS, 0 }
         };
 
+    [SerializeField]
+    List<ShipComponents> initialComps = new();
     Human human = null;
     PlayerController player = null;
+
+    private void Start()
+    {
+        foreach (ShipComponents sp in initialComps)
+            AddPieceToShip(sp);
+    }
 
     public Vector3 GetPositionOfNearestNeededShipPiece(
         Transform source,
