@@ -24,6 +24,7 @@ TagManager:
   - swampTerrain
   - asphaltTerrain
   - forestTerrain
+  - wings
   layers:
   - Default
   - TransparentFX

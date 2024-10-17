@@ -17,7 +17,8 @@ public class Ship : MonoBehaviour
             { ShipComponents.FUEL_TANK, 3 },
             { ShipComponents.SOLID_BOOSTERS, 2 },
             { ShipComponents.ENGINES, 1 },
-            { ShipComponents.RCS, 1 }
+            { ShipComponents.RCS, 1 },
+            { ShipComponents.WINGS, 2 }
         };
 
     Dictionary<ShipComponents, int> inventory =
@@ -29,7 +30,8 @@ public class Ship : MonoBehaviour
             { ShipComponents.FUEL_TANK, 0 },
             { ShipComponents.SOLID_BOOSTERS, 0 },
             { ShipComponents.ENGINES, 0 },
-            { ShipComponents.RCS, 0 }
+            { ShipComponents.RCS, 0 },
+            { ShipComponents.WINGS, 0 }
         };
 
     [SerializeField]
