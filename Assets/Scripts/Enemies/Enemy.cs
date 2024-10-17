@@ -20,7 +20,8 @@ public class Enemy : Movement
         ARRIVE,
         WANDER,
         FLEE,
-        ATTACK
+        ATTACK,
+        FLEE_TOWARDS
     }
 
     [SerializeField, Range(1f, 10f)]
@@ -64,9 +65,11 @@ public class Enemy : Movement
     protected int preferedTurnDir = 1;
 
     protected Rigidbody2D rb;
-    protected Vector3 fleePoint;
+    public Vector3 fleePoint;
 
     protected int id;
+
+    protected int damage = 1;
 
     // Start is called before the first frame update
     void Awake()
@@ -78,7 +81,7 @@ public class Enemy : Movement
         // target = GameObject.FindGameObjectWithTag("Player").transform;
 
         preferedTurnDir = (int)Mathf.Sign(Random.Range(-1f, 1f));
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponentInParent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
@@ -101,6 +104,9 @@ public class Enemy : Movement
                     break;
                 case CombatState.ATTACK:
                     Attack();
+                    break;
+                case CombatState.FLEE_TOWARDS:
+                    FleeTowards();
                     break;
             }
         }
@@ -336,10 +342,10 @@ public class Enemy : Movement
                 // This will mean that the AI will gently turn towards the base if it happens to be running directly away from it,
                 // and the AI will smoothly aim itself at the fleePoint (base) as it's angle gets more precise.
                 // I'm also going to add in a condition that only activates the fleePoint bias if the AI is a certain distance away from it
-                Debug.Log("dist: " + Vector3.Distance(fleePoint, transform.position));
+                // Debug.Log("dist: " + Vector3.Distance(fleePoint, transform.position));
                 if (Vector3.Distance(fleePoint, transform.position) > fleeDistanceBuffer)
                 {
-                    Debug.Log("bias");
+                    // Debug.Log("bias");
                     // adding in the gentle base bias
                     float fleeAngle = Vector3.Angle(
                         (fDot.position - transform.position).normalized,
@@ -384,24 +390,64 @@ public class Enemy : Movement
     // possibly exclusive to humans (more precisly, exclusive to any enemy type that has a ranged attack)
     protected virtual void Attack() { }
 
-    public void RestoreHealth(int amt = 1)
+    protected virtual void FleeTowards()
     {
-        hp = Mathf.Clamp(hp + amt, 0, maxHp);
+        Arrive();
     }
+
+    protected virtual void TakeDamage(int amt, bool isBullet = false)
+    {
+        hp -= amt;
+        if (hp <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public int GetDamage() => damage;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("EvilBullet"))
         {
+            Debug.Log("B");
             if (other.GetComponent<Bullet>().GetShooterId() == id)
                 return;
-            hp -= other.GetComponent<Bullet>().GetBulletDamage();
-            if (hp <= 0)
-            {
-                Destroy(this.gameObject);
-            }
+            TakeDamage(other.GetComponent<Bullet>().GetBulletDamage(), true);
 
             Destroy(other.gameObject);
+        }
+        else if (other.gameObject.CompareTag("Alien"))
+            TakeDamage(other.GetComponent<Alien>().GetDamage());
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Alien"))
+            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+    }
+
+    protected virtual void OnOnTrigger(Transform other, bool isBullet) { }
+
+    protected Transform DetermineFleePoint(Transform point, string tag = "")
+    {
+        if (tag == "")
+            return point;
+        else
+        {
+            GameObject[] potentialTargets = GameObject.FindGameObjectsWithTag(tag);
+            Transform pos = point;
+
+            float dist = int.MaxValue;
+            foreach (GameObject pt in potentialTargets)
+            {
+                if (Vector3.Distance(pt.transform.position, transform.position) < dist)
+                {
+                    dist = Vector3.Distance(pt.transform.position, transform.position);
+                    pos = pt.transform;
+                }
+            }
+            return pos;
         }
     }
 }

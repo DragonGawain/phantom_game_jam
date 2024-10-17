@@ -30,6 +30,7 @@ public class Alien : Enemy
             target = alienBase.transform;
 
         id = -1;
+        damage = 2;
     }
 
     public void SetTarget(Transform target)
@@ -104,6 +105,12 @@ public class Alien : Enemy
             rb.velocity = maxMoveSpeed * (wanderTarget - transform.position).normalized;
         else
             rb.velocity = 0.8f * maxMoveSpeed * (fDot.position - transform.position).normalized;
+    }
+
+    protected override void TakeDamage(int amt, bool isBullet = false)
+    {
+        base.TakeDamage(amt, isBullet);
+        OnOnTrigger(alienBase.transform, isBullet);
     }
 
     private void OnDestroy()

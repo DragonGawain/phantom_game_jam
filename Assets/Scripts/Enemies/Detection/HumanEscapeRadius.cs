@@ -8,7 +8,7 @@ public class HumanEscapeRadius : MonoBehaviour
 
     private void Awake()
     {
-        human = GetComponentInParent<Human>();
+        human = transform.parent.GetComponentInChildren<Human>();
     }
 
     private void OnTriggerExit2D(Collider2D other)

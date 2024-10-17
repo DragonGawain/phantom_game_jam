@@ -18,6 +18,7 @@ TagManager:
   - EvilBullet
   - MainMenu
   - PauseMenu
+  - HPPickup
   layers:
   - Default
   - TransparentFX

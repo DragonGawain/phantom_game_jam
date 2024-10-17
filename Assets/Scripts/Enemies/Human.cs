@@ -34,7 +34,7 @@ public class Human : Enemy
 
     bool chase = true;
 
-    static int idTracker = 0;
+    static int idTracker = 10;
 
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
@@ -48,11 +48,18 @@ public class Human : Enemy
         idTracker++;
     }
 
+    private void Update()
+    {
+        // transform.localPosition = Vector3.zero;
+    }
+
     public int GetId() => id;
 
     public CombatState GetCombatState() => combatState;
 
     public Transform GetTarget() => target;
+
+    public void SetCombatState(CombatState state) => combatState = state;
 
     // Attack algo
     protected override void Attack()
@@ -164,11 +171,7 @@ public class Human : Enemy
         // if(Vector3.Distance(transform.position, target.position) <= distFromAttackTarget)
     }
 
-    public void SetAttackTarget(Transform target)
-    {
-        this.target = target;
-        combatState = CombatState.ATTACK;
-    }
+    public void SetTarget(Transform target) => this.target = target;
 
     public void StopAttack()
     {
@@ -261,5 +264,57 @@ public class Human : Enemy
         foreach (ShipComponents item in shipInventory)
             size += Item.shipComponentSizes[item];
         return size;
+    }
+
+    public void RestoreHealth(int amt = 1)
+    {
+        hp = Mathf.Clamp(hp + amt, 0, maxHp);
+
+        if (hp >= 8)
+        {
+            combatState = CombatState.ARRIVE;
+            CollectedShipPiece();
+        }
+        else
+        {
+            Transform temp = DetermineFleePoint(ship.transform, "HPPickup");
+            if (temp.gameObject == ship.gameObject)
+                return;
+            combatState = CombatState.FLEE_TOWARDS;
+            target = temp;
+            fleePoint = temp.position;
+        }
+    }
+    protected override void TakeDamage(int amt, bool isBullet = false)
+    {
+        base.TakeDamage(amt, isBullet);
+        OnOnTrigger(ship.transform, isBullet);
+    }
+
+    public void SetTargetAsFleePoint() => target = DetermineFleePoint(ship.transform, "HPPickup");
+
+    protected override void OnOnTrigger(Transform other, bool isBullet)
+    {
+        Debug.Log("OVER HERE");
+        if (hp <= 5)
+        {
+            Transform temp = DetermineFleePoint(ship.transform, "HPPickup");
+            if (temp.gameObject == ship.gameObject)
+                return;
+
+            if (isBullet)
+            {
+                Debug.Log("FT");
+                combatState = CombatState.FLEE_TOWARDS;
+                target = temp;
+                fleePoint = temp.position;
+            }
+            else
+            {
+                Debug.Log("F");
+                combatState = CombatState.FLEE;
+                fleePoint = temp.position;
+            }
+        }
     }
 }

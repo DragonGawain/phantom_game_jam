@@ -118,6 +118,7 @@ public class PlayerController : Movement
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
             bullet.GetComponent<Bullet>().Launch(dir);
+            bullet.GetComponent<Bullet>().SetShooterId(-1);
         }
     }
 
@@ -142,7 +143,7 @@ public class PlayerController : Movement
     {
         // layer 7 => enemy, layer 8 => alien
         if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
-            TakeDamage();
+            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
     }
 
     private void OnTriggerEnter2D(Collider2D other)
