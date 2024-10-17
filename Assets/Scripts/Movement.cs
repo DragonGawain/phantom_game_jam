@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     public void SetMaxMoveSpeed(float n)
     {
         maxMoveSpeed = n;
+        Debug.Log("max speed: " + n);
     }
 
     public float GetOriginalSpeed()

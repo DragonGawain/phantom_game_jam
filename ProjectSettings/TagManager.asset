@@ -19,6 +19,7 @@ TagManager:
   - MainMenu
   - PauseMenu
   - HPPickup
+  - GlobalLight
   layers:
   - Default
   - TransparentFX
