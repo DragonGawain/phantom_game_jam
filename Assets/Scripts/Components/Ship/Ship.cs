@@ -37,7 +37,7 @@ public class Ship : MonoBehaviour
     Human human = null;
     PlayerController player = null;
 
-    private void Start()
+    private void Awake()
     {
         foreach (ShipComponents sp in initialComps)
             AddPieceToShip(sp);
@@ -118,6 +118,11 @@ public class Ship : MonoBehaviour
         return pos;
     }
 
+    public Dictionary<ShipComponents, int> RequiredInventory
+    {
+        get { return requiredInventory; }
+
+    }
     public void AddPieceToShip(ShipComponents piece, int qt = 1)
     {
         if (inventory.ContainsKey(piece))
