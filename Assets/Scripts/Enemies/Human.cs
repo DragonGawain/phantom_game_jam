@@ -266,9 +266,10 @@ public class Human : Enemy
         return size;
     }
 
-    public void RestoreHealth(int amt = 1)
+    public void RestoreHealth(GameObject pickup, int amt = 1)
     {
         hp = Mathf.Clamp(hp + amt, 0, maxHp);
+        Debug.Log("hp res");
 
         if (hp >= 8)
         {
@@ -277,14 +278,22 @@ public class Human : Enemy
         }
         else
         {
-            Transform temp = DetermineFleePoint(ship.transform, "HPPickup");
+            Transform temp = DetermineFleePoint(ship.transform, "HPPickup", pickup);
+            Debug.Log("hp name: " + temp.name);
             if (temp.gameObject == ship.gameObject)
+            {
+                Debug.Log("1");
+                combatState = CombatState.ARRIVE;
+                CollectedShipPiece();
                 return;
+            }
+            Debug.Log("2");
             combatState = CombatState.FLEE_TOWARDS;
             target = temp;
             fleePoint = temp.position;
         }
     }
+
     protected override void TakeDamage(int amt, bool isBullet = false)
     {
         base.TakeDamage(amt, isBullet);

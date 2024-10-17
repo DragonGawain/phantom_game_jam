@@ -429,7 +429,7 @@ public class Enemy : Movement
 
     protected virtual void OnOnTrigger(Transform other, bool isBullet) { }
 
-    protected Transform DetermineFleePoint(Transform point, string tag = "")
+    protected Transform DetermineFleePoint(Transform point, string tag = "", GameObject exclude = null)
     {
         if (tag == "")
             return point;
@@ -441,6 +441,8 @@ public class Enemy : Movement
             float dist = int.MaxValue;
             foreach (GameObject pt in potentialTargets)
             {
+                if (pt == exclude)
+                    continue;
                 if (Vector3.Distance(pt.transform.position, transform.position) < dist)
                 {
                     dist = Vector3.Distance(pt.transform.position, transform.position);
