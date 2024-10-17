@@ -25,6 +25,7 @@ TagManager:
   - asphaltTerrain
   - forestTerrain
   - wings
+  - HUD
   layers:
   - Default
   - TransparentFX

@@ -27,6 +27,8 @@ public class PlayerController : Movement
     // HACK:: public for inspector exposure
     public int hp;
     readonly int maxHp = 15;
+    
+    public UIManager healthBar;
 
     int damageCooldown = 0;
 
@@ -42,7 +44,8 @@ public class PlayerController : Movement
 
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
-        hp = 15;
+        hp = maxHp;
+        healthBar.SetMaxHealth(maxHp);
         ship.SetPlayer(this);
     }
 
@@ -132,11 +135,13 @@ public class PlayerController : Movement
         {
             Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN</color>");
         }
+        healthBar.SetHealth(hp);
     }
 
     public void RestoreHealth(int amt = 1)
     {
         hp = Mathf.Clamp(hp + amt, 0, maxHp);
+        healthBar.SetHealth(hp);
     }
 
     private void OnCollisionStay2D(Collision2D other)
