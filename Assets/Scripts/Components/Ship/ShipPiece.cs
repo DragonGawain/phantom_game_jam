@@ -63,6 +63,7 @@ public class ShipPiece : Item
     private void OnDestroy()
     {
         foreach (Human seeker in seekers)
-            seeker.CollectedShipPiece();
+            if (seeker != null)
+                seeker.CollectedShipPiece();
     }
 }

@@ -8,7 +8,7 @@ using UnityEditor;
 
 public class Ship : MonoBehaviour
 {
-    static readonly Dictionary<ShipComponents, int> requiredInventory =
+    static Dictionary<ShipComponents, int> requiredInventory =
         new()
         {
             { ShipComponents.NOSE_GEAR, 1 },
@@ -121,8 +121,8 @@ public class Ship : MonoBehaviour
     public Dictionary<ShipComponents, int> RequiredInventory
     {
         get { return requiredInventory; }
-
     }
+
     public void AddPieceToShip(ShipComponents piece, int qt = 1)
     {
         if (inventory.ContainsKey(piece))

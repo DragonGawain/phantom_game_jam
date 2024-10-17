@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Random =  UnityEngine.Random;
+using Random = UnityEngine.Random;
 using System;
 
 public class shipComponentGenerator : MonoBehaviour
 {
     GameObject shipComponent;
     public Ship theShip;
-    [SerializeField, Range(0, 10)] int shipComponentNum = 10;
     private System.Random random;
+
     private void Start()
     {
         random = new System.Random(DateTime.Now.Millisecond);
@@ -18,7 +18,7 @@ public class shipComponentGenerator : MonoBehaviour
         shipComponent = Resources.Load<GameObject>("Items/shipComponent");
         SpriteRenderer shipRender = shipComponent.GetComponent<SpriteRenderer>();
 
-        foreach(ShipComponents shipComponentEntity in Enum.GetValues(typeof(ShipComponents)))
+        foreach (ShipComponents shipComponentEntity in Enum.GetValues(typeof(ShipComponents)))
         {
             Debug.Log(shipComponentEntity.ToString());
             shipRender.sprite = Resources.Load<Sprite>("Items/" + shipComponentEntity.ToString());
@@ -30,11 +30,8 @@ public class shipComponentGenerator : MonoBehaviour
                 // should use the overload with vector3 and quaternions
             }
         }
-       
     }
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
+    // Update is called once per frame
+    void Update() { }
 }
