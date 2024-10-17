@@ -113,11 +113,16 @@ public class Alien : Enemy
     protected override void TakeDamage(int amt, bool isBullet = false)
     {
         base.TakeDamage(amt, isBullet);
-        OnOnTrigger(alienBase.transform, isBullet);
+        // OnOnTrigger(alienBase.transform, isBullet);
     }
 
     private void OnDestroy()
     {
         alienBase.KillAlien(this);
+    }
+
+    protected override void OnOnTrigger(Transform other, bool isBullet)
+    {
+        alienBase.ExternalTriggerOfTempAggro(other);
     }
 }

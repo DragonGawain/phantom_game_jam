@@ -118,7 +118,8 @@ public class PlayerController : Movement
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
             bullet.GetComponent<Bullet>().Launch(dir);
-            bullet.GetComponent<Bullet>().SetShooterId(-1);
+            bullet.GetComponent<Bullet>().SetShooterId(-2);
+            bullet.GetComponent<Bullet>().SetShooter(transform);
         }
     }
 

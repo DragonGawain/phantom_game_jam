@@ -410,12 +410,13 @@ public class Enemy : Movement
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("EvilBullet"))
+        if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))
         {
             if (other.GetComponent<Bullet>().GetShooterId() == id)
                 return;
             TakeDamage(other.GetComponent<Bullet>().GetBulletDamage(), true);
-
+            if (gameObject.CompareTag("Alien"))
+                OnOnTrigger(other.GetComponent<Bullet>().GetShooter(), true);
             Destroy(other.gameObject);
         }
         else if (other.gameObject.CompareTag("Alien"))

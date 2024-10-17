@@ -220,6 +220,7 @@ public class Human : Enemy
             Bullet bullet = bulletO.GetComponent<Bullet>();
             bullet.Launch(dir);
             bullet.SetShooterId(id);
+            bullet.SetShooter(transform);
             bulletO.tag = "EvilBullet";
         }
     }

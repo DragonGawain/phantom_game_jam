@@ -109,10 +109,14 @@ MonoBehaviour:
   precision: 2
   targetArc: 5
   turnSpeed: 1
+  fleeDistanceBuffer: 25
   moveState: 0
   combatState: 0
   holdTimer: 0
   target: {fileID: 0}
+  hp: 10
+  rb: {fileID: 0}
+  fleePoint: {x: 0, y: 0, z: 0}
 --- !u!50 &681992054555173479
 Rigidbody2D:
   serializedVersion: 4
