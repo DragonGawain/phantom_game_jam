@@ -53,6 +53,10 @@ public class Human : Enemy
         // transform.localPosition = Vector3.zero;
     }
 
+    public void SetShip(Ship ship) => this.ship = ship;
+
+    public Ship GetShip() => ship;
+
     public int GetId() => id;
 
     public CombatState GetCombatState() => combatState;

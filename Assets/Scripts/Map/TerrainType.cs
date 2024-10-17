@@ -1,14 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 public class TerrainType : MonoBehaviour
 {
     [SerializeField]
     TerrainTypes terrainType;
 
+    [SerializeField]
+    bool isSpecificItem = false;
+
     // int maxMoveSpeedModifier;
+
+    private void Awake()
+    {
+        if (!isSpecificItem)
+            terrainType = (TerrainTypes)Random.Range(0, Enum.GetNames(typeof(TerrainTypes)).Length);
+        gameObject.tag = terrainType.GetEnumDescription();
+        GetComponent<SpriteRenderer>().color = terrainType switch
+        {
+            TerrainTypes.NORMAL => new Color(1, 1, 1, 0.39f),
+            TerrainTypes.ASPHALT => new Color(0, 0, 0, 0.39f),
+            TerrainTypes.FOREST => new Color(0.17f, 1, 0, 0.39f),
+            TerrainTypes.SWAMP => new Color(0, 1, 0.95f, 0.39f),
+            _ => new Color(1, 1, 1),
+        };
+    }
 
     public TerrainTypes GetTerrainType()
     {
@@ -31,19 +51,15 @@ public class TerrainType : MonoBehaviour
         switch (terrainType)
         {
             case TerrainTypes.NORMAL:
-                Debug.Log("N");
                 movement.SetMaxMoveSpeed(movement.GetOriginalSpeed());
                 break;
             case TerrainTypes.SWAMP:
-                Debug.Log("S");
                 movement.SetMaxMoveSpeed(movement.GetOriginalSpeed() - 1);
                 break;
             case TerrainTypes.ASPHALT:
-                Debug.Log("A");
                 movement.SetMaxMoveSpeed(movement.GetOriginalSpeed() + 1);
                 break;
             case TerrainTypes.FOREST:
-                Debug.Log("F");
                 if (go.TryGetComponent<PlayerController>(out PlayerController pc)) // returns a bool value
                 {
                     go.transform.Find("Flashlight").gameObject.SetActive(true); // activate light

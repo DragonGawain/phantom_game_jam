@@ -21,7 +21,7 @@ public class shipComponentGenerator : MonoBehaviour
         foreach (ShipComponents shipComponentEntity in Enum.GetValues(typeof(ShipComponents)))
         {
             Debug.Log(shipComponentEntity.ToString());
-            shipRender.sprite = Resources.Load<Sprite>("Items/" + shipComponentEntity.ToString());
+            // shipRender.sprite = Resources.Load<Sprite>("Items/" + shipComponentEntity.ToString());
             for (int i = 0; i < theShip.RequiredInventory[shipComponentEntity]; ++i)
             {
                 Instantiate(

@@ -37,11 +37,13 @@ public class Ship : MonoBehaviour
     Human human = null;
     PlayerController player = null;
 
-    private void Awake()
+    private void Start()
     {
         foreach (ShipComponents sp in initialComps)
             AddPieceToShip(sp);
     }
+
+    public void AddToInitComps(ShipComponents sc) => initialComps.Add(sc);
 
     public Vector3 GetPositionOfNearestNeededShipPiece(
         Transform source,

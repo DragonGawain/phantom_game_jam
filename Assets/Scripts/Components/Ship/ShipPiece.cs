@@ -63,7 +63,7 @@ public class ShipPiece : Item
     private void OnDestroy()
     {
         foreach (Human seeker in seekers)
-            if (seeker != null)
+            if (seeker != null && seeker.GetShip() != null) // This if statement prevents a crash when the scene is unloaded
                 seeker.CollectedShipPiece();
     }
 }
