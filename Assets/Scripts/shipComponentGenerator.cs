@@ -17,6 +17,7 @@ public class shipComponentGenerator : MonoBehaviour
 
         shipComponent = Resources.Load<GameObject>("Items/shipComponent");
         SpriteRenderer shipRender = shipComponent.GetComponent<SpriteRenderer>();
+
         foreach(ShipComponents shipComponentEntity in Enum.GetValues(typeof(ShipComponents)))
         {
             Debug.Log(shipComponentEntity.ToString());
