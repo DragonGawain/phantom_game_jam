@@ -34,7 +34,7 @@ public class PlayerController : Movement
     Ship ship;
 
     // Start is called before the first frame update
-    void Awake()
+    protected override void OnAwake()
     {
         inputs = new Inputs();
         inputs.Player.Enable();

@@ -23,6 +23,12 @@ public class ShipPiece : Item
         gameObject.tag = shipComponentType.GetEnumDescription();
     }
 
+    public void SetSpecificType(ShipComponents type)
+    {
+        shipComponentType = type;
+        isSpecificItem = true;
+    }
+
     public ShipComponents GetShipComponentType() => shipComponentType;
 
     public void AddToSeekers(Human human) => seekers.Add(human);

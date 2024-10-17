@@ -39,7 +39,11 @@ public class Alien : Enemy
         combatState = CombatState.ARRIVE;
     }
 
-    public void StopAttack() => combatState = CombatState.WANDER;
+    public void StopAttack()
+    {
+        combatState = CombatState.WANDER;
+        target = alienBase.transform;
+    }
 
     public void SetBase(AlienBase ab) => alienBase = ab;
 

@@ -330,4 +330,9 @@ public class Human : Enemy
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 }

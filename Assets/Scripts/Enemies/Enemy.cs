@@ -64,7 +64,7 @@ public class Enemy : Movement
     protected int maxHp = 10;
     protected int preferedTurnDir = 1;
 
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb; // HACK
     public Vector3 fleePoint;
 
     protected int id;
@@ -72,7 +72,7 @@ public class Enemy : Movement
     protected int damage = 1;
 
     // Start is called before the first frame update
-    void Awake()
+    protected override void OnAwake()
     {
         fDot = transform.Find("ForwardDot");
         rDot = transform.Find("RDot");
@@ -429,7 +429,11 @@ public class Enemy : Movement
 
     protected virtual void OnOnTrigger(Transform other, bool isBullet) { }
 
-    protected Transform DetermineFleePoint(Transform point, string tag = "", GameObject exclude = null)
+    protected Transform DetermineFleePoint(
+        Transform point,
+        string tag = "",
+        GameObject exclude = null
+    )
     {
         if (tag == "")
             return point;
