@@ -69,7 +69,6 @@ public class Alien : Enemy
             );
         }
 
-        // base.Arrive(), but slightly modified
         if (
             moveState != MoveState.ROT_OBSTACLE_L
             && moveState != MoveState.ROT_OBSTACLE_R
@@ -121,6 +120,4 @@ public class Alien : Enemy
     {
         alienBase.KillAlien(this);
     }
-
-    // TODO:: override ARRIVE and replace it with WANDER
 }

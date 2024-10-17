@@ -63,7 +63,29 @@ public class Human : Enemy
 
     public Transform GetTarget() => target;
 
-    public void SetCombatState(CombatState state) => combatState = state;
+    public void SetCombatState(CombatState state) =>
+        combatState = combatState == CombatState.FORCE_ARRIVE ? CombatState.FORCE_ARRIVE : state;
+
+    protected override void Arrive()
+    {
+        base.Arrive();
+        if (
+            combatState == CombatState.FORCE_ARRIVE
+            && Vector3.Distance(target.position, transform.position) <= 15
+        )
+        {
+            combatState = CombatState.ARRIVE;
+            StartCoroutine(FlashAttackDetection());
+        }
+    }
+
+    IEnumerator FlashAttackDetection()
+    {
+        GameObject attackRadius = transform.parent.Find("AttackRadiusEnter").gameObject;
+        attackRadius.SetActive(false);
+        yield return new WaitForFixedUpdate();
+        attackRadius.SetActive(true);
+    }
 
     // Attack algo
     protected override void Attack()
@@ -175,11 +197,12 @@ public class Human : Enemy
         // if(Vector3.Distance(transform.position, target.position) <= distFromAttackTarget)
     }
 
-    public void SetTarget(Transform target) => this.target = target;
+    public void SetTarget(Transform target) =>
+        this.target = combatState == CombatState.FORCE_ARRIVE ? this.target : target;
 
     public void StopAttack()
     {
-        combatState = CombatState.ARRIVE;
+        SetCombatState(CombatState.ARRIVE);
         CollectedShipPiece();
     }
 
@@ -241,7 +264,7 @@ public class Human : Enemy
 
     public void CollectedShipPiece()
     {
-        if (combatState != CombatState.ARRIVE)
+        if (combatState != CombatState.ARRIVE && combatState != CombatState.FORCE_ARRIVE)
             return;
         int size = GetSpaceLeftInShipInv();
 
@@ -273,26 +296,22 @@ public class Human : Enemy
     public void RestoreHealth(GameObject pickup, int amt = 1)
     {
         hp = Mathf.Clamp(hp + amt, 0, maxHp);
-        Debug.Log("hp res");
 
         if (hp >= 8)
         {
-            combatState = CombatState.ARRIVE;
+            SetCombatState(CombatState.ARRIVE);
             CollectedShipPiece();
         }
         else
         {
             Transform temp = DetermineFleePoint(ship.transform, "HPPickup", pickup);
-            Debug.Log("hp name: " + temp.name);
             if (temp.gameObject == ship.gameObject)
             {
-                Debug.Log("1");
-                combatState = CombatState.ARRIVE;
+                SetCombatState(CombatState.ARRIVE);
                 CollectedShipPiece();
                 return;
             }
-            Debug.Log("2");
-            combatState = CombatState.FLEE_TOWARDS;
+            SetCombatState(CombatState.FLEE_TOWARDS);
             target = temp;
             fleePoint = temp.position;
         }
@@ -308,7 +327,6 @@ public class Human : Enemy
 
     protected override void OnOnTrigger(Transform other, bool isBullet)
     {
-        Debug.Log("OVER HERE");
         if (hp <= 5)
         {
             Transform temp = DetermineFleePoint(ship.transform, "HPPickup");
@@ -317,15 +335,13 @@ public class Human : Enemy
 
             if (isBullet)
             {
-                Debug.Log("FT");
-                combatState = CombatState.FLEE_TOWARDS;
+                SetCombatState(CombatState.FLEE_TOWARDS);
                 target = temp;
                 fleePoint = temp.position;
             }
             else
             {
-                Debug.Log("F");
-                combatState = CombatState.FLEE;
+                SetCombatState(CombatState.FLEE);
                 fleePoint = temp.position;
             }
         }

@@ -21,7 +21,8 @@ public class Enemy : Movement
         WANDER,
         FLEE,
         ATTACK,
-        FLEE_TOWARDS
+        FLEE_TOWARDS,
+        FORCE_ARRIVE
     }
 
     [SerializeField, Range(1f, 10f)]
@@ -94,6 +95,7 @@ public class Enemy : Movement
             switch (combatState)
             {
                 case CombatState.ARRIVE:
+                case CombatState.FORCE_ARRIVE:
                     Arrive();
                     break;
                 case CombatState.WANDER:
@@ -410,7 +412,6 @@ public class Enemy : Movement
     {
         if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("EvilBullet"))
         {
-            Debug.Log("B");
             if (other.GetComponent<Bullet>().GetShooterId() == id)
                 return;
             TakeDamage(other.GetComponent<Bullet>().GetBulletDamage(), true);
