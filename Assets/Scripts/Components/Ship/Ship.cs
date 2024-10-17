@@ -5,6 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Linq;
 using UnityEditor;
+using Unity.VisualScripting;
 
 public class Ship : MonoBehaviour
 {
@@ -19,6 +20,18 @@ public class Ship : MonoBehaviour
             { ShipComponents.ENGINES, 1 },
             { ShipComponents.RCS, 1 },
             { ShipComponents.WINGS, 2 }
+        };
+    static Dictionary<ShipComponents, int> componentHpValue =
+        new()
+        {
+            { ShipComponents.NOSE_GEAR, 10 },
+            { ShipComponents.LANDING_GEAR, 5 },
+            { ShipComponents.OXYGEN_TANK, 3 },
+            { ShipComponents.FUEL_TANK, 3 },
+            { ShipComponents.SOLID_BOOSTERS, 4 },
+            { ShipComponents.ENGINES, 15 },
+            { ShipComponents.RCS, 1 },
+            { ShipComponents.WINGS, 10 }
         };
 
     Dictionary<ShipComponents, int> inventory =
@@ -38,6 +51,9 @@ public class Ship : MonoBehaviour
     List<ShipComponents> initialComps = new();
     Human human = null;
     PlayerController player = null;
+
+    int hp = 25;
+    int maxHp = 25;
 
     private void Start()
     {
@@ -133,6 +149,8 @@ public class Ship : MonoBehaviour
             inventory[piece] += qt;
         else
             inventory.Add(piece, qt);
+        maxHp += componentHpValue[piece];
+        hp += componentHpValue[piece];
 
         if (CheckShipCompletionStatus())
         {
@@ -201,6 +219,30 @@ public class Ship : MonoBehaviour
                 //     Debug.Log(sp.Key + " -> " + sp.Value);
                 // }
             }
+        }
+        else if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))
+        {
+            if (
+                (human != null && other.GetComponent<Bullet>().GetShooterId() == human.GetId())
+                || (player != null && other.CompareTag("Bullet"))
+            )
+                return;
+            TakeDamage(other.GetComponent<Bullet>().GetBulletDamage());
+        }
+        else if (other.CompareTag("Alien"))
+        {
+            TakeDamage(other.GetComponent<Enemy>().GetDamage());
+        }
+    }
+
+    void TakeDamage(int amt)
+    {
+        hp -= amt;
+        // Send the human to the ship
+        if (human != null)
+        {
+            human.SetTarget(transform);
+            human.SetCombatState(Enemy.CombatState.FORCE_ARRIVE);
         }
     }
 }

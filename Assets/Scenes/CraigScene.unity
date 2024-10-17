@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &39758044
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 4
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &39758046
 SpriteRenderer:
@@ -358,7 +358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &124999175
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 3
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &124999177
 SpriteRenderer:
@@ -493,7 +493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &142384655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 3
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &142384656
 SpriteRenderer:
@@ -628,7 +628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &190944028
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -957,7 +957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &279285457
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1005,7 +1005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 3
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &279285459
 SpriteRenderer:
@@ -1149,7 +1149,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1360,7 +1360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &566372430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1373,7 +1373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 2
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &566372431
 SpriteRenderer:
@@ -1689,7 +1689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &705247268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1702,7 +1702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 3
+  terrainType: 0
   isSpecificItem: 0
 --- !u!212 &705247269
 SpriteRenderer:
@@ -1834,7 +1834,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &741480015
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1892,7 +1892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 3
+  terrainType: 0
   isSpecificItem: 0
 --- !u!212 &741480017
 SpriteRenderer:
@@ -1979,7 +1979,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &757730205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1992,7 +1992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 1
+  terrainType: 0
   isSpecificItem: 0
 --- !u!212 &757730206
 SpriteRenderer:
@@ -2124,7 +2124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &952917773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2259,7 +2259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1301339639
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2317,7 +2317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 3
+  terrainType: 0
   isSpecificItem: 0
 --- !u!212 &1301339641
 SpriteRenderer:
@@ -2404,7 +2404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1396831087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2539,7 +2539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1409821530
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2597,8 +2597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 3
-  isSpecificItem: 0
+  terrainType: 0
+  isSpecificItem: 1
 --- !u!212 &1409821532
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2684,7 +2684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1648878391
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2742,7 +2742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 3
+  terrainType: 0
   isSpecificItem: 0
 --- !u!212 &1648878393
 SpriteRenderer:
@@ -2829,7 +2829,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1682571769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2964,7 +2964,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1690702379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2977,7 +2977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 4
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &1690702380
 SpriteRenderer:
@@ -3172,7 +3172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1885792664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3185,8 +3185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 0
-  isSpecificItem: 0
+  terrainType: 1
+  isSpecificItem: 1
 --- !u!212 &1885792665
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3317,7 +3317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1898717805
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3375,8 +3375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35fb5a429a698488ec648cac0b0e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 3
-  isSpecificItem: 0
+  terrainType: 0
+  isSpecificItem: 1
 --- !u!212 &1898717807
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3806,7 +3806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &1938862405
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3941,7 +3941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &1939785425
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3989,7 +3989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 6
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &1939785427
 SpriteRenderer:
@@ -4076,7 +4076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &1942786466
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4211,7 +4211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &1949449609
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4346,7 +4346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1960678996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4359,7 +4359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 5
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &1960678997
 SpriteRenderer:
@@ -4481,7 +4481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1967203214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4616,7 +4616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1992328758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4751,7 +4751,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2084400173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4764,7 +4764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246c88ef08b8a4dbf33b26c42b548b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipComponentType: 1
+  shipComponentType: 0
   isSpecificItem: 1
 --- !u!212 &2084400174
 SpriteRenderer:
@@ -4886,7 +4886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2111527938
 MonoBehaviour:
   m_ObjectHideFlags: 0

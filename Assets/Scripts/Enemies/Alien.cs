@@ -39,7 +39,11 @@ public class Alien : Enemy
         combatState = CombatState.ARRIVE;
     }
 
-    public void StopAttack() => combatState = CombatState.WANDER;
+    public void StopAttack()
+    {
+        combatState = CombatState.WANDER;
+        target = alienBase.transform;
+    }
 
     public void SetBase(AlienBase ab) => alienBase = ab;
 
@@ -65,7 +69,6 @@ public class Alien : Enemy
             );
         }
 
-        // base.Arrive(), but slightly modified
         if (
             moveState != MoveState.ROT_OBSTACLE_L
             && moveState != MoveState.ROT_OBSTACLE_R
@@ -117,6 +120,4 @@ public class Alien : Enemy
     {
         alienBase.KillAlien(this);
     }
-
-    // TODO:: override ARRIVE and replace it with WANDER
 }
