@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1974475538155347464}
   m_Layer: 0
   m_Name: HE
-  m_TagString: Untagged
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 1194172834729436098}
   m_Layer: 0
   m_Name: HumanEnemy2
-  m_TagString: Untagged
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
