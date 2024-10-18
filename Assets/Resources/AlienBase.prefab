@@ -103,7 +103,7 @@ MonoBehaviour:
   spawnRadius: 5
   initialSpawns: 3
   maxAliens: 10
-  spawnTimerReset: 150
+  spawnTimerReset: 1500
   tempAggroTimerInSeconds: 30
   targets: []
 --- !u!58 &3962331076865634146

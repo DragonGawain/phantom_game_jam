@@ -30,9 +30,12 @@ public class AlienBase : MonoBehaviour
 
     Coroutine tempAggro;
 
+    AlienBaseAudio alienBaseAudio;
+
     // Start is called before the first frame update
     void Start()
     {
+        alienBaseAudio = GetComponent<AlienBaseAudio>();
         alienObject = Resources.Load<GameObject>("AlienEnemy");
 
         for (int i = 0; i < initialSpawns; i++)
@@ -92,6 +95,7 @@ public class AlienBase : MonoBehaviour
             hp -= other.GetComponent<Bullet>().GetBulletDamage();
             if (hp <= 0)
             {
+                alienBaseAudio.DeathSound();
                 foreach (Alien al in aliens)
                     Destroy(al.gameObject);
                 Destroy(gameObject);

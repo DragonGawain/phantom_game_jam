@@ -16,13 +16,13 @@ public class AlienAudio : MonoBehaviour
         attackingSource = temp[0];
         tookDamageSource = temp[1];
 
-        // attackingSounds = Resources.Load<AudioClip>("");
+        attackingSounds = Resources.LoadAll<AudioClip>("Audio/alien_attack");
         tookDamageSounds = Resources.LoadAll<AudioClip>("Audio/damage_taken/Alien");
     }
 
     public void AttackingSound()
     {
-        Debug.Log("alien attack sound");
+        attackingSource.PlayOneShot(attackingSounds[Random.Range(0, attackingSounds.Length)]);
     }
 
     public void TookDamageSound()
