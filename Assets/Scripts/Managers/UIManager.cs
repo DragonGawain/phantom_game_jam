@@ -27,11 +27,9 @@ public class UIManager : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene("CraigScene");
-<<<<<<< HEAD
-        ActivateMenu();
-=======
+
         ActivateMenu("HUD");
->>>>>>> b97c2cd8d916070022b7f99c8e039af28c058e0c
+
     }
 
     public void QuitGame()
@@ -50,8 +48,6 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         ActivateMenu();
     }
-<<<<<<< HEAD
-=======
 
     public Slider slider;
     public Gradient gradient;
@@ -68,7 +64,6 @@ public class UIManager : MonoBehaviour
         slider.value = hp;
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
->>>>>>> b97c2cd8d916070022b7f99c8e039af28c058e0c
     
     public static void ActivateMenu(string canvasName = "")
     {
