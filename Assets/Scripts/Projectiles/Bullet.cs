@@ -35,6 +35,13 @@ public class Bullet : MonoBehaviour
 
     public Transform GetShooter() => shooter;
 
+    public void SetSpecs(int dmg, float spd, int lifeSpan = 500)
+    {
+        this.dmg = dmg;
+        bulletSpeed = spd;
+        bulletLifeTimer = lifeSpan;
+    }
+
     public void Launch(Vector2 vel)
     {
         rb.velocity = vel * bulletSpeed;

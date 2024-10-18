@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4721170817851145034}
   - component: {fileID: 1156101038187355599}
   - component: {fileID: 4558217952433096922}
-  - component: {fileID: 939684998969260684}
+  - component: {fileID: 3736454291853306345}
   m_Layer: 0
-  m_Name: Gun
+  m_Name: AdvGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9944127, y: -8.944337, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3ce60444bead0a24091be4de1b4b013f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0d5a84cd8c7984f41bb5533f3a69d506, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,9 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45ac93014250554595e462ad8d390cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerComponentType: 0
---- !u!58 &939684998969260684
-CircleCollider2D:
+  playerComponentType: 1
+--- !u!70 &3736454291853306345
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -132,5 +132,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 10
+  m_Size: {x: 20, y: 6.11}
+  m_Direction: 1

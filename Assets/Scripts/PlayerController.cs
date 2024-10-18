@@ -18,8 +18,8 @@ public class PlayerController : Movement
     public List<ShipComponents> shipInventory = new();
 
     // HACK:: SF to expose in inspector
-    [SerializeField]
-    int inventorySize = 10;
+    // I would make this into a dictionary to suit the new inventory style, but this is faster and it works
+    int inventorySize = 999;
 
     [SerializeField]
     int shipInventorySize = 10;
@@ -27,6 +27,10 @@ public class PlayerController : Movement
     Vector3 mousePos;
 
     GameObject bulletObject;
+    GameObject advBulletObject;
+
+    int shootCooldown = 0;
+    int advShootCooldown = 0;
 
     // HACK:: public for inspector exposure
     public int hp;
@@ -49,10 +53,10 @@ public class PlayerController : Movement
         inputs = new Inputs();
         inputs.Player.Enable();
         inputs.Player.Fire.performed += ShootGun;
-        inputs.Player.Fire.performed += playerAudio.ShootSound;
 
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
+        advBulletObject = Resources.Load<GameObject>("AdvBullet");
         hp = maxHp;
         // healthBar.SetMaxHealth(maxHp);
         ship.SetPlayer(this);
@@ -82,6 +86,11 @@ public class PlayerController : Movement
 
         if (damageCooldown > 0)
             damageCooldown--;
+
+        if (shootCooldown > 0)
+            shootCooldown--;
+        if (advShootCooldown > 0)
+            advShootCooldown--;
 
         // missingComponentsIndicator();
     }
@@ -134,19 +143,40 @@ public class PlayerController : Movement
     // usable items
     void ShootGun(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        if (inventory.Contains(PlayerComponents.GUN))
+        if (inventory.Contains(PlayerComponents.GUN) && shootCooldown <= 0)
         {
+            playerAudio.ShootSoundBasic();
+            shootCooldown = 75;
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos = new Vector3(mousePos.x, mousePos.y, 0);
             Vector3 dir = (mousePos - transform.position).normalized;
-            GameObject bullet = Instantiate(
+            GameObject bulletO = Instantiate(
                 bulletObject,
                 transform.position,
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
-            bullet.GetComponent<Bullet>().Launch(dir);
-            bullet.GetComponent<Bullet>().SetShooterId(-2);
-            bullet.GetComponent<Bullet>().SetShooter(transform);
+            Bullet bullet = bulletO.GetComponent<Bullet>();
+            bullet.Launch(dir);
+            bullet.SetShooterId(-2);
+            bullet.SetShooter(transform);
+        }
+        if (inventory.Contains(PlayerComponents.ADV_GUN) && advShootCooldown <= 0)
+        {
+            playerAudio.ShootSoundAdvanced();
+            advShootCooldown = 95;
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos = new Vector3(mousePos.x, mousePos.y, 0);
+            Vector3 dir = (mousePos - transform.position).normalized;
+            GameObject bulletOA = Instantiate(
+                advBulletObject,
+                transform.position,
+                Quaternion.FromToRotation(Vector3.up, dir)
+            );
+            Bullet bulletA = bulletOA.GetComponent<Bullet>();
+            bulletA.SetSpecs(5, 4f, 175);
+            bulletA.Launch(dir);
+            bulletA.SetShooterId(-2);
+            bulletA.SetShooter(transform);
         }
     }
 

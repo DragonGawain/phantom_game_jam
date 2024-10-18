@@ -37,6 +37,7 @@ public class Human : Enemy
     static int idTracker = 10;
 
     HumanAudio humanAudio;
+    Sprite evilBulletSprite;
 
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
@@ -46,6 +47,7 @@ public class Human : Enemy
         fleePoint = ship.transform.position;
 
         bulletObject = Resources.Load<GameObject>("Bullet");
+        evilBulletSprite = Resources.Load<Sprite>("EnemyLaser");
         id = idTracker;
         idTracker++;
 
@@ -226,6 +228,7 @@ public class Human : Enemy
             bullet.SetShooterId(id);
             bullet.SetShooter(transform);
             bulletO.tag = "EvilBullet";
+            bulletO.GetComponent<SpriteRenderer>().sprite = evilBulletSprite;
             humanAudio.ShootSound();
         }
     }

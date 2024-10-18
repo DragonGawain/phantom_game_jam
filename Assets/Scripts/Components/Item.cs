@@ -61,4 +61,7 @@ public enum ShipComponents
 public enum PlayerComponents
 {
     GUN,
+    ADV_GUN,
+    BOOTS,
+    FLASHLIGHT
 }
