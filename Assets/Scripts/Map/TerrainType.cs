@@ -63,13 +63,19 @@ public class TerrainType : MonoBehaviour
                 movement.SetMaxMoveSpeed(movement.GetOriginalSpeed());
                 break;
             case TerrainTypes.SWAMP:
-                movement.SetMaxMoveSpeed(movement.GetOriginalSpeed() - 2);
+                movement.SetMaxMoveSpeed(
+                    movement.GetOriginalSpeed() + movement.GetSwampSpeedModifier()
+                );
                 break;
             case TerrainTypes.ASPHALT:
-                movement.SetMaxMoveSpeed(movement.GetOriginalSpeed() + 1.5f);
+                movement.SetMaxMoveSpeed(
+                    movement.GetOriginalSpeed() + movement.GetAsphaltSpeedModifier()
+                );
                 break;
             case TerrainTypes.FOREST:
-                movement.SetMaxMoveSpeed(movement.GetOriginalSpeed() - 0.8f);
+                movement.SetMaxMoveSpeed(
+                    movement.GetOriginalSpeed() + movement.GetForestSpeedModifier()
+                );
                 // if (go.TryGetComponent<PlayerController>(out PlayerController pc)) // returns a bool value
                 // {
                 //     go.transform.Find("Flashlight").gameObject.SetActive(true); // activate light

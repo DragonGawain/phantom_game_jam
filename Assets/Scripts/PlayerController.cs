@@ -114,6 +114,8 @@ public class PlayerController : Movement
                 transform.Find("Flashlight").gameObject.SetActive(false);
                 transform.Find("AdvancedFlashlight").gameObject.SetActive(true);
             }
+            else if (newItem == PlayerComponents.BOOTS)
+                swampSpeedModifier = -0.25f;
             return true;
         }
         return false;

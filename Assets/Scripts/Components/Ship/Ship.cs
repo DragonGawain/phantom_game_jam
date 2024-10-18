@@ -52,10 +52,22 @@ public class Ship : MonoBehaviour
     Human human = null;
     PlayerController player = null;
 
+    static Sprite humanShip1;
+    static Sprite humanShip2;
+
     public int hp = 25;
     int maxHp = 25;
 
     GameObject shipComponentObject;
+
+    private void Awake()
+    {
+        if (humanShip1 == null)
+        {
+            humanShip1 = Resources.Load<Sprite>("Vehicles/Enemy1Ship");
+            humanShip2 = Resources.Load<Sprite>("Vehicles/Enemy2Ship");
+        }
+    }
 
     private void Start()
     {
@@ -72,7 +84,11 @@ public class Ship : MonoBehaviour
         int availableSPace
     ) => GetTransformOfNearestNeededShipPiece(source, carrying, availableSPace).position;
 
-    public void SetHuman(Human human) => this.human = human;
+    public void SetHuman(Human human)
+    {
+        GetComponent<SpriteRenderer>().sprite = Random.Range(-1f, 1f) < 0 ? humanShip1 : humanShip2;
+        this.human = human;
+    }
 
     public void SetPlayer(PlayerController player) => this.player = player;
 
