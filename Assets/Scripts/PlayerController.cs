@@ -57,10 +57,21 @@ public class PlayerController : Movement
     {
         movementInput = inputs.Player.Move.ReadValue<Vector2>().normalized;
         rb.velocity = Vector2.ClampMagnitude(rb.velocity + movementInput, maxMoveSpeed);
-        if (rb.velocity.magnitude > 0)
+        if (rb.velocity.magnitude > 0.05f)
+        {
             rb.velocity -= rb.velocity.normalized * slowdownDrag;
-        // if (rb.velocity.magnitude < 0)
-        //     rb.velocity = Vector2.zero;
+            // if (rb.velocity.magnitude < 0)
+            //     rb.velocity = Vector2.zero;
+
+            transform.localEulerAngles = new Vector3(
+                0,
+                0,
+                Vector2.SignedAngle(new Vector2(0, 1).normalized, rb.velocity.normalized)
+            );
+        }
+        // if (movementInput.magnitude == 0)
+        if (rb.velocity.magnitude < 0.15f)
+            rb.velocity = Vector2.zero;
 
         if (damageCooldown > 0)
             damageCooldown--;

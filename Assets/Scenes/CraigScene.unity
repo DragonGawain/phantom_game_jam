@@ -2905,7 +2905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2892900692927608235, guid: 71d7485d9737d5e40a9e530371af144b, type: 3}
       propertyPath: maxMoveSpeed
-      value: 5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 2892900692927608235, guid: 71d7485d9737d5e40a9e530371af144b, type: 3}
       propertyPath: inventory.Array.size

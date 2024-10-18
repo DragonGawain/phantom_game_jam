@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d472653a5e3b745946d4e8438e0536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveSpeed: 3
+  maxMoveSpeed: 3.5
   slowdownDrag: 0.2
   inventory: 
   shipInventory: 
@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564fe7c0e342804b896121907c0c666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWalking: 0
 --- !u!82 &7584986936851327219
 AudioSource:
   m_ObjectHideFlags: 0
@@ -435,7 +436,7 @@ Transform:
   m_GameObject: {fileID: 7118200474847236671}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

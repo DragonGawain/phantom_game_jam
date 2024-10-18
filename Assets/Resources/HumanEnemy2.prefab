@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e381f5d3d2ff64fa14c73655d40421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveSpeed: 2
+  maxMoveSpeed: 3.25
   slowdownDrag: 0.2
   visionDistance: 3
   visionAngle: 30
