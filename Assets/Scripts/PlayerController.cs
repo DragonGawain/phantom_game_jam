@@ -105,6 +105,11 @@ public class PlayerController : Movement
         if (size + Item.playerComponentSizes[newItem] <= inventorySize)
         {
             inventory.Add(newItem);
+            if (newItem == PlayerComponents.FLASHLIGHT)
+            {
+                transform.Find("Flashlight").gameObject.SetActive(false);
+                transform.Find("AdvancedFlashlight").gameObject.SetActive(true);
+            }
             return true;
         }
         return false;
@@ -219,6 +224,19 @@ public class PlayerController : Movement
             numberOfMissingComponents.enabled = true;
         }
     }
+
+    // public void ActivateAdvancedFlashlight()
+    // {
+    //     if (inventory.Contains(PlayerComponents.FLASHLIGHT))
+    //     {
+    //         transform.Find("AdvancedFlashlight").gameObject.SetActive(true);
+    //     }
+    // }
+
+    // public void DeactivateAdvancedFlashlight()
+    // {
+    //     transform.Find("AdvancedFlashlight").gameObject.SetActive(false);
+    // }
 
     private void OnCollisionStay2D(Collision2D other)
     {

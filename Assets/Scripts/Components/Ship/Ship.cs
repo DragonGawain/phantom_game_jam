@@ -252,7 +252,8 @@ public class Ship : MonoBehaviour
         if (hp <= 0)
         {
             // for simplicity's sake, when a ship dies, it's human will die with it
-            Destroy(human.gameObject);
+            if (human.gameObject != null)
+                Destroy(human.gameObject);
             GameObject component;
             foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
             {

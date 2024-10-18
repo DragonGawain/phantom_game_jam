@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     GameObject ship;
     GameObject human;
     GameObject shipComponentObject;
+    GameObject advGunObject;
+    GameObject bootsObject;
+    GameObject flashlightObject;
 
     private void Awake()
     {
@@ -37,6 +40,9 @@ public class GameManager : MonoBehaviour
         ship = Resources.Load<GameObject>("HumanShip");
         human = Resources.Load<GameObject>("HumanEnemy2");
         shipComponentObject = Resources.Load<GameObject>("Items/ShipComponent");
+        advGunObject = Resources.Load<GameObject>("Items/AdvGun");
+        bootsObject = Resources.Load<GameObject>("Items/Boots");
+        flashlightObject = Resources.Load<GameObject>("Items/Flashlight");
     }
 
     private void Start()
@@ -123,6 +129,33 @@ public class GameManager : MonoBehaviour
                         ),
                         Quaternion.identity
                     );
+                }
+
+                switch (terrainType)
+                {
+                    case TerrainTypes.SWAMP:
+                        Instantiate(
+                            bootsObject,
+                            new(terrain.transform.position.x, terrain.transform.position.y, 0),
+                            Quaternion.identity
+                        );
+                        break;
+                    case TerrainTypes.ASPHALT:
+                        Instantiate(
+                            advGunObject,
+                            new(terrain.transform.position.x, terrain.transform.position.y, 0),
+                            Quaternion.identity
+                        );
+                        break;
+                    case TerrainTypes.FOREST:
+                        Instantiate(
+                            flashlightObject,
+                            new(terrain.transform.position.x, terrain.transform.position.y, 0),
+                            Quaternion.identity
+                        );
+                        break;
+                    default:
+                        break;
                 }
             }
         }

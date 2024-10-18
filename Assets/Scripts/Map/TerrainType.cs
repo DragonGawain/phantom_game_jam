@@ -13,6 +13,8 @@ public class TerrainType : MonoBehaviour
     [SerializeField]
     bool isSpecificItem = false;
 
+    Light2D terrainLight;
+
     // int maxMoveSpeedModifier;
 
     private void Awake()
@@ -28,6 +30,10 @@ public class TerrainType : MonoBehaviour
             TerrainTypes.SWAMP => new Color(0, 1, 0.95f, 0.39f),
             _ => new Color(1, 1, 1),
         };
+
+        terrainLight = GetComponentInChildren<Light2D>();
+        if (terrainType == TerrainTypes.FOREST)
+            terrainLight.intensity = 0.075f;
     }
 
     public TerrainTypes GetTerrainType()
@@ -61,30 +67,31 @@ public class TerrainType : MonoBehaviour
                 break;
             case TerrainTypes.FOREST:
                 movement.SetMaxMoveSpeed(movement.GetOriginalSpeed() - 0.8f);
-                if (go.TryGetComponent<PlayerController>(out PlayerController pc)) // returns a bool value
-                {
-                    go.transform.Find("Flashlight").gameObject.SetActive(true); // activate light
-                    GameObject
-                        .FindGameObjectWithTag("GlobalLight")
-                        .GetComponent<Light2D>()
-                        .intensity = 0.1f;
-                }
+                // if (go.TryGetComponent<PlayerController>(out PlayerController pc)) // returns a bool value
+                // {
+                //     go.transform.Find("Flashlight").gameObject.SetActive(true); // activate light
+                //     GameObject
+                //         .FindGameObjectWithTag("GlobalLight")
+                //         .GetComponent<Light2D>()
+                //         .intensity = 0.1f;
+                // }
                 break;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        GameObject go = other.gameObject; // what game object collided?
-        Movement movement = go.GetComponent<Movement>();
-        if (terrainType == TerrainTypes.FOREST)
-        {
-            if (go.TryGetComponent<PlayerController>(out PlayerController pc))
-            {
-                go.transform.Find("Flashlight").gameObject.SetActive(false);
-                GameObject.FindGameObjectWithTag("GlobalLight").GetComponent<Light2D>().intensity =
-                    1;
-            }
-        }
-    }
+    // private void OnTriggerExit2D(Collider2D other)
+    // {
+    //     GameObject go = other.gameObject; // what game object collided?
+    //     Movement movement = go.GetComponent<Movement>();
+    //     if (terrainType == TerrainTypes.FOREST)
+    //     {
+    //         if (go.TryGetComponent<PlayerController>(out PlayerController pc))
+    //         {
+    //             go.transform.Find("Flashlight").gameObject.SetActive(false);
+    //             GameObject.FindGameObjectWithTag("GlobalLight").GetComponent<Light2D>().intensity =
+    //                 1;
+    //             pc.DeactivateAdvancedFlashlight();
+    //         }
+    //     }
+    // }
 }
