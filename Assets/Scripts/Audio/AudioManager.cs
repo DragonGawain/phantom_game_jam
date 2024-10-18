@@ -21,5 +21,8 @@ public class AudioManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         mainMenu = Resources.Load<AudioClip>("Audio/OST/main_menu");
+
+        audioSource.PlayOneShot(mainMenu);
+        audioSource.loop = true;
     }
 }

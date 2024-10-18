@@ -27,7 +27,7 @@ public class PlayerAudio : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb.velocity.magnitude > 0.2f && !isWalking)
+        if (!isWalking && rb.velocity.magnitude > 0.2f)
         {
             isWalking = true;
             StartCoroutine(PlayWalkingSound());

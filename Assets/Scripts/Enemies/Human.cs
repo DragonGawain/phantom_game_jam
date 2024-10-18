@@ -36,6 +36,8 @@ public class Human : Enemy
 
     static int idTracker = 10;
 
+    HumanAudio humanAudio;
+
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
     {
@@ -46,6 +48,8 @@ public class Human : Enemy
         bulletObject = Resources.Load<GameObject>("Bullet");
         id = idTracker;
         idTracker++;
+
+        humanAudio = GetComponent<HumanAudio>();
     }
 
     private void Update()
@@ -222,6 +226,7 @@ public class Human : Enemy
             bullet.SetShooterId(id);
             bullet.SetShooter(transform);
             bulletO.tag = "EvilBullet";
+            humanAudio.ShootSound();
         }
     }
 
