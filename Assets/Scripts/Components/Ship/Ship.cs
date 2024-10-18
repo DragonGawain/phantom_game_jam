@@ -24,14 +24,14 @@ public class Ship : MonoBehaviour
     static Dictionary<ShipComponents, int> componentHpValue =
         new()
         {
-            { ShipComponents.NOSE_GEAR, 10 },
+            { ShipComponents.NOSE_GEAR, 7 },
             { ShipComponents.LANDING_GEAR, 5 },
             { ShipComponents.OXYGEN_TANK, 3 },
             { ShipComponents.FUEL_TANK, 3 },
             { ShipComponents.SOLID_BOOSTERS, 4 },
-            { ShipComponents.ENGINES, 15 },
+            { ShipComponents.ENGINES, 2 },
             { ShipComponents.RCS, 1 },
-            { ShipComponents.WINGS, 10 }
+            { ShipComponents.WINGS, 8 }
         };
 
     Dictionary<ShipComponents, int> inventory =
@@ -52,11 +52,26 @@ public class Ship : MonoBehaviour
     Human human = null;
     PlayerController player = null;
 
-    int hp = 25;
+    static Sprite humanShip1;
+    static Sprite humanShip2;
+
+    public int hp = 25;
     int maxHp = 25;
+
+    GameObject shipComponentObject;
+
+    private void Awake()
+    {
+        if (humanShip1 == null)
+        {
+            humanShip1 = Resources.Load<Sprite>("Vehicles/Enemy1Ship");
+            humanShip2 = Resources.Load<Sprite>("Vehicles/Enemy2Ship");
+        }
+    }
 
     private void Start()
     {
+        shipComponentObject = Resources.Load<GameObject>("Items/ShipComponent");
         foreach (ShipComponents sp in initialComps)
             AddPieceToShip(sp);
     }
@@ -69,7 +84,11 @@ public class Ship : MonoBehaviour
         int availableSPace
     ) => GetTransformOfNearestNeededShipPiece(source, carrying, availableSPace).position;
 
-    public void SetHuman(Human human) => this.human = human;
+    public void SetHuman(Human human)
+    {
+        GetComponent<SpriteRenderer>().sprite = Random.Range(-1f, 1f) < 0 ? humanShip1 : humanShip2;
+        this.human = human;
+    }
 
     public void SetPlayer(PlayerController player) => this.player = player;
 
@@ -143,7 +162,10 @@ public class Ship : MonoBehaviour
         get { return requiredInventory; }
     }
 
-    public Dictionary<ShipComponents, int> Inventory { get => inventory; set => inventory = value; }
+    public Dictionary<ShipComponents, int> Inventory
+    {
+        get => inventory;
+    }
 
     public void AddPieceToShip(ShipComponents piece, int qt = 1)
     {
@@ -156,12 +178,18 @@ public class Ship : MonoBehaviour
 
         if (CheckShipCompletionStatus())
         {
+            // If a human completes their ship, they'll just, hang around for a while? :shrug:
             if (player == null)
                 Debug.Log(
                     "<color=orange>Enemy " + human.name + " has completed their ship!</color>"
                 );
             else
+            {
+                player.InitializeEndingSequence();
+                transform.parent = player.transform;
+                transform.localPosition = Vector3.zero;
                 Debug.Log("<color=orange>The player has completed their ship!</color>");
+            }
         }
     }
 
@@ -230,6 +258,7 @@ public class Ship : MonoBehaviour
             )
                 return;
             TakeDamage(other.GetComponent<Bullet>().GetBulletDamage());
+            Destroy(other.gameObject);
         }
         else if (other.CompareTag("Alien"))
         {
@@ -241,13 +270,45 @@ public class Ship : MonoBehaviour
     void TakeDamage(int amt)
     {
         hp -= amt;
+        if (hp <= 0)
+        {
+            if (player != null)
+            {
+                Debug.Log(
+                    "<color=red>THE PLAYER'S SHIP HAS BEEN DESTROYED - LOSS CONDITION</color>"
+                );
+            }
+            // for simplicity's sake, when a ship dies, it's human will die with it
+            if (human.gameObject != null)
+                Destroy(human.gameObject);
+            GameObject component;
+            foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
+            {
+                for (int i = 0; i < inventory[sc]; i++)
+                {
+                    if (Random.Range(0f, 1f) < 0.15f) // 15% chance for every component (number chosen semi-arbitrarily)
+                    {
+                        component = Instantiate(
+                            shipComponentObject,
+                            new(
+                                Random.Range(transform.position.x - 5f, transform.position.x + 5f),
+                                Random.Range(transform.position.y - 5f, transform.position.y + 5f),
+                                0
+                            ),
+                            Quaternion.identity
+                        );
+                        component.GetComponent<ShipPiece>().SetSpecificType(sc);
+                    }
+                }
+            }
+            Destroy(gameObject);
+        }
+        // marked as an else if to imply that the ship hp must also be above 0 in order for this to happen
         // Send the human to the ship
-        if (human != null)
+        else if (human != null)
         {
             human.SetTarget(transform);
             human.SetCombatState(Enemy.CombatState.FORCE_ARRIVE);
         }
     }
-
-    
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,6 +15,9 @@ public class ShipPiece : Item
     [SerializeField]
     bool isSpecificItem = false;
 
+    [SerializeField]
+    TextMeshProUGUI text;
+
     protected override void OnAwake()
     {
         if (!isSpecificItem)
@@ -21,12 +25,15 @@ public class ShipPiece : Item
                 Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
 
         gameObject.tag = shipComponentType.GetEnumDescription();
+        text.text = shipComponentType.GetEnumDescription().Replace("_", " ");
+        // set the sprite of the component (or UI popup if there are no specific sprites)
     }
 
     public void SetSpecificType(ShipComponents type)
     {
         shipComponentType = type;
         isSpecificItem = true;
+        OnAwake();
     }
 
     public ShipComponents GetShipComponentType() => shipComponentType;

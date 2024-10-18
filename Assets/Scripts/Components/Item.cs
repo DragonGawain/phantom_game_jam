@@ -19,7 +19,13 @@ public abstract class Item : MonoBehaviour
         };
 
     public static readonly Dictionary<PlayerComponents, int> playerComponentSizes =
-        new() { { PlayerComponents.GUN, 2 }, };
+        new()
+        {
+            { PlayerComponents.GUN, 0 },
+            { PlayerComponents.ADV_GUN, 0 },
+            { PlayerComponents.BOOTS, 0 },
+            { PlayerComponents.FLASHLIGHT, 0 },
+        };
 
     protected virtual void Awake()
     {
@@ -61,4 +67,7 @@ public enum ShipComponents
 public enum PlayerComponents
 {
     GUN,
+    ADV_GUN,
+    BOOTS,
+    FLASHLIGHT
 }

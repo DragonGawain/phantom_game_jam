@@ -18,8 +18,8 @@ public class PlayerController : Movement
     public List<ShipComponents> shipInventory = new();
 
     // HACK:: SF to expose in inspector
-    [SerializeField]
-    int inventorySize = 10;
+    // I would make this into a dictionary to suit the new inventory style, but this is faster and it works
+    int inventorySize = 999;
 
     [SerializeField]
     int shipInventorySize = 10;
@@ -27,6 +27,13 @@ public class PlayerController : Movement
     Vector3 mousePos;
 
     GameObject bulletObject;
+    GameObject advBulletObject;
+
+    int shootCooldown = 0;
+    int advShootCooldown = 0;
+
+    int shootCooldownReset = 75;
+    int advShootCooldownReset = 95;
 
     // HACK:: public for inspector exposure
     public int hp;
@@ -41,6 +48,7 @@ public class PlayerController : Movement
 
     public TextMeshProUGUI numberOfMissingComponents;
     PlayerAudio playerAudio;
+    public static bool isEndingSequence = false;
 
     // Start is called before the first frame update
     protected override void OnAwake()
@@ -49,15 +57,15 @@ public class PlayerController : Movement
         inputs = new Inputs();
         inputs.Player.Enable();
         inputs.Player.Fire.performed += ShootGun;
-        inputs.Player.Fire.performed += playerAudio.ShootSound;
 
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
+        advBulletObject = Resources.Load<GameObject>("AdvBullet");
         hp = maxHp;
         // healthBar.SetMaxHealth(maxHp);
         ship.SetPlayer(this);
 
-        numberOfMissingComponents.enabled = false;
+        // numberOfMissingComponents.enabled = false;
     }
 
     private void FixedUpdate()
@@ -83,7 +91,12 @@ public class PlayerController : Movement
         if (damageCooldown > 0)
             damageCooldown--;
 
-        missingComponentsIndicator();
+        if (shootCooldown > 0)
+            shootCooldown--;
+        if (advShootCooldown > 0)
+            advShootCooldown--;
+
+        // missingComponentsIndicator();
     }
 
     // inventory management
@@ -96,6 +109,13 @@ public class PlayerController : Movement
         if (size + Item.playerComponentSizes[newItem] <= inventorySize)
         {
             inventory.Add(newItem);
+            if (newItem == PlayerComponents.FLASHLIGHT)
+            {
+                transform.Find("Flashlight").gameObject.SetActive(false);
+                transform.Find("AdvancedFlashlight").gameObject.SetActive(true);
+            }
+            else if (newItem == PlayerComponents.BOOTS)
+                swampSpeedModifier = -0.25f;
             return true;
         }
         return false;
@@ -134,19 +154,40 @@ public class PlayerController : Movement
     // usable items
     void ShootGun(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        if (inventory.Contains(PlayerComponents.GUN))
+        if (inventory.Contains(PlayerComponents.GUN) && shootCooldown <= 0)
         {
+            playerAudio.ShootSoundBasic();
+            shootCooldown = shootCooldownReset;
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos = new Vector3(mousePos.x, mousePos.y, 0);
             Vector3 dir = (mousePos - transform.position).normalized;
-            GameObject bullet = Instantiate(
+            GameObject bulletO = Instantiate(
                 bulletObject,
                 transform.position,
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
-            bullet.GetComponent<Bullet>().Launch(dir);
-            bullet.GetComponent<Bullet>().SetShooterId(-2);
-            bullet.GetComponent<Bullet>().SetShooter(transform);
+            Bullet bullet = bulletO.GetComponent<Bullet>();
+            bullet.Launch(dir);
+            bullet.SetShooterId(-2);
+            bullet.SetShooter(transform);
+        }
+        if (inventory.Contains(PlayerComponents.ADV_GUN) && advShootCooldown <= 0)
+        {
+            playerAudio.ShootSoundAdvanced();
+            advShootCooldown = advShootCooldownReset;
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos = new Vector3(mousePos.x, mousePos.y, 0);
+            Vector3 dir = (mousePos - transform.position).normalized;
+            GameObject bulletOA = Instantiate(
+                advBulletObject,
+                transform.position,
+                Quaternion.FromToRotation(Vector3.up, dir)
+            );
+            Bullet bulletA = bulletOA.GetComponent<Bullet>();
+            bulletA.SetSpecs(5, 4f, 175);
+            bulletA.Launch(dir);
+            bulletA.SetShooterId(-2);
+            bulletA.SetShooter(transform);
         }
     }
 
@@ -170,8 +211,43 @@ public class PlayerController : Movement
         // healthBar.SetHealth(hp);
     }
 
+    public void MissingComponentsIndicator()
+    {
+        if (Vector3.Distance(ship.gameObject.transform.position, transform.position) < 10)
+        {
+            string missingComponentsList = "";
+            foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
+            {
+                missingComponentsList +=
+                    sc.ToString()
+                    + ":"
+                    + ship.Inventory[sc].ToString()
+                    + "/"
+                    + ship.RequiredInventory[sc].ToString()
+                    + "\n"; //still adding it to the ship after find all the parts
+            }
+            numberOfMissingComponents.text = missingComponentsList;
+            numberOfMissingComponents.enabled = true;
+        }
+    }
+
+    // public void ActivateAdvancedFlashlight()
+    // {
+    //     if (inventory.Contains(PlayerComponents.FLASHLIGHT))
+    //     {
+    //         transform.Find("AdvancedFlashlight").gameObject.SetActive(true);
+    //     }
+    // }
+
+    // public void DeactivateAdvancedFlashlight()
+    // {
+    //     transform.Find("AdvancedFlashlight").gameObject.SetActive(false);
+    // }
+
     private void OnCollisionStay2D(Collision2D other)
     {
+        if (isEndingSequence)
+            return;
         if (damageCooldown > 0)
             return;
         // layer 7 => enemy, layer 8 => alien
@@ -184,8 +260,34 @@ public class PlayerController : Movement
         }
     }
 
+    public void InitializeEndingSequence()
+    {
+        Debug.Log("HIT");
+        GameObject[] alienBases = GameObject.FindGameObjectsWithTag("AlienBase");
+        foreach (GameObject ab in alienBases)
+        {
+            ab.GetComponent<AlienBase>().TriggerEndSequence();
+            ab.GetComponent<AlienBase>().IncreaseAggro(transform);
+        }
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Human");
+        foreach (GameObject enemy in enemies)
+        {
+            enemy.GetComponentInChildren<Human>().SetCombatState(Enemy.CombatState.ATTACK);
+            enemy.GetComponentInChildren<Human>().SetTarget(transform);
+        }
+
+        isEndingSequence = true;
+        shootCooldownReset = 15;
+        advShootCooldownReset = 25;
+
+        maxMoveSpeed = GetOriginalSpeed() + ship.Inventory[ShipComponents.ENGINES] * 0.5f;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isEndingSequence)
+            return;
         if (other.gameObject.CompareTag("EvilBullet"))
         {
             TakeDamage(other.gameObject.GetComponent<Bullet>().GetBulletDamage());
@@ -199,16 +301,4 @@ public class PlayerController : Movement
     }
 
     //shows to player the number of shipComponent needed to fix the ship
-    public void missingComponentsIndicator()
-    {
-        if (Vector3.Distance(ship.gameObject.transform.position, transform.position) < 10)
-        {
-            string missingComponentsList = "";
-            foreach(ShipComponents sc in Enum.GetValues(typeof(ShipComponents))){
-                missingComponentsList += sc.ToString() + ":" + ship.Inventory[sc].ToString() + "/" + ship.RequiredInventory[sc].ToString() + "\n"; //still adding it to the ship after find all the parts
-            }
-            numberOfMissingComponents.text = missingComponentsList;
-            numberOfMissingComponents.enabled = true;
-        }
-    }
 }

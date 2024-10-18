@@ -26,6 +26,7 @@ TagManager:
   - forestTerrain
   - wings
   - HUD
+  - AlienBase
   layers:
   - Default
   - TransparentFX
@@ -60,6 +61,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Terrain
+    uniqueID: 1057962473
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: HideForestText
+    uniqueID: 752595293
     locked: 0

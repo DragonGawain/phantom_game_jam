@@ -7,6 +7,10 @@ public class Movement : MonoBehaviour
     // [SerializeField, Range(1f, 5f)]
     public float maxMoveSpeed = 2f; // HACK
 
+    protected float swampSpeedModifier = -2f;
+    protected float forestSpeedModifier = -0.8f;
+    protected float asphaltSpeedModifier = 1.5f;
+
     [SerializeField, Range(0f, 1f)]
     protected float slowdownDrag = 0.2f;
 
@@ -29,4 +33,10 @@ public class Movement : MonoBehaviour
     {
         return originalMaxSpeed;
     }
+
+    public float GetSwampSpeedModifier() => swampSpeedModifier;
+
+    public float GetForestSpeedModifier() => forestSpeedModifier;
+
+    public float GetAsphaltSpeedModifier() => asphaltSpeedModifier;
 }
