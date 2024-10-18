@@ -8,21 +8,26 @@ public class PlayerAudio : MonoBehaviour
 
     AudioSource walkingSource;
     AudioSource shootingSource;
+    AudioSource tookDamageSource;
 
     AudioClip[] walkingSounds;
-    AudioClip shootingSound;
+    AudioClip[] shootingSounds;
+    AudioClip tookDamageSound;
     public bool isWalking = false;
 
     // Start is called before the first frame update
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        walkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_dirt");
-        shootingSound = Resources.Load<AudioClip>("Audio/laser_fire/laser_fire");
-
         AudioSource[] temp = GetComponents<AudioSource>();
         walkingSource = temp[0];
         shootingSource = temp[1];
+        tookDamageSource = temp[2];
+
+        walkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_dirt");
+        shootingSounds = Resources.LoadAll<AudioClip>("Audio/laser_fire/Player");
+        tookDamageSound = Resources.Load<AudioClip>("Audio/damage_taken/player_damage_taken");
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
@@ -36,7 +41,7 @@ public class PlayerAudio : MonoBehaviour
 
     public void ShootSound(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        shootingSource.PlayOneShot(shootingSound, 10);
+        shootingSource.PlayOneShot(shootingSounds[Random.Range(0, shootingSounds.Length)], 10);
     }
 
     IEnumerator PlayWalkingSound()
@@ -47,5 +52,10 @@ public class PlayerAudio : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(0.2f, 0.7f));
         }
         isWalking = false;
+    }
+
+    public void TookDamageSound()
+    {
+        tookDamageSource.PlayOneShot(tookDamageSound);
     }
 }

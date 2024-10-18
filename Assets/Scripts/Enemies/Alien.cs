@@ -17,6 +17,8 @@ public class Alien : Enemy
 
     Vector3 wanderTarget;
 
+    AlienAudio alienAudio;
+
     private void Start()
     {
         wanderDist =
@@ -31,6 +33,8 @@ public class Alien : Enemy
 
         id = -1;
         damage = 2;
+
+        alienAudio = GetComponent<AlienAudio>();
     }
 
     public void SetTarget(Transform target)
@@ -113,6 +117,7 @@ public class Alien : Enemy
     protected override void TakeDamage(int amt, bool isBullet = false)
     {
         base.TakeDamage(amt, isBullet);
+        alienAudio.TookDamageSound();
         // OnOnTrigger(alienBase.transform, isBullet);
     }
 
@@ -124,5 +129,10 @@ public class Alien : Enemy
     protected override void OnOnTrigger(Transform other, bool isBullet)
     {
         alienBase.ExternalTriggerOfTempAggro(other);
+    }
+
+    public void PlayAttackSound()
+    {
+        alienAudio.AttackingSound();
     }
 }

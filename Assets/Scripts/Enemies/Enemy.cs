@@ -419,14 +419,20 @@ public class Enemy : Movement
                 OnOnTrigger(other.GetComponent<Bullet>().GetShooter(), true);
             Destroy(other.gameObject);
         }
-        else if (other.gameObject.CompareTag("Alien"))
-            TakeDamage(other.GetComponent<Alien>().GetDamage());
+        // else if (other.gameObject.CompareTag("Alien"))
+        // {
+        //     TakeDamage(other.GetComponent<Alien>().GetDamage());
+        //     other.GetComponent<Alien>().PlayAttackSound();
+        // }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Alien"))
+        {
             TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+        }
     }
 
     protected virtual void OnOnTrigger(Transform other, bool isBullet) { }

@@ -146,6 +146,7 @@ public class PlayerController : Movement
         if (damageCooldown > 0)
             return;
         hp -= amt;
+        playerAudio.TookDamageSound();
         damageCooldown = 150; // 3 seconds of I-frames (that sounds like a lot...)
         if (hp <= 0)
         {
@@ -162,9 +163,16 @@ public class PlayerController : Movement
 
     private void OnCollisionStay2D(Collision2D other)
     {
+        if (damageCooldown > 0)
+            return;
         // layer 7 => enemy, layer 8 => alien
-        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
+        if (other.gameObject.layer == 7)
             TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+        else if (other.gameObject.layer == 8)
+        {
+            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
