@@ -57,7 +57,7 @@ public class PlayerController : Movement
         // healthBar.SetMaxHealth(maxHp);
         ship.SetPlayer(this);
 
-        numberOfMissingComponents.enabled = false;
+        // numberOfMissingComponents.enabled = false;
     }
 
     private void FixedUpdate()
@@ -83,7 +83,7 @@ public class PlayerController : Movement
         if (damageCooldown > 0)
             damageCooldown--;
 
-        missingComponentsIndicator();
+        // missingComponentsIndicator();
     }
 
     // inventory management
@@ -170,6 +170,26 @@ public class PlayerController : Movement
         // healthBar.SetHealth(hp);
     }
 
+    public void MissingComponentsIndicator()
+    {
+        if (Vector3.Distance(ship.gameObject.transform.position, transform.position) < 10)
+        {
+            string missingComponentsList = "";
+            foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
+            {
+                missingComponentsList +=
+                    sc.ToString()
+                    + ":"
+                    + ship.Inventory[sc].ToString()
+                    + "/"
+                    + ship.RequiredInventory[sc].ToString()
+                    + "\n"; //still adding it to the ship after find all the parts
+            }
+            numberOfMissingComponents.text = missingComponentsList;
+            numberOfMissingComponents.enabled = true;
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D other)
     {
         if (damageCooldown > 0)
@@ -199,16 +219,4 @@ public class PlayerController : Movement
     }
 
     //shows to player the number of shipComponent needed to fix the ship
-    public void missingComponentsIndicator()
-    {
-        if (Vector3.Distance(ship.gameObject.transform.position, transform.position) < 10)
-        {
-            string missingComponentsList = "";
-            foreach(ShipComponents sc in Enum.GetValues(typeof(ShipComponents))){
-                missingComponentsList += sc.ToString() + ":" + ship.Inventory[sc].ToString() + "/" + ship.RequiredInventory[sc].ToString() + "\n"; //still adding it to the ship after find all the parts
-            }
-            numberOfMissingComponents.text = missingComponentsList;
-            numberOfMissingComponents.enabled = true;
-        }
-    }
 }

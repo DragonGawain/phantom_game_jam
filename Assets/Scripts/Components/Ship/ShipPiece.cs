@@ -21,12 +21,14 @@ public class ShipPiece : Item
                 Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
 
         gameObject.tag = shipComponentType.GetEnumDescription();
+        // set the sprite of the component (or UI popup if there are no specific sprites)
     }
 
     public void SetSpecificType(ShipComponents type)
     {
         shipComponentType = type;
         isSpecificItem = true;
+        OnAwake();
     }
 
     public ShipComponents GetShipComponentType() => shipComponentType;
