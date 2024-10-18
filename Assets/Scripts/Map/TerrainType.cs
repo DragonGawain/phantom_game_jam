@@ -24,16 +24,16 @@ public class TerrainType : MonoBehaviour
         gameObject.tag = terrainType.GetEnumDescription();
         GetComponent<SpriteRenderer>().color = terrainType switch
         {
-            TerrainTypes.NORMAL => new Color(1, 1, 1, 0.39f),
-            TerrainTypes.ASPHALT => new Color(0, 0, 0, 0.39f),
-            TerrainTypes.FOREST => new Color(0.17f, 1, 0, 0.39f),
-            TerrainTypes.SWAMP => new Color(0, 1, 0.95f, 0.39f),
+            TerrainTypes.NORMAL => new Color(0.68627f, 0.68627f, 0.68627f),
+            TerrainTypes.ASPHALT => new Color(0.21176f, 0.21176f, 0.21176f),
+            TerrainTypes.FOREST => new Color(0.21569f, 0.28627f, 0.21176f),
+            TerrainTypes.SWAMP => new Color(0.21176f, 0.68627f, 0.65490f),
             _ => new Color(1, 1, 1),
         };
 
         terrainLight = GetComponentInChildren<Light2D>();
         if (terrainType == TerrainTypes.FOREST)
-            terrainLight.intensity = 0.075f;
+            terrainLight.intensity = 0.25f;
     }
 
     public TerrainTypes GetTerrainType()
