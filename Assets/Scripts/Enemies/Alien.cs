@@ -116,8 +116,8 @@ public class Alien : Enemy
 
     protected override void TakeDamage(int amt, bool isBullet = false)
     {
-        base.TakeDamage(amt, isBullet);
         alienAudio.TookDamageSound();
+        base.TakeDamage(amt, isBullet);
         // OnOnTrigger(alienBase.transform, isBullet);
     }
 

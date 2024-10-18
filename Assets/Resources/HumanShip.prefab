@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1844201576394251495}
   - component: {fileID: 391845058691075571}
   - component: {fileID: 2029903249409870790}
-  - component: {fileID: 1792720161413970439}
+  - component: {fileID: 2591572405416385146}
   m_Layer: 0
   m_Name: HumanShip
   m_TagString: Untagged
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialComps: 
   hp: 25
---- !u!58 &1792720161413970439
-CircleCollider2D:
+--- !u!70 &2591572405416385146
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,5 +133,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.94
+  m_Size: {x: 14.7, y: 20}
+  m_Direction: 0

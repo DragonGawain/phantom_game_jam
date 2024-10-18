@@ -39,7 +39,7 @@ public class PlayerController : Movement
     public int hp;
     readonly int maxHp = 15;
 
-    public UIManager healthBar;
+    UIManager uiManager;
 
     int damageCooldown = 0;
 
@@ -64,10 +64,16 @@ public class PlayerController : Movement
         bulletObject = Resources.Load<GameObject>("Bullet");
         advBulletObject = Resources.Load<GameObject>("AdvBullet");
         hp = maxHp;
-        // healthBar.SetMaxHealth(maxHp);
+        uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         ship.SetPlayer(this);
 
         // numberOfMissingComponents.enabled = false;
+    }
+
+    private void Start()
+    {
+        UIManager.ActivateMenu("hud");
+        uiManager.SetMaxHealth(maxHp);
     }
 
     private void FixedUpdate()
@@ -186,7 +192,7 @@ public class PlayerController : Movement
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
             Bullet bulletA = bulletOA.GetComponent<Bullet>();
-            bulletA.SetSpecs(5, 4f, 175);
+            bulletA.SetSpecs(5, 8.5f, 75);
             bulletA.Launch(dir);
             bulletA.SetShooterId(-2);
             bulletA.SetShooter(transform);
@@ -204,13 +210,13 @@ public class PlayerController : Movement
         {
             Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN</color>");
         }
-        // healthBar.SetHealth(hp);
+        uiManager.SetHealth(hp);
     }
 
     public void RestoreHealth(int amt = 1)
     {
         hp = Mathf.Clamp(hp + amt, 0, maxHp);
-        // healthBar.SetHealth(hp);
+        uiManager.SetHealth(hp);
     }
 
     public void MissingComponentsIndicator()
@@ -302,7 +308,11 @@ public class PlayerController : Movement
         advShootCooldownReset = 25;
 
         maxMoveSpeed = GetOriginalSpeed() + ship.Inventory[ShipComponents.ENGINES] * 0.5f;
+
+        uiManager.SetMaxHealth(ship.GetMaxHp());
     }
+
+    public void EndSequenceDamage(int val) => uiManager.SetHealth(val);
 
     private void OnTriggerEnter2D(Collider2D other)
     {

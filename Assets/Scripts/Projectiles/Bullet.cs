@@ -6,11 +6,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Rigidbody2D rb;
-    float bulletSpeed = 2.5f;
+    float bulletSpeed = 6.5f;
 
     int dmg = 2;
 
-    int bulletLifeTimer = 500; // 50 FUs persecond -> this bullet will last for 10 seconds
+    int bulletLifeTimer = 170; // 50 FUs persecond -> this bullet will last for 10 seconds
 
     int shooterId;
     Transform shooter;

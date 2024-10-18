@@ -28,6 +28,7 @@ TagManager:
   - HUD
   - AlienBase
   - ShipComponent
+  - UIManager
   layers:
   - Default
   - TransparentFX

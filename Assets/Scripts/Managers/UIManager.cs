@@ -6,12 +6,23 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    static UIManager instance;
     static GameObject mainMenu;
     static GameObject pauseMenu;
     static GameObject hud;
 
+    Slider hpSlider;
+
+    // public Gradient gradient;
+    // public Image fill;
+
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        if (this != instance)
+            Destroy(gameObject);
+
         mainMenu = GameObject.FindGameObjectWithTag("MainMenu");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
         hud = GameObject.FindGameObjectWithTag("HUD");
@@ -21,13 +32,14 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(pauseMenu);
         DontDestroyOnLoad(hud);
 
+        hpSlider = hud.transform.Find("HealthBar").GetComponent<Slider>();
+
         ActivateMenu("mainMenu");
     }
 
     public void PlayGame()
     {
         SceneManager.LoadScene("CraigScene");
-
 
         ActivateMenu("HUD");
     }
@@ -49,21 +61,18 @@ public class UIManager : MonoBehaviour
         ActivateMenu();
     }
 
-    public Slider slider;
-    public Gradient gradient;
-    public Image fill;
-
     public void SetMaxHealth(int hp)
     {
-        slider.maxValue = hp;
-        slider.value = hp;
-        fill.color = gradient.Evaluate(1f);
+        hpSlider.maxValue = hp;
+        hpSlider.value = hp;
+        // fill.color = gradient.Evaluate(1f);
     }
 
     public void SetHealth(int hp)
     {
-        slider.value = hp;
-        fill.color = gradient.Evaluate(slider.normalizedValue);
+        Debug.Log("hit");
+        hpSlider.value = hp;
+        // fill.color = gradient.Evaluate(hpSlider.normalizedValue);
     }
 
     public static void ActivateMenu(string canvasName = "")
