@@ -50,6 +50,7 @@ public class ShipPiece : Item
         {
             if (pc.AddToShipInventory(shipComponentType))
             {
+                componentAudio.PlayShipCompGet();
                 Destroy(gameObject);
             }
         }
