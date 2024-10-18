@@ -32,6 +32,9 @@ public class PlayerController : Movement
     int shootCooldown = 0;
     int advShootCooldown = 0;
 
+    int shootCooldownReset = 75;
+    int advShootCooldownReset = 95;
+
     // HACK:: public for inspector exposure
     public int hp;
     readonly int maxHp = 15;
@@ -45,6 +48,7 @@ public class PlayerController : Movement
 
     public TextMeshProUGUI numberOfMissingComponents;
     PlayerAudio playerAudio;
+    public static bool isEndingSequence = false;
 
     // Start is called before the first frame update
     protected override void OnAwake()
@@ -151,7 +155,7 @@ public class PlayerController : Movement
         if (inventory.Contains(PlayerComponents.GUN) && shootCooldown <= 0)
         {
             playerAudio.ShootSoundBasic();
-            shootCooldown = 75;
+            shootCooldown = shootCooldownReset;
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos = new Vector3(mousePos.x, mousePos.y, 0);
             Vector3 dir = (mousePos - transform.position).normalized;
@@ -168,7 +172,7 @@ public class PlayerController : Movement
         if (inventory.Contains(PlayerComponents.ADV_GUN) && advShootCooldown <= 0)
         {
             playerAudio.ShootSoundAdvanced();
-            advShootCooldown = 95;
+            advShootCooldown = advShootCooldownReset;
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos = new Vector3(mousePos.x, mousePos.y, 0);
             Vector3 dir = (mousePos - transform.position).normalized;
@@ -240,6 +244,8 @@ public class PlayerController : Movement
 
     private void OnCollisionStay2D(Collision2D other)
     {
+        if (isEndingSequence)
+            return;
         if (damageCooldown > 0)
             return;
         // layer 7 => enemy, layer 8 => alien
@@ -252,8 +258,32 @@ public class PlayerController : Movement
         }
     }
 
+    public void InitializeEndingSequence()
+    {
+        Debug.Log("HIT");
+        GameObject[] alienBases = GameObject.FindGameObjectsWithTag("AlienBase");
+        foreach (GameObject ab in alienBases)
+        {
+            ab.GetComponent<AlienBase>().TriggerEndSequence();
+            ab.GetComponent<AlienBase>().IncreaseAggro(transform);
+        }
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Human");
+        foreach (GameObject enemy in enemies)
+        {
+            enemy.GetComponentInChildren<Human>().SetCombatState(Enemy.CombatState.ATTACK);
+            enemy.GetComponentInChildren<Human>().SetTarget(transform);
+        }
+
+        isEndingSequence = true;
+        shootCooldownReset = 15;
+        advShootCooldownReset = 25;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isEndingSequence)
+            return;
         if (other.gameObject.CompareTag("EvilBullet"))
         {
             TakeDamage(other.gameObject.GetComponent<Bullet>().GetBulletDamage());

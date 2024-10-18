@@ -118,6 +118,8 @@ public class AlienBase : MonoBehaviour
 
     public void IncreaseAggro(Transform target)
     {
+        if (PlayerController.isEndingSequence)
+            return;
         if (!targets.Contains(target))
             targets.Add(target);
         foreach (Alien al in aliens)
@@ -136,6 +138,8 @@ public class AlienBase : MonoBehaviour
 
     public void ReduceAggro(Transform target)
     {
+        if (PlayerController.isEndingSequence)
+            return;
         if (targets.Contains(target))
             targets.Remove(target);
 
@@ -150,5 +154,10 @@ public class AlienBase : MonoBehaviour
     {
         foreach (Alien al in aliens)
             al.StopAttack();
+    }
+
+    public void TriggerEndSequence()
+    {
+        targets.Clear();
     }
 }

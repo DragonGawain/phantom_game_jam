@@ -70,7 +70,10 @@ public class Human : Enemy
     public Transform GetTarget() => target;
 
     public void SetCombatState(CombatState state) =>
-        combatState = combatState == CombatState.FORCE_ARRIVE ? CombatState.FORCE_ARRIVE : state;
+        combatState =
+            combatState == CombatState.FORCE_ARRIVE && !PlayerController.isEndingSequence
+                ? CombatState.FORCE_ARRIVE
+                : state;
 
     protected override void Arrive()
     {
@@ -208,6 +211,8 @@ public class Human : Enemy
 
     public void StopAttack()
     {
+        if (PlayerController.isEndingSequence)
+            return;
         SetCombatState(CombatState.ARRIVE);
         CollectedShipPiece();
     }
@@ -305,6 +310,8 @@ public class Human : Enemy
     public void RestoreHealth(GameObject pickup, int amt = 1)
     {
         hp = Mathf.Clamp(hp + amt, 0, maxHp);
+        if (PlayerController.isEndingSequence)
+            return;
 
         if (hp >= 8)
         {
@@ -337,7 +344,7 @@ public class Human : Enemy
 
     protected override void OnOnTrigger(Transform other, bool isBullet)
     {
-        if (hp <= 5)
+        if (hp <= 5 && !PlayerController.isEndingSequence)
         {
             Transform temp = DetermineFleePoint(ship.transform, "HPPickup");
             if (temp.gameObject == ship.gameObject)

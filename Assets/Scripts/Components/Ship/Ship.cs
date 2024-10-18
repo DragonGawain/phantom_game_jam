@@ -52,7 +52,7 @@ public class Ship : MonoBehaviour
     Human human = null;
     PlayerController player = null;
 
-    int hp = 25;
+    public int hp = 25;
     int maxHp = 25;
 
     GameObject shipComponentObject;
@@ -168,7 +168,12 @@ public class Ship : MonoBehaviour
                     "<color=orange>Enemy " + human.name + " has completed their ship!</color>"
                 );
             else
+            {
+                player.InitializeEndingSequence();
+                transform.parent = player.transform;
+                transform.localPosition = Vector3.zero;
                 Debug.Log("<color=orange>The player has completed their ship!</color>");
+            }
         }
     }
 

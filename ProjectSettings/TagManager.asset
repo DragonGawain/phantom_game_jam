@@ -26,6 +26,7 @@ TagManager:
   - forestTerrain
   - wings
   - HUD
+  - AlienBase
   layers:
   - Default
   - TransparentFX
