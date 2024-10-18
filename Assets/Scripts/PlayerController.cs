@@ -13,7 +13,7 @@ public class PlayerController : Movement
     public List<PlayerComponents> inventory = new();
     public List<ShipComponents> shipInventory = new();
 
-    // HACK:: SF to expose in insector
+    // HACK:: SF to expose in inspector
     [SerializeField]
     int inventorySize = 10;
 
@@ -27,7 +27,7 @@ public class PlayerController : Movement
     // HACK:: public for inspector exposure
     public int hp;
     readonly int maxHp = 15;
-    
+
     public UIManager healthBar;
 
     int damageCooldown = 0;
@@ -35,17 +35,21 @@ public class PlayerController : Movement
     [SerializeField]
     Ship ship;
 
+    PlayerAudio playerAudio;
+
     // Start is called before the first frame update
     protected override void OnAwake()
     {
+        playerAudio = GetComponent<PlayerAudio>();
         inputs = new Inputs();
         inputs.Player.Enable();
         inputs.Player.Fire.performed += ShootGun;
+        inputs.Player.Fire.performed += playerAudio.ShootSound;
 
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
         hp = maxHp;
-        healthBar.SetMaxHealth(maxHp);
+        // healthBar.SetMaxHealth(maxHp);
         ship.SetPlayer(this);
     }
 
@@ -55,8 +59,8 @@ public class PlayerController : Movement
         rb.velocity = Vector2.ClampMagnitude(rb.velocity + movementInput, maxMoveSpeed);
         if (rb.velocity.magnitude > 0)
             rb.velocity -= rb.velocity.normalized * slowdownDrag;
-        if (rb.velocity.magnitude < 0)
-            rb.velocity = Vector2.zero;
+        // if (rb.velocity.magnitude < 0)
+        //     rb.velocity = Vector2.zero;
 
         if (damageCooldown > 0)
             damageCooldown--;
@@ -136,13 +140,13 @@ public class PlayerController : Movement
         {
             Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN</color>");
         }
-        healthBar.SetHealth(hp);
+        // healthBar.SetHealth(hp);
     }
 
     public void RestoreHealth(int amt = 1)
     {
         hp = Mathf.Clamp(hp + amt, 0, maxHp);
-        healthBar.SetHealth(hp);
+        // healthBar.SetHealth(hp);
     }
 
     private void OnCollisionStay2D(Collision2D other)
