@@ -27,8 +27,11 @@ TagManager:
   - wings
   - HUD
   - AlienBase
+<<<<<<< HEAD
   - ShipComponent
+=======
   - UIManager
+>>>>>>> ac616a14b5023a965a9507546b0f90a6050938f6
   layers:
   - Default
   - TransparentFX
