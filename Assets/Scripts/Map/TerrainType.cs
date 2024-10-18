@@ -50,6 +50,9 @@ public class TerrainType : MonoBehaviour
     {
         // Player Controller
         // Ennemy
+        bool isPlayer = other.CompareTag("Player");
+        if (isPlayer && PlayerController.isEndingSequence)
+            return;
 
         GameObject go = other.gameObject; // what game object collided?
         if (!go.TryGetComponent<Movement>(out Movement movement))

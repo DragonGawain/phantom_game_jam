@@ -24,14 +24,14 @@ public class Ship : MonoBehaviour
     static Dictionary<ShipComponents, int> componentHpValue =
         new()
         {
-            { ShipComponents.NOSE_GEAR, 10 },
+            { ShipComponents.NOSE_GEAR, 7 },
             { ShipComponents.LANDING_GEAR, 5 },
             { ShipComponents.OXYGEN_TANK, 3 },
             { ShipComponents.FUEL_TANK, 3 },
             { ShipComponents.SOLID_BOOSTERS, 4 },
-            { ShipComponents.ENGINES, 15 },
+            { ShipComponents.ENGINES, 2 },
             { ShipComponents.RCS, 1 },
-            { ShipComponents.WINGS, 10 }
+            { ShipComponents.WINGS, 8 }
         };
 
     Dictionary<ShipComponents, int> inventory =
@@ -149,7 +149,6 @@ public class Ship : MonoBehaviour
     public Dictionary<ShipComponents, int> Inventory
     {
         get => inventory;
-        set => inventory = value;
     }
 
     public void AddPieceToShip(ShipComponents piece, int qt = 1)
@@ -163,6 +162,7 @@ public class Ship : MonoBehaviour
 
         if (CheckShipCompletionStatus())
         {
+            // If a human completes their ship, they'll just, hang around for a while? :shrug:
             if (player == null)
                 Debug.Log(
                     "<color=orange>Enemy " + human.name + " has completed their ship!</color>"
@@ -256,6 +256,12 @@ public class Ship : MonoBehaviour
         hp -= amt;
         if (hp <= 0)
         {
+            if (player != null)
+            {
+                Debug.Log(
+                    "<color=red>THE PLAYER'S SHIP HAS BEEN DESTROYED - LOSS CONDITION</color>"
+                );
+            }
             // for simplicity's sake, when a ship dies, it's human will die with it
             if (human.gameObject != null)
                 Destroy(human.gameObject);

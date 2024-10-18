@@ -278,6 +278,8 @@ public class PlayerController : Movement
         isEndingSequence = true;
         shootCooldownReset = 15;
         advShootCooldownReset = 25;
+
+        maxMoveSpeed = GetOriginalSpeed() + ship.Inventory[ShipComponents.ENGINES] * 0.5f;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
