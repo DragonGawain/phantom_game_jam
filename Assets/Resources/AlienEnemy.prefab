@@ -102,13 +102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679752da999ea594f93c3ac24123fd07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveSpeed: 2
+  maxMoveSpeed: 3
   slowdownDrag: 0.2
   visionDistance: 3
   visionAngle: 30
   precision: 2
   targetArc: 5
-  turnSpeed: 1
+  turnSpeed: 1.2
   fleeDistanceBuffer: 25
   moveState: 0
   combatState: 0
