@@ -24,11 +24,12 @@ public class shipComponentGenerator : MonoBehaviour
             // shipRender.sprite = Resources.Load<Sprite>("Items/" + shipComponentEntity.ToString());
             for (int i = 0; i < theShip.RequiredInventory[shipComponentEntity]; ++i)
             {
-                Instantiate(
+                GameObject refToShipComponent = Instantiate(
                     shipComponent,
                     new Vector3(random.Next(1, 20), random.Next(1, 20), 0),
                     Quaternion.identity
                 );
+                refToShipComponent.tag = "ShipComponent";
                 //load the resouce at run time
                 // should use the overload with vector3 and quaternions
             }
