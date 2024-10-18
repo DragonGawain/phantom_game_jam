@@ -41,7 +41,6 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("CraigScene");
 
-
         ActivateMenu("HUD");
     }
 
@@ -75,11 +74,7 @@ public class UIManager : MonoBehaviour
         hpSlider.value = hp;
         // fill.color = gradient.Evaluate(hpSlider.normalizedValue);
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> d3ca3ffc888c0ef448b882a7fb58cd507bd90a16
     public static void ActivateMenu(string canvasName = "")
     {
         mainMenu.SetActive(false);
