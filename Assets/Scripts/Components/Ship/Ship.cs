@@ -123,6 +123,9 @@ public class Ship : MonoBehaviour
         get { return requiredInventory; }
 
     }
+
+    public Dictionary<ShipComponents, int> Inventory { get => inventory; set => inventory = value; }
+
     public void AddPieceToShip(ShipComponents piece, int qt = 1)
     {
         if (inventory.ContainsKey(piece))
@@ -199,4 +202,6 @@ public class Ship : MonoBehaviour
             }
         }
     }
+
+    
 }

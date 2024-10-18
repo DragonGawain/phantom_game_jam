@@ -9,7 +9,7 @@ public class shipComponentGenerator : MonoBehaviour
 {
     GameObject shipComponent;
     public Ship theShip;
-    [SerializeField, Range(0, 10)] int shipComponentNum = 10;
+    //[SerializeField, Range(0, 10)] int shipComponentNum = 10;
     private System.Random random;
     private void Start()
     {
@@ -21,7 +21,7 @@ public class shipComponentGenerator : MonoBehaviour
         foreach(ShipComponents shipComponentEntity in Enum.GetValues(typeof(ShipComponents)))
         {
             Debug.Log(shipComponentEntity.ToString());
-            shipRender.sprite = Resources.Load<Sprite>("Items/" + shipComponentEntity.ToString());
+            shipRender.sprite = Resources.Load<Sprite>("Items/" + shipComponentEntity.ToString()); //number needs to be updated
             for (int i = 0; i < theShip.RequiredInventory[shipComponentEntity]; ++i)
             {
                 Vector3 newPosition = new Vector3(random.Next(1, 20), random.Next(1, 20), 0);

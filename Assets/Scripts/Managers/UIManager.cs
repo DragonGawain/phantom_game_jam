@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene("CraigScene");
+        ActivateMenu();
     }
 
     public void QuitGame()
@@ -41,7 +42,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         ActivateMenu();
     }
-
+    
     public static void ActivateMenu(string canvasName = "")
     {
         mainMenu.SetActive(false);

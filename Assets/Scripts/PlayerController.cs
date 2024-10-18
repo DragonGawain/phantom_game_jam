@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerController : Movement
 {
@@ -33,6 +37,7 @@ public class PlayerController : Movement
     [SerializeField]
     Ship ship;
 
+    public TextMeshProUGUI numberOfMissingComponents;
     // Start is called before the first frame update
     void Awake()
     {
@@ -44,6 +49,8 @@ public class PlayerController : Movement
         bulletObject = Resources.Load<GameObject>("Bullet");
         hp = 15;
         ship.SetPlayer(this);
+
+        numberOfMissingComponents.enabled = false;
     }
 
     private void FixedUpdate()
@@ -57,6 +64,8 @@ public class PlayerController : Movement
 
         if (damageCooldown > 0)
             damageCooldown--;
+
+        missingComponentsIndicator();
     }
 
     // inventory management
@@ -158,5 +167,19 @@ public class PlayerController : Movement
     private void OnDestroy()
     {
         inputs.Player.Fire.performed -= ShootGun;
+    }
+
+    //shows to player the number of shipComponent needed to fix the ship
+    public void missingComponentsIndicator()
+    {
+        if (Vector3.Distance(ship.gameObject.transform.position, transform.position) < 10)
+        {
+            string missingComponentsList = "";
+            foreach(ShipComponents sc in Enum.GetValues(typeof(ShipComponents))){
+                missingComponentsList += sc.ToString() + ":" + ship.Inventory[sc].ToString() + "/" + ship.RequiredInventory[sc].ToString() + "\n"; //still adding it to the ship after find all the parts
+            }
+            numberOfMissingComponents.text = missingComponentsList;
+            numberOfMissingComponents.enabled = true;
+        }
     }
 }
