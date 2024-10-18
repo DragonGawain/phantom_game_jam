@@ -167,6 +167,8 @@ public class Ship : MonoBehaviour
         get => inventory;
     }
 
+    public int GetMaxHp() => maxHp;
+
     public void AddPieceToShip(ShipComponents piece, int qt = 1)
     {
         if (inventory.ContainsKey(piece))
@@ -270,6 +272,11 @@ public class Ship : MonoBehaviour
     void TakeDamage(int amt)
     {
         hp -= amt;
+        if (player != null && PlayerController.isEndingSequence)
+        {
+            Debug.Log("SEND");
+            player.EndSequenceDamage(hp);
+        }
         if (hp <= 0)
         {
             if (player != null)
@@ -279,7 +286,7 @@ public class Ship : MonoBehaviour
                 );
             }
             // for simplicity's sake, when a ship dies, it's human will die with it
-            if (human.gameObject != null)
+            if (human != null)
                 Destroy(human.gameObject);
             GameObject component;
             foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))

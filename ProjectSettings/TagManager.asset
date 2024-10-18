@@ -27,6 +27,7 @@ TagManager:
   - wings
   - HUD
   - AlienBase
+  - UIManager
   layers:
   - Default
   - TransparentFX
