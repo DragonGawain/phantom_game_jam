@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bullet
+  - GlabalLight
+  - nose_gear
+  - landing_gear
+  - oxygen_tank
+  - fuel_tank
+  - solid_boosters
+  - engines
+  - rcs
+  - Human
+  - Alien
+  - EvilBullet
+  - MainMenu
+  - PauseMenu
+  - HPPickup
+  - GlobalLight
+  - normalTerrain
+  - swampTerrain
+  - asphaltTerrain
+  - forestTerrain
+  - wings
+  - HUD
+  - AlienBase
+<<<<<<< HEAD
+  - ShipComponent
+=======
+  - UIManager
+>>>>>>> ac616a14b5023a965a9507546b0f90a6050938f6
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - Obstacle
+  - Enemy
+  - Alien
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Terrain
+    uniqueID: 1057962473
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: HideForestText
+    uniqueID: 752595293
+    locked: 0
