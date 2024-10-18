@@ -19,6 +19,13 @@ TagManager:
   - MainMenu
   - PauseMenu
   - HPPickup
+  - GlobalLight
+  - normalTerrain
+  - swampTerrain
+  - asphaltTerrain
+  - forestTerrain
+  - wings
+  - HUD
   layers:
   - Default
   - TransparentFX

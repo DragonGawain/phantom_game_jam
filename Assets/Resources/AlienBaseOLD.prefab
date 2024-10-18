@@ -67,7 +67,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 21.15
+  m_Radius: 27
 --- !u!114 &8716488306018410859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 4846575879859171132}
   - component: {fileID: 4665884089207085254}
   m_Layer: 0
-  m_Name: AlienBase
+  m_Name: AlienBaseOLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   initialSpawns: 3
   maxAliens: 10
   spawnTimerReset: 150
+  targets: []
 --- !u!58 &4665884089207085254
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -217,4 +218,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 6.24
+  m_Radius: 10

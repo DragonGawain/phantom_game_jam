@@ -17,6 +17,8 @@ public class Alien : Enemy
 
     Vector3 wanderTarget;
 
+    AlienAudio alienAudio;
+
     private void Start()
     {
         wanderDist =
@@ -31,6 +33,8 @@ public class Alien : Enemy
 
         id = -1;
         damage = 2;
+
+        alienAudio = GetComponent<AlienAudio>();
     }
 
     public void SetTarget(Transform target)
@@ -39,7 +43,11 @@ public class Alien : Enemy
         combatState = CombatState.ARRIVE;
     }
 
-    public void StopAttack() => combatState = CombatState.WANDER;
+    public void StopAttack()
+    {
+        combatState = CombatState.WANDER;
+        target = alienBase.transform;
+    }
 
     public void SetBase(AlienBase ab) => alienBase = ab;
 
@@ -65,7 +73,6 @@ public class Alien : Enemy
             );
         }
 
-        // base.Arrive(), but slightly modified
         if (
             moveState != MoveState.ROT_OBSTACLE_L
             && moveState != MoveState.ROT_OBSTACLE_R
@@ -110,7 +117,8 @@ public class Alien : Enemy
     protected override void TakeDamage(int amt, bool isBullet = false)
     {
         base.TakeDamage(amt, isBullet);
-        OnOnTrigger(alienBase.transform, isBullet);
+        alienAudio.TookDamageSound();
+        // OnOnTrigger(alienBase.transform, isBullet);
     }
 
     private void OnDestroy()
@@ -118,5 +126,13 @@ public class Alien : Enemy
         alienBase.KillAlien(this);
     }
 
-    // TODO:: override ARRIVE and replace it with WANDER
+    protected override void OnOnTrigger(Transform other, bool isBullet)
+    {
+        alienBase.ExternalTriggerOfTempAggro(other);
+    }
+
+    public void PlayAttackSound()
+    {
+        alienAudio.AttackingSound();
+    }
 }

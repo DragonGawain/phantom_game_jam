@@ -23,6 +23,12 @@ public class ShipPiece : Item
         gameObject.tag = shipComponentType.GetEnumDescription();
     }
 
+    public void SetSpecificType(ShipComponents type)
+    {
+        shipComponentType = type;
+        isSpecificItem = true;
+    }
+
     public ShipComponents GetShipComponentType() => shipComponentType;
 
     public void AddToSeekers(Human human) => seekers.Add(human);
@@ -63,6 +69,7 @@ public class ShipPiece : Item
     private void OnDestroy()
     {
         foreach (Human seeker in seekers)
-            seeker.CollectedShipPiece();
+            if (seeker != null && seeker.GetShip() != null) // This if statement prevents a crash when the scene is unloaded
+                seeker.CollectedShipPiece();
     }
 }

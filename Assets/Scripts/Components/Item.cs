@@ -15,6 +15,7 @@ public abstract class Item : MonoBehaviour
             { ShipComponents.SOLID_BOOSTERS, 3 },
             { ShipComponents.ENGINES, 3 },
             { ShipComponents.RCS, 1 },
+            { ShipComponents.WINGS, 2 },
         };
 
     public static readonly Dictionary<PlayerComponents, int> playerComponentSizes =
@@ -52,7 +53,9 @@ public enum ShipComponents
 
     [Description("rcs")]
     RCS, // more RCS = tighter turn radius (RCS stands for Rocket Control System)
-    // SAS?
+
+    [Description("wings")]
+    WINGS
 }
 
 public enum PlayerComponents

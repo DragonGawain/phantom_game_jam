@@ -17,7 +17,7 @@ public class PlayerController : Movement
     public List<PlayerComponents> inventory = new();
     public List<ShipComponents> shipInventory = new();
 
-    // HACK:: SF to expose in insector
+    // HACK:: SF to expose in inspector
     [SerializeField]
     int inventorySize = 10;
 
@@ -32,22 +32,29 @@ public class PlayerController : Movement
     public int hp;
     readonly int maxHp = 15;
 
+    public UIManager healthBar;
+
     int damageCooldown = 0;
 
     [SerializeField]
     Ship ship;
 
     public TextMeshProUGUI numberOfMissingComponents;
+    PlayerAudio playerAudio;
+
     // Start is called before the first frame update
-    void Awake()
+    protected override void OnAwake()
     {
+        playerAudio = GetComponent<PlayerAudio>();
         inputs = new Inputs();
         inputs.Player.Enable();
         inputs.Player.Fire.performed += ShootGun;
+        inputs.Player.Fire.performed += playerAudio.ShootSound;
 
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
-        hp = 15;
+        hp = maxHp;
+        // healthBar.SetMaxHealth(maxHp);
         ship.SetPlayer(this);
 
         numberOfMissingComponents.enabled = false;
@@ -57,9 +64,20 @@ public class PlayerController : Movement
     {
         movementInput = inputs.Player.Move.ReadValue<Vector2>().normalized;
         rb.velocity = Vector2.ClampMagnitude(rb.velocity + movementInput, maxMoveSpeed);
-        if (rb.velocity.magnitude > 0)
+        if (rb.velocity.magnitude > 0.05f)
+        {
             rb.velocity -= rb.velocity.normalized * slowdownDrag;
-        if (rb.velocity.magnitude < 0)
+            // if (rb.velocity.magnitude < 0)
+            //     rb.velocity = Vector2.zero;
+
+            transform.localEulerAngles = new Vector3(
+                0,
+                0,
+                Vector2.SignedAngle(new Vector2(0, 1).normalized, rb.velocity.normalized)
+            );
+        }
+        // if (movementInput.magnitude == 0)
+        if (rb.velocity.magnitude < 0.15f)
             rb.velocity = Vector2.zero;
 
         if (damageCooldown > 0)
@@ -127,7 +145,8 @@ public class PlayerController : Movement
                 Quaternion.FromToRotation(Vector3.up, dir)
             );
             bullet.GetComponent<Bullet>().Launch(dir);
-            bullet.GetComponent<Bullet>().SetShooterId(-1);
+            bullet.GetComponent<Bullet>().SetShooterId(-2);
+            bullet.GetComponent<Bullet>().SetShooter(transform);
         }
     }
 
@@ -136,23 +155,33 @@ public class PlayerController : Movement
         if (damageCooldown > 0)
             return;
         hp -= amt;
+        playerAudio.TookDamageSound();
         damageCooldown = 150; // 3 seconds of I-frames (that sounds like a lot...)
         if (hp <= 0)
         {
             Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN</color>");
         }
+        // healthBar.SetHealth(hp);
     }
 
     public void RestoreHealth(int amt = 1)
     {
         hp = Mathf.Clamp(hp + amt, 0, maxHp);
+        // healthBar.SetHealth(hp);
     }
 
     private void OnCollisionStay2D(Collision2D other)
     {
+        if (damageCooldown > 0)
+            return;
         // layer 7 => enemy, layer 8 => alien
-        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
+        if (other.gameObject.layer == 7)
             TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+        else if (other.gameObject.layer == 8)
+        {
+            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

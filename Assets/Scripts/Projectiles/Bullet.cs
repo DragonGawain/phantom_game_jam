@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     int bulletLifeTimer = 500; // 50 FUs persecond -> this bullet will last for 10 seconds
 
     int shooterId;
+    Transform shooter;
 
     void Awake()
     {
@@ -29,6 +30,10 @@ public class Bullet : MonoBehaviour
     public void SetShooterId(int id) => shooterId = id;
 
     public int GetShooterId() => shooterId;
+
+    public void SetShooter(Transform shooter) => this.shooter = shooter;
+
+    public Transform GetShooter() => shooter;
 
     public void Launch(Vector2 vel)
     {

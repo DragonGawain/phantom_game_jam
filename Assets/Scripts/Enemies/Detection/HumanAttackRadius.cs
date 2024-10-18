@@ -13,7 +13,7 @@ public class HumanAttackRadius : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Alien") || other.CompareTag("Player"))
+        if (other.CompareTag("Alien") || other.CompareTag("Player") || other.CompareTag("Human"))
         {
             if (human.GetCombatState() == Enemy.CombatState.ARRIVE)
             {

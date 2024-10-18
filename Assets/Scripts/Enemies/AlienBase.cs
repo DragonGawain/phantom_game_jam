@@ -19,10 +19,16 @@ public class AlienBase : MonoBehaviour
     [SerializeField, Range(50, 3000)]
     int spawnTimerReset = 150;
 
+    [SerializeField, Range(5, 180)]
+    int tempAggroTimerInSeconds = 30;
+
     int spawnTimer = 0;
     bool isSpawning = true;
+    int hp = 60;
 
     public List<Transform> targets = new();
+
+    Coroutine tempAggro;
 
     // Start is called before the first frame update
     void Start()
@@ -81,13 +87,41 @@ public class AlienBase : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Human"))
+        if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))
         {
-            if (!targets.Contains(other.transform))
-                targets.Add(other.transform);
-            foreach (Alien al in aliens)
-                al.SetTarget(targets[Random.Range(0, targets.Count)]);
+            hp -= other.GetComponent<Bullet>().GetBulletDamage();
+            if (hp <= 0)
+            {
+                foreach (Alien al in aliens)
+                    Destroy(al.gameObject);
+                Destroy(gameObject);
+            }
+            ExternalTriggerOfTempAggro(other.GetComponent<Bullet>().GetShooter());
+            Destroy(other.gameObject);
         }
+    }
+
+    public void ExternalTriggerOfTempAggro(Transform target)
+    {
+        if (tempAggro != null)
+            StopCoroutine(tempAggro);
+        tempAggro = StartCoroutine(IncurTemporaryAggro(target));
+    }
+
+    IEnumerator IncurTemporaryAggro(Transform target)
+    {
+        IncreaseAggro(target);
+        yield return new WaitForSeconds(tempAggroTimerInSeconds);
+        ReduceAggro(target);
+        tempAggro = null;
+    }
+
+    public void IncreaseAggro(Transform target)
+    {
+        if (!targets.Contains(target))
+            targets.Add(target);
+        foreach (Alien al in aliens)
+            al.SetTarget(targets[Random.Range(0, targets.Count)]);
     }
 
     // private void OnTriggerExit2D(Collider2D other)

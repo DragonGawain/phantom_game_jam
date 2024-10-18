@@ -16,7 +16,7 @@ public class healthRestore : MonoBehaviour
         }
         else if (other.TryGetComponent<Human>(out Human human))
         {
-            human.RestoreHealth(hpRestore);
+            human.RestoreHealth(gameObject, hpRestore);
             Destroy(gameObject);
         }
     }

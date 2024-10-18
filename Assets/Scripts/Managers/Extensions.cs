@@ -36,10 +36,18 @@ public static class Extensions
     }
 }
 
+// We need a tag of the description for every terrain
 public enum TerrainTypes
 {
+    [Description("normalTerrain")]
     NORMAL,
+
+    [Description("swampTerrain")]
     SWAMP,
+
+    [Description("asphaltTerrain")]
     ASPHALT,
+
+    [Description("forestTerrain")]
     FOREST,
 }

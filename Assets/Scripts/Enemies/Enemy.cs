@@ -21,7 +21,8 @@ public class Enemy : Movement
         WANDER,
         FLEE,
         ATTACK,
-        FLEE_TOWARDS
+        FLEE_TOWARDS,
+        FORCE_ARRIVE
     }
 
     [SerializeField, Range(1f, 10f)]
@@ -64,7 +65,7 @@ public class Enemy : Movement
     protected int maxHp = 10;
     protected int preferedTurnDir = 1;
 
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb; // HACK
     public Vector3 fleePoint;
 
     protected int id;
@@ -72,7 +73,7 @@ public class Enemy : Movement
     protected int damage = 1;
 
     // Start is called before the first frame update
-    void Awake()
+    protected override void OnAwake()
     {
         fDot = transform.Find("ForwardDot");
         rDot = transform.Find("RDot");
@@ -94,6 +95,7 @@ public class Enemy : Movement
             switch (combatState)
             {
                 case CombatState.ARRIVE:
+                case CombatState.FORCE_ARRIVE:
                     Arrive();
                     break;
                 case CombatState.WANDER:
@@ -408,28 +410,38 @@ public class Enemy : Movement
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("EvilBullet"))
+        if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))
         {
-            Debug.Log("B");
             if (other.GetComponent<Bullet>().GetShooterId() == id)
                 return;
             TakeDamage(other.GetComponent<Bullet>().GetBulletDamage(), true);
-
+            if (gameObject.CompareTag("Alien"))
+                OnOnTrigger(other.GetComponent<Bullet>().GetShooter(), true);
             Destroy(other.gameObject);
         }
-        else if (other.gameObject.CompareTag("Alien"))
-            TakeDamage(other.GetComponent<Alien>().GetDamage());
+        // else if (other.gameObject.CompareTag("Alien"))
+        // {
+        //     TakeDamage(other.GetComponent<Alien>().GetDamage());
+        //     other.GetComponent<Alien>().PlayAttackSound();
+        // }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Alien"))
+        {
             TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+        }
     }
 
     protected virtual void OnOnTrigger(Transform other, bool isBullet) { }
 
-    protected Transform DetermineFleePoint(Transform point, string tag = "")
+    protected Transform DetermineFleePoint(
+        Transform point,
+        string tag = "",
+        GameObject exclude = null
+    )
     {
         if (tag == "")
             return point;
@@ -441,6 +453,8 @@ public class Enemy : Movement
             float dist = int.MaxValue;
             foreach (GameObject pt in potentialTargets)
             {
+                if (pt == exclude)
+                    continue;
                 if (Vector3.Distance(pt.transform.position, transform.position) < dist)
                 {
                     dist = Vector3.Distance(pt.transform.position, transform.position);
