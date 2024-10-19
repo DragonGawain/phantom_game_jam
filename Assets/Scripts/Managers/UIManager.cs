@@ -23,6 +23,10 @@ public class UIManager : MonoBehaviour
     static GameObject questRoot1;
     static GameObject questRoot2;
 
+    static TextMeshProUGUI timerText;
+
+    static int winCountdown = 300 * 50;
+
     // public Gradient gradient;
     // public Image fill;
 
@@ -51,7 +55,15 @@ public class UIManager : MonoBehaviour
         questRoot1 = shipInventoryMenu.transform.Find("Quest1Root").gameObject;
         questRoot2 = shipInventoryMenu.transform.Find("Quest2Root").gameObject;
 
+        timerText = hud.transform.Find("TimerRoot").Find("TimerText").GetComponent<TextMeshProUGUI>();
+
         ActivateMenu("mainMenu");
+    }
+
+    private void FixedUpdate()
+    {
+        if (PlayerController.isEndingSequence)
+            UpdateWinCounter(winCountdown--);
     }
 
     public void PlayGame()
@@ -185,5 +197,18 @@ public class UIManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public static void ActivateEndTimer()
+    {
+        ActivateMenu("hud");
+        hud.transform.Find("TimerRoot").gameObject.SetActive(true);
+    }
+
+    public static void UpdateWinCounter(int time)
+    {
+        time = Mathf.FloorToInt(time/50f);
+        int min = Mathf.FloorToInt(time/60f);
+        timerText.text = "TIME REMAINING: " + min + ":" + (time - (min*60));
     }
 }

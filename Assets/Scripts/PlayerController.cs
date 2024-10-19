@@ -362,7 +362,12 @@ public class PlayerController : Movement
 
         maxMoveSpeed = GetOriginalSpeed() + ship.Inventory[ShipComponents.ENGINES] * 0.7f;
 
+        questPointer1.gameObject.SetActive(false);
+        questPointer2.gameObject.SetActive(false);
+        shipPointer.gameObject.SetActive(false);
+
         uiManager.SetMaxHealth(ship.GetMaxHp());
+        UIManager.ActivateEndTimer();
         StartCoroutine(EndSequenceWinTimer());
     }
 
