@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
         // fill.color = gradient.Evaluate(hpSlider.normalizedValue);
     }
 
-    public static void OpenShipInventory(Dictionary<ShipComponents, int> inventory)
+    public static void OpenShipInventory(Dictionary<ShipComponents, int> inventory, int maxHp, int hp)
     {
         uIAudio.OpenSound();
         isInShipInventory = true;
@@ -119,26 +119,34 @@ public class UIManager : MonoBehaviour
         }
         questRoot1.SetActive(false);
         questRoot2.SetActive(false);
+
         ActivateMenu("shipInv");
+
+        shipInventoryMenu.GetComponentInChildren<Slider>().maxValue = maxHp;
+        shipInventoryMenu.GetComponentInChildren<Slider>().value = hp;
     }
 
     public static void OpenShipInventory(
         Dictionary<ShipComponents, int> inventory,
+        int maxHp,
+        int hp,
         ShipComponents q1Item
     )
     {
-        OpenShipInventory(inventory);
+        OpenShipInventory(inventory, maxHp, hp);
         questRoot1.SetActive(true);
         questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
     }
 
     public static void OpenShipInventory(
         Dictionary<ShipComponents, int> inventory,
+        int hp,
+        int maxHp,
         ShipComponents q1Item,
         ShipComponents q2Item
     )
     {
-        OpenShipInventory(inventory);
+        OpenShipInventory(inventory, maxHp, hp);
         questRoot1.SetActive(true);
         questRoot2.SetActive(true);
         questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");

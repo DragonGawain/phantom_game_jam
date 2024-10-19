@@ -284,13 +284,13 @@ public class Ship : MonoBehaviour
                 }
 
                 if (pc.GetQuest1Target() != null && pc.GetQuest2Target() != null)
-                    UIManager.OpenShipInventory(inventory, pc.GetQuest1ShipComponentType(), pc.GetQuest2ShipComponentType());
+                    UIManager.OpenShipInventory(inventory, maxHp, hp, pc.GetQuest1ShipComponentType(), pc.GetQuest2ShipComponentType());
                 else if (pc.GetQuest1Target() != null && pc.GetQuest2Target() == null)
-                    UIManager.OpenShipInventory(inventory, pc.GetQuest1ShipComponentType());
+                    UIManager.OpenShipInventory(inventory, maxHp, hp, pc.GetQuest1ShipComponentType());
                 else if (pc.GetQuest1Target() == null && pc.GetQuest2Target() != null)
-                    UIManager.OpenShipInventory(inventory, pc.GetQuest2ShipComponentType());
+                    UIManager.OpenShipInventory(inventory, maxHp, hp, pc.GetQuest2ShipComponentType());
                 else if (pc.GetQuest1Target() == null && pc.GetQuest2Target() == null)
-                    UIManager.OpenShipInventory(inventory);
+                    UIManager.OpenShipInventory(inventory, maxHp, hp);
             }
         }
         else if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))
