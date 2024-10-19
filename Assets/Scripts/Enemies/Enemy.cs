@@ -340,7 +340,7 @@ public class Enemy : Movement
                 //     (target.position - transform.position).normalized
                 // );
 
-                // I want the bias to work on a cureve - the closer the angle is to 90, the stronger the bias will be.
+                // I want the bias to work on a curve - the closer the angle is to 90, the stronger the bias will be.
                 // This will mean that the AI will gently turn towards the base if it happens to be running directly away from it,
                 // and the AI will smoothly aim itself at the fleePoint (base) as it's angle gets more precise.
                 // I'm also going to add in a condition that only activates the fleePoint bias if the AI is a certain distance away from it
