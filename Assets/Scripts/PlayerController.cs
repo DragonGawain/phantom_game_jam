@@ -102,7 +102,6 @@ public class PlayerController : Movement
 
             rot = Vector2.SignedAngle(new Vector2(0, 1).normalized, rb.velocity.normalized);
             flashlight.localEulerAngles = new Vector3(0, 0, rot);
-            advFlashlight.localEulerAngles = new Vector3(0, 0, rot);
         }
         // if (movementInput.magnitude == 0)
         if (rb.velocity.magnitude < 0.15f)
