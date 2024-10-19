@@ -5,8 +5,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PlayerController : Movement
 {
@@ -359,7 +358,7 @@ public class PlayerController : Movement
 
     public void InitializeEndingSequence()
     {
-        Debug.Log("HIT");
+        GetComponent<SpriteRenderer>().enabled = false;
         GameObject[] alienBases = GameObject.FindGameObjectsWithTag("AlienBase");
         foreach (GameObject ab in alienBases)
         {
@@ -383,7 +382,12 @@ public class PlayerController : Movement
         uiManager.SetMaxHealth(ship.GetMaxHp());
     }
 
-    public void EndSequenceDamage(int val) => uiManager.SetHealth(val);
+    public void EndSequenceDamage(int val)
+    {
+        uiManager.SetHealth(val);
+        if (Random.Range(0f, 1f) < 0.2f)
+            playerAudio.EndSequenceTookDamageSound();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

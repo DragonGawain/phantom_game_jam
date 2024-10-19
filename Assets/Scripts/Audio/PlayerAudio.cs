@@ -17,6 +17,7 @@ public class PlayerAudio : MonoBehaviour
     AudioClip[] activeWalkingSounds;
     AudioClip[] shootingSounds;
     AudioClip tookDamageSound;
+    AudioClip endSequenceTookDamageSound;
     public bool isWalking = false;
 
     // Start is called before the first frame update
@@ -33,6 +34,9 @@ public class PlayerAudio : MonoBehaviour
         // forestWalkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_forest");
         shootingSounds = Resources.LoadAll<AudioClip>("Audio/laser_fire/Player");
         tookDamageSound = Resources.Load<AudioClip>("Audio/damage_taken/player_damage_taken");
+        endSequenceTookDamageSound = Resources.Load<AudioClip>(
+            "Audio/damage_taken/Ship/rocket_damage_taken"
+        );
 
         activeWalkingSounds = dirtWalkingSounds;
 
@@ -48,8 +52,7 @@ public class PlayerAudio : MonoBehaviour
         }
     }
 
-    public void SetWalkingSound(TerrainTypes type)
-    {
+    public void SetWalkingSound(TerrainTypes type) =>
         activeWalkingSounds = type switch
         {
             TerrainTypes.NORMAL => dirtWalkingSounds,
@@ -58,17 +61,12 @@ public class PlayerAudio : MonoBehaviour
             TerrainTypes.FOREST => forestWalkingSounds,
             _ => null,
         };
-    }
 
-    public void ShootSoundBasic()
-    {
+    public void ShootSoundBasic() =>
         shootingSource.PlayOneShot(shootingSounds[Random.Range(0, 2)], 10);
-    }
 
-    public void ShootSoundAdvanced()
-    {
+    public void ShootSoundAdvanced() =>
         shootingSource.PlayOneShot(shootingSounds[Random.Range(2, 4)], 10);
-    }
 
     IEnumerator PlayWalkingSound()
     {
@@ -82,8 +80,8 @@ public class PlayerAudio : MonoBehaviour
         isWalking = false;
     }
 
-    public void TookDamageSound()
-    {
-        tookDamageSource.PlayOneShot(tookDamageSound);
-    }
+    public void TookDamageSound() => tookDamageSource.PlayOneShot(tookDamageSound);
+
+    public void EndSequenceTookDamageSound() =>
+        tookDamageSource.PlayOneShot(endSequenceTookDamageSound);
 }
