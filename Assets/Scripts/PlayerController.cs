@@ -17,12 +17,8 @@ public class PlayerController : Movement
     public List<PlayerComponents> inventory = new();
     public List<ShipComponents> shipInventory = new();
 
-    // HACK:: SF to expose in inspector
-    // I would make this into a dictionary to suit the new inventory style, but this is faster and it works
-    int inventorySize = 999;
-
-    [SerializeField]
-    int shipInventorySize = 10;
+    readonly int inventorySize = 999;
+    readonly int shipInventorySize = 10;
 
     Vector3 mousePos;
 
@@ -176,10 +172,21 @@ public class PlayerController : Movement
                 advFlashlight.gameObject.SetActive(true);
             }
             else if (newItem == PlayerComponents.BOOTS)
+            {
                 swampSpeedModifier = -0.25f;
+                StartCoroutine(FlashTriggerBox());
+            }
             return true;
         }
         return false;
+    }
+
+    IEnumerator FlashTriggerBox()
+    {
+        CapsuleCollider2D triggerBox = GetComponent<CapsuleCollider2D>();
+        triggerBox.enabled = false;
+        yield return new WaitForFixedUpdate();
+        triggerBox.enabled = true;
     }
 
     public void RemoveFromInventory(PlayerComponents item)
@@ -395,7 +402,7 @@ public class PlayerController : Movement
         shootCooldownReset = 15;
         advShootCooldownReset = 25;
 
-        maxMoveSpeed = GetOriginalSpeed() + ship.Inventory[ShipComponents.ENGINES] * 0.5f;
+        maxMoveSpeed = GetOriginalSpeed() + ship.Inventory[ShipComponents.ENGINES] * 0.7f;
 
         uiManager.SetMaxHealth(ship.GetMaxHp());
     }

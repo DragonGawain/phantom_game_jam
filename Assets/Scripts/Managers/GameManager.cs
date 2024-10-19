@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
         new()
         {
             { TerrainTypes.NORMAL, (2, 1, 2, 1) },
-            { TerrainTypes.SWAMP, (1, 1, 3, 1) },
+            { TerrainTypes.SWAMP, (1, 1, 4, 1) },
             { TerrainTypes.ASPHALT, (3, 1, 1, 1) },
-            { TerrainTypes.FOREST, (1, 2, 2, 1) },
+            { TerrainTypes.FOREST, (2, 2, 2, 1) },
         };
 
     // Doing it this way is making it slightly harder to expand the number of terrains that we have, but it shouldn't be too big of a deal...
