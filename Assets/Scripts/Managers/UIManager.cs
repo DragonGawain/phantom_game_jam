@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class UIManager : MonoBehaviour
     static GameObject mainMenu;
     static GameObject pauseMenu;
     static GameObject hud;
+    static GameObject shipInventoryMenu;
+
+    public static bool isInShipInventory = false;
 
     Slider hpSlider;
 
@@ -26,11 +31,13 @@ public class UIManager : MonoBehaviour
         mainMenu = GameObject.FindGameObjectWithTag("MainMenu");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
         hud = GameObject.FindGameObjectWithTag("HUD");
+        shipInventoryMenu = GameObject.FindGameObjectWithTag("ShipInvMenu");
 
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(mainMenu);
         DontDestroyOnLoad(pauseMenu);
         DontDestroyOnLoad(hud);
+        DontDestroyOnLoad(shipInventoryMenu);
 
         hpSlider = hud.transform.Find("HealthBar").GetComponent<Slider>();
 
@@ -75,11 +82,37 @@ public class UIManager : MonoBehaviour
         // fill.color = gradient.Evaluate(hpSlider.normalizedValue);
     }
 
+    public static void OpenShipInventory(Dictionary<ShipComponents, int> inventory)
+    {
+        isInShipInventory = true;
+        Time.timeScale = 0;
+        Transform inventoryCountsParent = shipInventoryMenu.transform.Find("InventoryParent");
+        TextMeshProUGUI text;
+        foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
+        {
+            text = inventoryCountsParent
+                .Find(sc.GetEnumDescription())
+                .GetComponent<TextMeshProUGUI>();
+
+            text.text = sc.GetEnumDescription().Replace("_", " ");
+            text.text = text.text[..1].ToUpper() + text.text[1..] + " " + inventory[sc];
+        }
+        ActivateMenu("shipInv");
+    }
+
+    public static void CloseShipInventory()
+    {
+        Time.timeScale = 1;
+        isInShipInventory = false;
+        ActivateMenu("hud");
+    }
+
     public static void ActivateMenu(string canvasName = "")
     {
         mainMenu.SetActive(false);
         pauseMenu.SetActive(false);
         hud.SetActive(false);
+        shipInventoryMenu.SetActive(false);
 
         switch (canvasName)
         {
@@ -91,6 +124,9 @@ public class UIManager : MonoBehaviour
                 break;
             case "hud":
                 hud.SetActive(true);
+                break;
+            case "shipInv":
+                shipInventoryMenu.SetActive(true);
                 break;
             default:
                 break;

@@ -279,6 +279,8 @@ public class Ship : MonoBehaviour
                         )
                     );
                 }
+
+                UIManager.OpenShipInventory(inventory);
             }
         }
         else if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))

@@ -67,6 +67,7 @@ public class PlayerController : Movement
         inputs = new Inputs();
         inputs.Player.Enable();
         inputs.Player.Fire.performed += ShootGun;
+        inputs.Player.Close.performed += CloseMenu;
 
         rb = GetComponent<Rigidbody2D>();
         bulletObject = Resources.Load<GameObject>("Bullet");
@@ -266,6 +267,14 @@ public class PlayerController : Movement
         }
     }
 
+    void CloseMenu(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        if (UIManager.isInShipInventory)
+            UIManager.CloseShipInventory();
+        else
+            Application.Quit();
+    }
+
     public void TakeDamage(int amt = 1)
     {
         if (damageCooldown > 0)
@@ -306,25 +315,6 @@ public class PlayerController : Movement
         }
     }
 
-    // public GameObject FindNearestShipComponent()
-    // {
-    //     GameObject[] shipComponents = GameObject.FindGameObjectsWithTag("ShipComponent");
-    //     GameObject nearestShipComponent = null;
-    //     float nearestDistance = Mathf.Infinity;
-
-    //     foreach (GameObject sc in shipComponents)
-    //     {
-    //         float distance = Vector3.Distance(this.transform.position, ship.transform.position);
-    //         if (distance < nearestDistance)
-    //         {
-    //             nearestDistance = distance;
-    //             nearestShipComponent = sc;
-    //         }
-    //     }
-
-    //     return nearestShipComponent;
-    // }
-
     public Transform GetQuest1Target() => questTarget1;
 
     public Transform GetQuest2Target() => questTarget2;
@@ -350,19 +340,6 @@ public class PlayerController : Movement
         else
             questPointer2.gameObject.SetActive(true);
     }
-
-    // public void ActivateAdvancedFlashlight()
-    // {
-    //     if (inventory.Contains(PlayerComponents.FLASHLIGHT))
-    //     {
-    //         transform.Find("AdvancedFlashlight").gameObject.SetActive(true);
-    //     }
-    // }
-
-    // public void DeactivateAdvancedFlashlight()
-    // {
-    //     transform.Find("AdvancedFlashlight").gameObject.SetActive(false);
-    // }
 
     private void OnCollisionStay2D(Collision2D other)
     {
@@ -422,6 +399,7 @@ public class PlayerController : Movement
     private void OnDestroy()
     {
         inputs.Player.Fire.performed -= ShootGun;
+        inputs.Player.Close.performed -= CloseMenu;
     }
 
     //shows to player the number of shipComponent needed to fix the ship
