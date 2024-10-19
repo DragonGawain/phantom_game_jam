@@ -27,8 +27,11 @@ public abstract class Item : MonoBehaviour
             { PlayerComponents.FLASHLIGHT, 0 },
         };
 
+    protected ComponentAudio componentAudio;
+
     protected virtual void Awake()
     {
+        componentAudio = GetComponent<ComponentAudio>();
         OnAwake();
     }
 

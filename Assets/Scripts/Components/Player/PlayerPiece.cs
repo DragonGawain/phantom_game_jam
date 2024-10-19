@@ -17,6 +17,7 @@ public class PlayerPiece : Item
         {
             if (pc.AddToInventory(playerComponentType))
             {
+                componentAudio.PlayShipCompGet();
                 Destroy(gameObject);
             }
         }
