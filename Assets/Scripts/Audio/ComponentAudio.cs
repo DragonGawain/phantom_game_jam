@@ -14,7 +14,9 @@ public class ComponentAudio : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         shipComponentPickupSound = Resources.Load<AudioClip>("Audio/component/ship_component_get");
-        // playerComponentPickupSound = Resources.Load<AudioClip>("Audio/component/player_component_get");
+        playerComponentPickupSound = Resources.Load<AudioClip>(
+            "Audio/component/player_component_get"
+        );
     }
 
     public void PlayShipCompGet()
@@ -24,7 +26,6 @@ public class ComponentAudio : MonoBehaviour
 
     public void PlayPlayerCompGet()
     {
-        // audioSource.PlayOneShot(playerComponentPickupSound);
-        Debug.Log("player component pickup sound");
+        audioSource.PlayOneShot(playerComponentPickupSound);
     }
 }

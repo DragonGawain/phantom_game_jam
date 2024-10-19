@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     static GameObject hud;
     static GameObject shipInventoryMenu;
 
+    static UIAudio uIAudio;
+
     public static bool isInShipInventory = false;
 
     Slider hpSlider;
@@ -27,6 +29,8 @@ public class UIManager : MonoBehaviour
             instance = this;
         if (this != instance)
             Destroy(gameObject);
+
+        uIAudio = GetComponent<UIAudio>();
 
         mainMenu = GameObject.FindGameObjectWithTag("MainMenu");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
@@ -84,6 +88,7 @@ public class UIManager : MonoBehaviour
 
     public static void OpenShipInventory(Dictionary<ShipComponents, int> inventory)
     {
+        uIAudio.OpenSound();
         isInShipInventory = true;
         Time.timeScale = 0;
         Transform inventoryCountsParent = shipInventoryMenu.transform.Find("InventoryParent");
@@ -103,6 +108,7 @@ public class UIManager : MonoBehaviour
     public static void CloseShipInventory()
     {
         Time.timeScale = 1;
+        uIAudio.CloseSound();
         isInShipInventory = false;
         ActivateMenu("hud");
     }

@@ -24,7 +24,7 @@ public class AlienBase : MonoBehaviour
 
     int spawnTimer = 0;
     bool isSpawning = true;
-    int hp = 60;
+    public int hp = 60;
 
     public List<Transform> targets = new();
 
@@ -71,6 +71,7 @@ public class AlienBase : MonoBehaviour
             Quaternion.identity
         );
         Alien al = alo.GetComponent<Alien>();
+        alienBaseAudio.SpawnSound();
         aliens.Add(al);
         al.SetBase(this);
 
