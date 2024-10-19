@@ -294,26 +294,6 @@ public class PlayerController : Movement
         uiManager.SetHealth(hp);
     }
 
-    public void MissingComponentsIndicator()
-    {
-        if (Vector3.Distance(ship.gameObject.transform.position, transform.position) < 10)
-        {
-            string missingComponentsList = "";
-            foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
-            {
-                missingComponentsList +=
-                    sc.ToString()
-                    + ":"
-                    + ship.Inventory[sc].ToString()
-                    + "/"
-                    + ship.RequiredInventory[sc].ToString()
-                    + "\n"; //still adding it to the ship after find all the parts
-            }
-            numberOfMissingComponents.text = missingComponentsList;
-            numberOfMissingComponents.enabled = true;
-        }
-    }
-
     public Transform GetQuest1Target() => questTarget1;
 
     public Transform GetQuest2Target() => questTarget2;

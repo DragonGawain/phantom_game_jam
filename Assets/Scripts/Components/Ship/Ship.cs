@@ -171,10 +171,7 @@ public class Ship : MonoBehaviour
         return pos;
     }
 
-    public Dictionary<ShipComponents, int> RequiredInventory
-    {
-        get { return requiredInventory; }
-    }
+    public static Dictionary<ShipComponents, int> GetRequiredInvetory() => requiredInventory;
 
     public Dictionary<ShipComponents, int> Inventory
     {

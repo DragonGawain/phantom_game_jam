@@ -100,9 +100,38 @@ public class UIManager : MonoBehaviour
                 .GetComponent<TextMeshProUGUI>();
 
             text.text = sc.GetEnumDescription().Replace("_", " ");
-            text.text = text.text[..1].ToUpper() + text.text[1..] + " " + inventory[sc];
+            text.text =
+                text.text[..1].ToUpper()
+                + text.text[1..]
+                + " "
+                + inventory[sc]
+                + " / "
+                + Ship.GetRequiredInvetory()[sc];
+
+            if (sc == ShipComponents.RCS)
+                text.text = text.text.ToUpper();
         }
         ActivateMenu("shipInv");
+    }
+
+    public static void OpenShipInventory(
+        Dictionary<ShipComponents, int> inventory,
+        ShipComponents q1Item,
+        float q1Dir
+    )
+    {
+        OpenShipInventory(inventory);
+    }
+
+    public static void OpenShipInventory(
+        Dictionary<ShipComponents, int> inventory,
+        ShipComponents q1Item,
+        float q1Dir,
+        ShipComponents q2Item,
+        float q2Dir
+    )
+    {
+        OpenShipInventory(inventory);
     }
 
     public static void CloseShipInventory()

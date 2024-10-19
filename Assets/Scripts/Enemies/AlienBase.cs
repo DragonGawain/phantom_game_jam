@@ -31,6 +31,7 @@ public class AlienBase : MonoBehaviour
     Coroutine tempAggro;
 
     AlienBaseAudio alienBaseAudio;
+    bool firstSpawn = true;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,7 @@ public class AlienBase : MonoBehaviour
         {
             SpawnAlien();
         }
+        firstSpawn = false;
     }
 
     private void FixedUpdate()
@@ -71,7 +73,8 @@ public class AlienBase : MonoBehaviour
             Quaternion.identity
         );
         Alien al = alo.GetComponent<Alien>();
-        alienBaseAudio.SpawnSound();
+        if (!firstSpawn)
+            alienBaseAudio.SpawnSound();
         aliens.Add(al);
         al.SetBase(this);
 
@@ -79,6 +82,8 @@ public class AlienBase : MonoBehaviour
             al.SetTarget(targets[Random.Range(0, targets.Count)]);
         else
             al.StopAttack();
+
+        spawnTimerReset = Mathf.Clamp(spawnTimerReset + Random.Range(-250, 250), 1000, 2000);
     }
 
     public void KillAlien(Alien alien)
