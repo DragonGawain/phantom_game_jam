@@ -239,24 +239,7 @@ public class PlayerController : Movement
         }
     }
 
-    public GameObject FindNearestShipComponent()
-    {
-        GameObject[] shipComponents = GameObject.FindGameObjectsWithTag("ShipComponent");
-        GameObject nearestShipComponent = null;
-        float nearestDistance = Mathf.Infinity;
-
-        foreach(GameObject sc in shipComponents)
-        {
-            float distance = Vector3.Distance(this.transform.position, ship.transform.position);
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestShipComponent = sc;
-            }
-        }
-
-        return nearestShipComponent;
-    }
+    
     // public void ActivateAdvancedFlashlight()
     // {
     //     if (inventory.Contains(PlayerComponents.FLASHLIGHT))
