@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     GameObject advGunObject;
     GameObject bootsObject;
     GameObject flashlightObject;
+    GameObject forestItemBlocker;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
         advGunObject = Resources.Load<GameObject>("Items/AdvGun");
         bootsObject = Resources.Load<GameObject>("Items/Boots");
         flashlightObject = Resources.Load<GameObject>("Items/Flashlight");
+        forestItemBlocker = Resources.Load<GameObject>("ForestItemBlocker");
     }
 
     private void Start()
@@ -131,6 +133,7 @@ public class GameManager : MonoBehaviour
                     );
                 }
 
+                // spawn biome item in center
                 switch (terrainType)
                 {
                     case TerrainTypes.SWAMP:
@@ -204,16 +207,20 @@ public class GameManager : MonoBehaviour
                 area = terrain.transform.localScale.x * terrain.transform.localScale.y;
                 temp = area / 1000;
                 nbComps = Mathf.RoundToInt(temp + Random.Range(-temp / 5, temp / 5));
+                float xVal;
+                float yVal;
                 for (int i = 0; i < nbComps; i++)
                 {
+                    xVal = Random.Range(xBounds.x, xBounds.y);
+                    yVal = Random.Range(yBounds.x, yBounds.y);
                     // ensure that at least half of the components are of the prefered type
                     if (i < Mathf.CeilToInt(nbComps / 2) + 1)
                     {
                         component = Instantiate(
                             shipComponentObject,
                             new(
-                                Random.Range(xBounds.x, xBounds.y),
-                                Random.Range(yBounds.x, yBounds.y),
+                                xVal,
+                                yVal,
                                 0
                             ),
                             Quaternion.identity
@@ -231,12 +238,16 @@ public class GameManager : MonoBehaviour
                         Instantiate(
                             shipComponentObject,
                             new(
-                                Random.Range(xBounds.x, xBounds.y),
-                                Random.Range(yBounds.x, yBounds.y),
+                                xVal,
+                                yVal,
                                 0
                             ),
                             Quaternion.identity
                         );
+
+                    if (terrainType == TerrainTypes.FOREST)
+                        Instantiate(forestItemBlocker, new(xVal, yVal, 0), Quaternion.identity);
+                    
                 }
             }
         }
