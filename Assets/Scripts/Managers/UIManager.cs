@@ -118,7 +118,7 @@ public class UIManager : MonoBehaviour
     {
         uIAudio.OpenSound();
         isInShipInventory = true;
-        Time.timeScale = 0;
+        
         Transform inventoryCountsParent = shipInventoryMenu.transform.Find("InventoryParent");
         TextMeshProUGUI text;
         foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
@@ -131,13 +131,24 @@ public class UIManager : MonoBehaviour
             text.text =
                 text.text[..1].ToUpper()
                 + text.text[1..]
-                + " "
+                + ": "
                 + inventory[sc]
-                + " / "
+                + "/"
                 + Ship.GetRequiredInvetory()[sc];
 
             if (sc == ShipComponents.RCS)
                 text.text = text.text.ToUpper();
+
+            Debug.Log("type: " + sc.GetEnumDescription() + " - val: " + (inventory[sc] >= Ship.GetRequiredInvetory()[sc]));
+
+            if (inventory[sc] >= Ship.GetRequiredInvetory()[sc])
+            {
+                Debug.Log("hit");
+                shipInventoryMenu.transform.Find(sc.GetEnumDescription() + "_icon").GetComponent<Animator>().SetBool("isComplete", true);
+                
+                Debug.Log("test: " + shipInventoryMenu.transform.Find(sc.GetEnumDescription() + "_icon").GetComponent<Animator>().GetBool("isComplete"));
+                
+            }
         }
         questRoot1.SetActive(false);
         questRoot2.SetActive(false);
@@ -146,6 +157,8 @@ public class UIManager : MonoBehaviour
 
         shipInventoryMenu.GetComponentInChildren<Slider>().maxValue = maxHp;
         shipInventoryMenu.GetComponentInChildren<Slider>().value = hp;
+
+        Time.timeScale = 0;
     }
 
     public static void OpenShipInventory(

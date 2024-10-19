@@ -87,4 +87,10 @@ public class TerrainType : MonoBehaviour
                 break;
         }
     }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+            other.GetComponent<PlayerController>().StartCoroutine(other.GetComponent<PlayerController>().FlashTriggerBox());
+    }
 }

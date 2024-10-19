@@ -84,6 +84,17 @@ public class ShipPiece : Item
         {
             if (human.AddToShipInventory(shipComponentType))
             {
+                PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                // A human can pick up a quest target, so we need to clear the quest target if it does
+                if (transform == player.GetQuest1Target())
+                    player.SetQuest1Target(null);
+                if (transform == player.GetQuest2Target())
+                    player.SetQuest2Target(null);
+
+                if (player.GetQuest1Target() == null && player.GetQuest2Target() == null)
+                    UIManager.SetOperationText("OpGoToShipText");
+
+
                 human.CollectedShipPiece();
                 // bool check = seekers.Contains(human);
                 // if (check)

@@ -193,7 +193,7 @@ public class PlayerController : Movement
         return false;
     }
 
-    IEnumerator FlashTriggerBox()
+    public IEnumerator FlashTriggerBox()
     {
         CapsuleCollider2D triggerBox = GetComponent<CapsuleCollider2D>();
         triggerBox.enabled = false;
@@ -218,9 +218,26 @@ public class PlayerController : Movement
         if (size + Item.shipComponentSizes[newItem] <= shipInventorySize)
         {
             shipInventory.Add(newItem);
+            CheckQuestArrows(size + Item.shipComponentSizes[newItem]);
             return true;
         }
+        CheckQuestArrows(size);
         return false;
+    }
+
+    void CheckQuestArrows(int size)
+    {
+        Debug.Log("size: " + size);
+        if (questTarget1 != null)
+            if (size + Item.shipComponentSizes[questTarget1.GetComponent<ShipPiece>().GetShipComponentType()] > shipInventorySize)
+                SetQuest1Target(null);
+        
+        if (questTarget2 != null)
+            if (size + Item.shipComponentSizes[questTarget2.GetComponent<ShipPiece>().GetShipComponentType()] > shipInventorySize)
+                SetQuest2Target(null);
+
+        if (questTarget1 == null && questTarget2 == null)
+            UIManager.SetOperationText("OpGoToShipText");
     }
 
     public int GetAvailableShipInventory()

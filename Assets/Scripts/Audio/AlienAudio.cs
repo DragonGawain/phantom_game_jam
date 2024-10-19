@@ -10,7 +10,7 @@ public class AlienAudio : MonoBehaviour
     AudioClip[] tookDamageSounds;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         AudioSource[] temp = GetComponents<AudioSource>();
         attackingSource = temp[0];
