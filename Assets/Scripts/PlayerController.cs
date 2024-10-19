@@ -59,6 +59,9 @@ public class PlayerController : Movement
     Transform questPointer2;
     Transform shipPointer;
 
+    Transform questTarget1;
+    Transform questTarget2;
+
     float rot;
 
     // Start is called before the first frame update
@@ -263,6 +266,47 @@ public class PlayerController : Movement
             numberOfMissingComponents.text = missingComponentsList;
             numberOfMissingComponents.enabled = true;
         }
+    }
+
+    public GameObject FindNearestShipComponent()
+    {
+        GameObject[] shipComponents = GameObject.FindGameObjectsWithTag("ShipComponent");
+        GameObject nearestShipComponent = null;
+        float nearestDistance = Mathf.Infinity;
+
+        foreach (GameObject sc in shipComponents)
+        {
+            float distance = Vector3.Distance(this.transform.position, ship.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestShipComponent = sc;
+            }
+        }
+
+        return nearestShipComponent;
+    }
+
+    public Transform GetQuest1Target() => questTarget1;
+
+    public Transform GetQuest2Target() => questTarget2;
+
+    public void SetQuest1Target(Transform target)
+    {
+        questTarget1 = target;
+        if (target == null)
+            questPointer1.gameObject.SetActive(false);
+        else
+            questPointer1.gameObject.SetActive(true);
+    }
+
+    public void SetQuest2Target(Transform target)
+    {
+        questTarget2 = target;
+        if (target == null)
+            questPointer2.gameObject.SetActive(false);
+        else
+            questPointer2.gameObject.SetActive(true);
     }
 
     // public void ActivateAdvancedFlashlight()
