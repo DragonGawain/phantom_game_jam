@@ -31,7 +31,7 @@ public class PlayerAudio : MonoBehaviour
         dirtWalkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_dirt");
         swampWalkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_swamp");
         asphaltWalkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_asphalt");
-        // forestWalkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_forest");
+        forestWalkingSounds = Resources.LoadAll<AudioClip>("Audio/walking_forest");
         shootingSounds = Resources.LoadAll<AudioClip>("Audio/laser_fire/Player");
         tookDamageSound = Resources.Load<AudioClip>("Audio/damage_taken/player_damage_taken");
         endSequenceTookDamageSound = Resources.Load<AudioClip>(

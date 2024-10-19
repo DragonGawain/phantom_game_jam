@@ -62,8 +62,11 @@ public class Ship : MonoBehaviour
 
     GameObject shipComponentObject;
 
+    ShipAudio shipAudio;
+
     private void Awake()
     {
+        shipAudio = GetComponent<ShipAudio>();
         if (humanShip1 == null)
         {
             humanShip1 = Resources.Load<Sprite>("Vehicles/Enemy1Ship");
@@ -323,6 +326,8 @@ public class Ship : MonoBehaviour
             Debug.Log("SEND");
             player.EndSequenceDamage(hp);
         }
+        if (player != null && !PlayerController.isEndingSequence)
+            shipAudio.TakeDamageShortSound();
         if (hp <= 0)
         {
             if (player != null)
@@ -360,6 +365,7 @@ public class Ship : MonoBehaviour
         // Send the human to the ship
         else if (human != null)
         {
+            shipAudio.TakeDamageShortSound();
             human.SetTarget(transform);
             human.SetCombatState(Enemy.CombatState.FORCE_ARRIVE);
         }
