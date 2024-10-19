@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     GameObject ship;
     GameObject human;
     GameObject shipComponentObject;
+    GameObject gunObject;
     GameObject advGunObject;
     GameObject bootsObject;
     GameObject flashlightObject;
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
         ship = Resources.Load<GameObject>("HumanShip");
         human = Resources.Load<GameObject>("HumanEnemy2");
         shipComponentObject = Resources.Load<GameObject>("Items/ShipComponent");
+        gunObject = Resources.Load<GameObject>("Items/Gun");
         advGunObject = Resources.Load<GameObject>("Items/AdvGun");
         bootsObject = Resources.Load<GameObject>("Items/Boots");
         flashlightObject = Resources.Load<GameObject>("Items/Flashlight");
@@ -136,6 +138,13 @@ public class GameManager : MonoBehaviour
                 // spawn biome item in center
                 switch (terrainType)
                 {
+                    case TerrainTypes.NORMAL:
+                        Instantiate(
+                            gunObject,
+                            new(terrain.transform.position.x, terrain.transform.position.y, 0),
+                            Quaternion.identity
+                        );
+                        break;
                     case TerrainTypes.SWAMP:
                         Instantiate(
                             bootsObject,

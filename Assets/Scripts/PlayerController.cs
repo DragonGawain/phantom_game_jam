@@ -165,16 +165,29 @@ public class PlayerController : Movement
         if (size + Item.playerComponentSizes[newItem] <= inventorySize)
         {
             inventory.Add(newItem);
-            if (newItem == PlayerComponents.FLASHLIGHT)
+            switch (newItem)
             {
-                flashlight.gameObject.SetActive(false);
-                advFlashlight.gameObject.SetActive(true);
+                case PlayerComponents.GUN:
+                    UIManager.ActivateHudItem("gun");
+                    break;
+                case PlayerComponents.ADV_GUN:
+                    UIManager.ActivateHudItem("advGun");
+                    break;
+                case PlayerComponents.BOOTS:
+                    swampSpeedModifier = -0.25f;
+                    StartCoroutine(FlashTriggerBox());
+                    UIManager.ActivateHudItem("boots");
+                    break;
+                case PlayerComponents.FLASHLIGHT:
+                    flashlight.gameObject.SetActive(false);
+                    advFlashlight.gameObject.SetActive(true);
+                    UIManager.ActivateHudItem("flashlight");
+                    break;
+                case PlayerComponents.COIN:
+                    UIManager.ActivateHudItem("coin");
+                    break;
             }
-            else if (newItem == PlayerComponents.BOOTS)
-            {
-                swampSpeedModifier = -0.25f;
-                StartCoroutine(FlashTriggerBox());
-            }
+            
             return true;
         }
         return false;

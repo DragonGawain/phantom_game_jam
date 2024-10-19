@@ -25,6 +25,7 @@ public abstract class Item : MonoBehaviour
             { PlayerComponents.ADV_GUN, 0 },
             { PlayerComponents.BOOTS, 0 },
             { PlayerComponents.FLASHLIGHT, 0 },
+            { PlayerComponents.COIN, 0 },
         };
 
     protected ComponentAudio componentAudio;
@@ -72,5 +73,6 @@ public enum PlayerComponents
     GUN,
     ADV_GUN,
     BOOTS,
-    FLASHLIGHT
+    FLASHLIGHT,
+    COIN
 }

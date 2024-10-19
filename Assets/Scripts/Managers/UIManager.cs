@@ -162,7 +162,7 @@ public class UIManager : MonoBehaviour
         questRoot1.SetActive(true);
         questRoot2.SetActive(true);
         questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
-        questRoot2.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
+        questRoot2.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q2Item.GetEnumDescription().Replace("_", " ");
     }
 
     public static void CloseShipInventory()
@@ -203,6 +203,28 @@ public class UIManager : MonoBehaviour
     {
         ActivateMenu("hud");
         hud.transform.Find("TimerRoot").gameObject.SetActive(true);
+    }
+
+    public static void ActivateHudItem(string item)
+    {
+        switch (item)
+        {
+            case "gun":
+                hud.transform.Find("Gun").gameObject.SetActive(true);
+                break;
+            case "advGun":
+                hud.transform.Find("AdvGun").gameObject.SetActive(true);
+                break;
+            case "boots":
+                hud.transform.Find("Boots").gameObject.SetActive(true);
+                break;
+            case "flashlight":
+                hud.transform.Find("Flashlight").gameObject.SetActive(true);
+                break;
+            case "coin":
+                hud.transform.Find("Coin").gameObject.SetActive(true);
+                break;
+        }
     }
 
     public static void UpdateWinCounter(int time)
