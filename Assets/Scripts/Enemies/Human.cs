@@ -335,8 +335,8 @@ public class Human : Enemy
 
     protected override void TakeDamage(int amt, bool isBullet = false)
     {
-        base.TakeDamage(amt, isBullet);
         humanAudio.TookDamageSound();
+        base.TakeDamage(amt, isBullet);
         OnOnTrigger(ship.transform, isBullet);
     }
 

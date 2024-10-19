@@ -52,6 +52,15 @@ public class PlayerController : Movement
     PlayerAudio playerAudio;
     public static bool isEndingSequence = false;
 
+    Transform flashlight;
+    Transform advFlashlight;
+
+    Transform questPointer1;
+    Transform questPointer2;
+    Transform shipPointer;
+
+    float rot;
+
     // Start is called before the first frame update
     protected override void OnAwake()
     {
@@ -66,6 +75,12 @@ public class PlayerController : Movement
         hp = maxHp;
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         ship.SetPlayer(this);
+        questPointer1 = transform.Find("QuestPointerRoot1");
+        questPointer2 = transform.Find("QuestPointerRoot2");
+        shipPointer = transform.Find("ShipPointer");
+
+        flashlight = transform.Find("Flashlight");
+        advFlashlight = transform.Find("AdvancedFlashlight");
 
         // numberOfMissingComponents.enabled = false;
     }
@@ -86,11 +101,9 @@ public class PlayerController : Movement
             // if (rb.velocity.magnitude < 0)
             //     rb.velocity = Vector2.zero;
 
-            transform.localEulerAngles = new Vector3(
-                0,
-                0,
-                Vector2.SignedAngle(new Vector2(0, 1).normalized, rb.velocity.normalized)
-            );
+            rot = Vector2.SignedAngle(new Vector2(0, 1).normalized, rb.velocity.normalized);
+            flashlight.localEulerAngles = new Vector3(0, 0, rot);
+            advFlashlight.localEulerAngles = new Vector3(0, 0, rot);
         }
         // if (movementInput.magnitude == 0)
         if (rb.velocity.magnitude < 0.15f)
@@ -105,6 +118,19 @@ public class PlayerController : Movement
             advShootCooldown--;
 
         // missingComponentsIndicator();
+
+        // ship pointer
+        shipPointer.localEulerAngles = new Vector3(
+            0,
+            0,
+            Vector2.SignedAngle(
+                Vector2.up,
+                new Vector2(
+                    ship.transform.position.x - transform.position.x,
+                    ship.transform.position.y - transform.position.y
+                )
+            )
+        );
     }
 
     // inventory management
@@ -119,8 +145,8 @@ public class PlayerController : Movement
             inventory.Add(newItem);
             if (newItem == PlayerComponents.FLASHLIGHT)
             {
-                transform.Find("Flashlight").gameObject.SetActive(false);
-                transform.Find("AdvancedFlashlight").gameObject.SetActive(true);
+                flashlight.gameObject.SetActive(false);
+                advFlashlight.gameObject.SetActive(true);
             }
             else if (newItem == PlayerComponents.BOOTS)
                 swampSpeedModifier = -0.25f;
@@ -245,7 +271,7 @@ public class PlayerController : Movement
         GameObject nearestShipComponent = null;
         float nearestDistance = Mathf.Infinity;
 
-        foreach(GameObject sc in shipComponents)
+        foreach (GameObject sc in shipComponents)
         {
             float distance = Vector3.Distance(this.transform.position, ship.transform.position);
             if (distance < nearestDistance)
@@ -257,6 +283,7 @@ public class PlayerController : Movement
 
         return nearestShipComponent;
     }
+
     // public void ActivateAdvancedFlashlight()
     // {
     //     if (inventory.Contains(PlayerComponents.FLASHLIGHT))
