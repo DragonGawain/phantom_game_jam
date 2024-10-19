@@ -428,7 +428,7 @@ public class Enemy : Movement
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Alien"))
+        if (!PlayerController.isEndingSequence && other.gameObject.CompareTag("Alien"))
         {
             TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
             other.gameObject.GetComponent<Alien>().PlayAttackSound();

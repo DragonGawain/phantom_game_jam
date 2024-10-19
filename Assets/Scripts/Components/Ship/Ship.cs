@@ -330,7 +330,6 @@ public class Ship : MonoBehaviour
         hp -= amt;
         if (player != null && PlayerController.isEndingSequence)
         {
-            Debug.Log("SEND");
             player.EndSequenceDamage(hp);
         }
         if (player != null && !PlayerController.isEndingSequence)

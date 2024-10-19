@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     static UIAudio uIAudio;
 
     public static bool isInShipInventory = false;
+    public static bool isInPauseMenu = false;
 
     Slider hpSlider;
     
@@ -70,7 +71,7 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("CraigScene");
 
-        ActivateMenu("HUD");
+        ActivateMenu("hud");
     }
 
     public void QuitGame()
@@ -80,6 +81,7 @@ public class UIManager : MonoBehaviour
 
     public static void Pause()
     {
+        isInPauseMenu = true;
         Time.timeScale = 0;
         ActivateMenu("pauseMenu");
     }
@@ -87,7 +89,15 @@ public class UIManager : MonoBehaviour
     public static void UnPause()
     {
         Time.timeScale = 1;
-        ActivateMenu();
+        isInPauseMenu = false;
+        ActivateMenu("hud");
+    }
+
+    public static void ReturnToMainMenu()
+    {
+        Time.timeScale = 1;
+        isInPauseMenu = false;
+        ActivateMenu("mainMenu");
     }
 
     public void SetMaxHealth(int hp)

@@ -86,7 +86,7 @@ public class PlayerController : Movement
 
     private void Start()
     {
-        UIManager.ActivateMenu("hud");
+        // UIManager.ActivateMenu("hud");
         uiManager.SetMaxHealth(maxHp);
     }
 
@@ -283,8 +283,10 @@ public class PlayerController : Movement
     {
         if (UIManager.isInShipInventory)
             UIManager.CloseShipInventory();
-        else
-            Application.Quit();
+        else if (!UIManager.isInPauseMenu)
+            UIManager.Pause();
+        else if (UIManager.isInPauseMenu)
+            UIManager.UnPause();
     }
 
     public void TakeDamage(int amt = 1)

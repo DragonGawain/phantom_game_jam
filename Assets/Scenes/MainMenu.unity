@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6548561914991261743, guid: 31c91149b47e24cbe9787ca6667f4acf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6548561914991261743, guid: 31c91149b47e24cbe9787ca6667f4acf, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -575,6 +575,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3179886696670261070, guid: 77e81739d00486e4daa8e7f16160433a, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8520361363297744620, guid: 77e81739d00486e4daa8e7f16160433a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8520361363297744620, guid: 77e81739d00486e4daa8e7f16160433a, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -720,7 +728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9079730446442698452, guid: f45d42150171d4fcf9f94ab6f5b2d4f5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9079730446442698452, guid: f45d42150171d4fcf9f94ab6f5b2d4f5, type: 3}
       propertyPath: m_TagString
@@ -810,11 +818,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3085451156642405980, guid: bebcf5fb38ae944cab6c396ad6fb8cd7, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3085451156642405980, guid: bebcf5fb38ae944cab6c396ad6fb8cd7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5962739033649208352, guid: bebcf5fb38ae944cab6c396ad6fb8cd7, type: 3}
       propertyPath: m_ReferenceResolution.x
@@ -910,7 +918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7978116114610715746, guid: bebcf5fb38ae944cab6c396ad6fb8cd7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7978116114610715746, guid: bebcf5fb38ae944cab6c396ad6fb8cd7, type: 3}
       propertyPath: m_TagString

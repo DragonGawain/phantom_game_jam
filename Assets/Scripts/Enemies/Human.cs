@@ -52,6 +52,9 @@ public class Human : Enemy
         idTracker++;
 
         humanAudio = GetComponent<HumanAudio>();
+
+        maxHp = 20;
+        hp = 20;
     }
 
     private void Update()
@@ -313,7 +316,7 @@ public class Human : Enemy
         if (PlayerController.isEndingSequence)
             return;
 
-        if (hp >= 8)
+        if (hp >= 13)
         {
             SetCombatState(CombatState.ARRIVE);
             CollectedShipPiece();
@@ -344,7 +347,7 @@ public class Human : Enemy
 
     protected override void OnOnTrigger(Transform other, bool isBullet)
     {
-        if (hp <= 5 && !PlayerController.isEndingSequence)
+        if (hp <= 8 && !PlayerController.isEndingSequence)
         {
             Transform temp = DetermineFleePoint(ship.transform, "HPPickup");
             if (temp.gameObject == ship.gameObject)
