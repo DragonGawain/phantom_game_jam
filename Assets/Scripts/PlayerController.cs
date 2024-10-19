@@ -297,6 +297,9 @@ public class PlayerController : Movement
     public Transform GetQuest1Target() => questTarget1;
 
     public Transform GetQuest2Target() => questTarget2;
+    
+    public ShipComponents GetQuest1ShipComponentType() => questTarget1.GetComponent<ShipPiece>().GetShipComponentType();
+    public ShipComponents GetQuest2ShipComponentType() => questTarget2.GetComponent<ShipPiece>().GetShipComponentType();
 
     public void SetQuest1Target(Transform target)
     {
@@ -360,6 +363,13 @@ public class PlayerController : Movement
         maxMoveSpeed = GetOriginalSpeed() + ship.Inventory[ShipComponents.ENGINES] * 0.7f;
 
         uiManager.SetMaxHealth(ship.GetMaxHp());
+        StartCoroutine(EndSequenceWinTimer());
+    }
+
+    IEnumerator EndSequenceWinTimer()
+    {
+        yield return new WaitForSeconds(300);
+        Debug.Log("<color=blue>YOU WIN!!!!! YAY!!</color>");
     }
 
     public void EndSequenceDamage(int val)

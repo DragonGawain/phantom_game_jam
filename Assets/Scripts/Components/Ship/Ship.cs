@@ -257,6 +257,9 @@ public class Ship : MonoBehaviour
                     AddPieceToShip(sp);
                 }
 
+                if (PlayerController.isEndingSequence)
+                    return;
+
                 if (pc.GetQuest1Target() == null)
                 {
                     pc.SetQuest1Target(
@@ -280,7 +283,14 @@ public class Ship : MonoBehaviour
                     );
                 }
 
-                UIManager.OpenShipInventory(inventory);
+                if (pc.GetQuest1Target() != null && pc.GetQuest2Target() != null)
+                    UIManager.OpenShipInventory(inventory, pc.GetQuest1ShipComponentType(), pc.GetQuest2ShipComponentType());
+                else if (pc.GetQuest1Target() != null && pc.GetQuest2Target() == null)
+                    UIManager.OpenShipInventory(inventory, pc.GetQuest1ShipComponentType());
+                else if (pc.GetQuest1Target() == null && pc.GetQuest2Target() != null)
+                    UIManager.OpenShipInventory(inventory, pc.GetQuest2ShipComponentType());
+                else if (pc.GetQuest1Target() == null && pc.GetQuest2Target() == null)
+                    UIManager.OpenShipInventory(inventory);
             }
         }
         else if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))

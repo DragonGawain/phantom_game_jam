@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     public static bool isInShipInventory = false;
 
     Slider hpSlider;
+    
+    static GameObject questRoot1;
+    static GameObject questRoot2;
 
     // public Gradient gradient;
     // public Image fill;
@@ -44,6 +47,9 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(shipInventoryMenu);
 
         hpSlider = hud.transform.Find("HealthBar").GetComponent<Slider>();
+        
+        questRoot1 = shipInventoryMenu.transform.Find("Quest1Root").gameObject;
+        questRoot2 = shipInventoryMenu.transform.Find("Quest2Root").gameObject;
 
         ActivateMenu("mainMenu");
     }
@@ -111,27 +117,32 @@ public class UIManager : MonoBehaviour
             if (sc == ShipComponents.RCS)
                 text.text = text.text.ToUpper();
         }
+        questRoot1.SetActive(false);
+        questRoot2.SetActive(false);
         ActivateMenu("shipInv");
     }
 
     public static void OpenShipInventory(
         Dictionary<ShipComponents, int> inventory,
-        ShipComponents q1Item,
-        float q1Dir
+        ShipComponents q1Item
     )
     {
         OpenShipInventory(inventory);
+        questRoot1.SetActive(true);
+        questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
     }
 
     public static void OpenShipInventory(
         Dictionary<ShipComponents, int> inventory,
         ShipComponents q1Item,
-        float q1Dir,
-        ShipComponents q2Item,
-        float q2Dir
+        ShipComponents q2Item
     )
     {
         OpenShipInventory(inventory);
+        questRoot1.SetActive(true);
+        questRoot2.SetActive(true);
+        questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
+        questRoot2.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
     }
 
     public static void CloseShipInventory()
