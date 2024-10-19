@@ -58,6 +58,8 @@ public class Ship : MonoBehaviour
     public int hp = 25;
     int maxHp = 25;
 
+    int iFrameCounter = 0;
+
     GameObject shipComponentObject;
 
     private void Awake()
@@ -74,6 +76,12 @@ public class Ship : MonoBehaviour
         shipComponentObject = Resources.Load<GameObject>("Items/ShipComponent");
         foreach (ShipComponents sp in initialComps)
             AddPieceToShip(sp);
+    }
+
+    private void FixedUpdate()
+    {
+        if (iFrameCounter > 0)
+            iFrameCounter--;
     }
 
     public void AddToInitComps(ShipComponents sc) => initialComps.Add(sc);
@@ -249,12 +257,6 @@ public class Ship : MonoBehaviour
                     AddPieceToShip(sp);
                 }
 
-                // foreach (KeyValuePair<ShipComponents, int> sp in inventory)
-                // {
-                //     Debug.Log(sp.Key + " -> " + sp.Value);
-                // }
-
-
                 if (pc.GetQuest1Target() == null)
                 {
                     pc.SetQuest1Target(
@@ -296,8 +298,23 @@ public class Ship : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Alien"))
+        {
+            if (iFrameCounter > 0)
+                return;
+            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
+            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+        }
+    }
+
     void TakeDamage(int amt)
     {
+        if (iFrameCounter > 0)
+            return;
+
+        iFrameCounter = 100; // 50 FUs per second => 100 / 50 = 2 seconds of iFrames
         hp -= amt;
         if (player != null && PlayerController.isEndingSequence)
         {
