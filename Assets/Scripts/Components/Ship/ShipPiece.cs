@@ -15,17 +15,34 @@ public class ShipPiece : Item
     [SerializeField]
     bool isSpecificItem = false;
 
-    [SerializeField]
-    TextMeshProUGUI text;
+    readonly static Dictionary<ShipComponents, Sprite> componentSprites =
+        new()
+        {
+            { ShipComponents.NOSE_GEAR, null },
+            { ShipComponents.LANDING_GEAR, null },
+            { ShipComponents.OXYGEN_TANK, null },
+            { ShipComponents.FUEL_TANK, null },
+            { ShipComponents.SOLID_BOOSTERS, null },
+            { ShipComponents.ENGINES, null },
+            { ShipComponents.RCS, null },
+            { ShipComponents.WINGS, null },
+        };
 
     protected override void OnAwake()
     {
+        if (componentSprites[ShipComponents.NOSE_GEAR] == null)
+            foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
+                componentSprites[sc] = Resources.Load<Sprite>(
+                    "Ship Parts/" + sc.GetEnumDescription()
+                );
+
         if (!isSpecificItem)
             shipComponentType = (ShipComponents)
                 Random.Range(0, Enum.GetNames(typeof(ShipComponents)).Length);
+        GetComponent<SpriteRenderer>().sprite = componentSprites[shipComponentType];
 
         gameObject.tag = shipComponentType.GetEnumDescription();
-        text.text = shipComponentType.GetEnumDescription().Replace("_", " ");
+
         // set the sprite of the component (or UI popup if there are no specific sprites)
     }
 

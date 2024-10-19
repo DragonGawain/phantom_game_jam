@@ -14,7 +14,7 @@ public class AlienBaseAudio : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         deathSound = Resources.Load<AudioClip>("Audio/damage_taken/alien_nest_break");
-        spawnSound = Resources.Load<AudioClip>("Audio/alienSpawn");
+        spawnSound = Resources.Load<AudioClip>("Audio/alien_spawn");
     }
 
     public void DeathSound()
