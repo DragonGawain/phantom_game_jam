@@ -74,6 +74,9 @@ public class ShipPiece : Item
                 if (transform == pc.GetQuest2Target())
                     pc.SetQuest2Target(null);
 
+                if (pc.GetQuest1Target() == null && pc.GetQuest2Target() == null)
+                    UIManager.SetOperationText("OpGoToShipText");
+
                 Destroy(gameObject);
             }
         }

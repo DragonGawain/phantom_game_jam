@@ -171,6 +171,8 @@ public class UIManager : MonoBehaviour
         uIAudio.CloseSound();
         isInShipInventory = false;
         ActivateMenu("hud");
+
+        SetOperationText("OpCollectText");
     }
 
     public static void ActivateMenu(string canvasName = "")
@@ -203,6 +205,8 @@ public class UIManager : MonoBehaviour
     {
         ActivateMenu("hud");
         hud.transform.Find("TimerRoot").gameObject.SetActive(true);
+        hud.transform.Find("OpCollectText").gameObject.SetActive(false);
+        hud.transform.Find("OpGoToShipText").gameObject.SetActive(false);
     }
 
     public static void ActivateHudItem(string item)
@@ -225,6 +229,15 @@ public class UIManager : MonoBehaviour
                 hud.transform.Find("Coin").gameObject.SetActive(true);
                 break;
         }
+    }
+
+    public static void SetOperationText(string text)
+    {
+        hud.transform.Find("OpCollectText").gameObject.SetActive(false);
+        hud.transform.Find("OpGoToShipText").gameObject.SetActive(false);
+
+        hud.transform.Find(text).gameObject.SetActive(true);
+        
     }
 
     public static void UpdateWinCounter(int time)
