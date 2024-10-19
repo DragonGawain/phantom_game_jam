@@ -51,6 +51,12 @@ public class ShipPiece : Item
             if (pc.AddToShipInventory(shipComponentType))
             {
                 componentAudio.PlayShipCompGet();
+
+                if (transform == pc.GetQuest1Target())
+                    pc.SetQuest1Target(null);
+                if (transform == pc.GetQuest2Target())
+                    pc.SetQuest2Target(null);
+
                 Destroy(gameObject);
             }
         }

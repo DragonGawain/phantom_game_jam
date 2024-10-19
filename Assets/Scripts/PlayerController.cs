@@ -134,6 +134,30 @@ public class PlayerController : Movement
                 )
             )
         );
+        if (questTarget1 != null)
+            questPointer1.localEulerAngles = new Vector3(
+                0,
+                0,
+                Vector2.SignedAngle(
+                    Vector2.up,
+                    new Vector2(
+                        questTarget1.transform.position.x - transform.position.x,
+                        questTarget1.transform.position.y - transform.position.y
+                    )
+                )
+            );
+        if (questTarget2 != null)
+            questPointer2.localEulerAngles = new Vector3(
+                0,
+                0,
+                Vector2.SignedAngle(
+                    Vector2.up,
+                    new Vector2(
+                        questTarget2.transform.position.x - transform.position.x,
+                        questTarget2.transform.position.y - transform.position.y
+                    )
+                )
+            );
     }
 
     // inventory management
@@ -178,6 +202,14 @@ public class PlayerController : Movement
             return true;
         }
         return false;
+    }
+
+    public int GetAvailableShipInventory()
+    {
+        int size = 0;
+        foreach (ShipComponents item in shipInventory)
+            size += Item.shipComponentSizes[item];
+        return 10 - size;
     }
 
     public void RemoveFromShipInventory(ShipComponents item)
@@ -268,24 +300,24 @@ public class PlayerController : Movement
         }
     }
 
-    public GameObject FindNearestShipComponent()
-    {
-        GameObject[] shipComponents = GameObject.FindGameObjectsWithTag("ShipComponent");
-        GameObject nearestShipComponent = null;
-        float nearestDistance = Mathf.Infinity;
+    // public GameObject FindNearestShipComponent()
+    // {
+    //     GameObject[] shipComponents = GameObject.FindGameObjectsWithTag("ShipComponent");
+    //     GameObject nearestShipComponent = null;
+    //     float nearestDistance = Mathf.Infinity;
 
-        foreach (GameObject sc in shipComponents)
-        {
-            float distance = Vector3.Distance(this.transform.position, ship.transform.position);
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestShipComponent = sc;
-            }
-        }
+    //     foreach (GameObject sc in shipComponents)
+    //     {
+    //         float distance = Vector3.Distance(this.transform.position, ship.transform.position);
+    //         if (distance < nearestDistance)
+    //         {
+    //             nearestDistance = distance;
+    //             nearestShipComponent = sc;
+    //         }
+    //     }
 
-        return nearestShipComponent;
-    }
+    //     return nearestShipComponent;
+    // }
 
     public Transform GetQuest1Target() => questTarget1;
 
@@ -293,6 +325,8 @@ public class PlayerController : Movement
 
     public void SetQuest1Target(Transform target)
     {
+        if (target == transform)
+            target = null;
         questTarget1 = target;
         if (target == null)
             questPointer1.gameObject.SetActive(false);
@@ -302,6 +336,8 @@ public class PlayerController : Movement
 
     public void SetQuest2Target(Transform target)
     {
+        if (target == transform)
+            target = null;
         questTarget2 = target;
         if (target == null)
             questPointer2.gameObject.SetActive(false);

@@ -78,11 +78,11 @@ public class Ship : MonoBehaviour
 
     public void AddToInitComps(ShipComponents sc) => initialComps.Add(sc);
 
-    public Vector3 GetPositionOfNearestNeededShipPiece(
-        Transform source,
-        List<ShipComponents> carrying,
-        int availableSPace
-    ) => GetTransformOfNearestNeededShipPiece(source, carrying, availableSPace).position;
+    // public Vector3 GetPositionOfNearestNeededShipPiece(
+    //     Transform source,
+    //     List<ShipComponents> carrying,
+    //     int availableSPace
+    // ) => GetTransformOfNearestNeededShipPiece(source, carrying, availableSPace).position;
 
     public void SetHuman(Human human)
     {
@@ -95,7 +95,8 @@ public class Ship : MonoBehaviour
     public Transform GetTransformOfNearestNeededShipPiece(
         Transform source,
         List<ShipComponents> carrying,
-        int availableSPace
+        int availableSPace,
+        Transform exclude = null
     )
     {
         Transform pos = source;
@@ -146,6 +147,8 @@ public class Ship : MonoBehaviour
             float dist = int.MaxValue;
             foreach (GameObject ptl in potentialTargetLocs)
             {
+                if (ptl.transform == exclude)
+                    continue;
                 if (Vector3.Distance(ptl.transform.position, source.position) < dist)
                 {
                     dist = Vector3.Distance(ptl.transform.position, source.position);
@@ -250,6 +253,30 @@ public class Ship : MonoBehaviour
                 // {
                 //     Debug.Log(sp.Key + " -> " + sp.Value);
                 // }
+
+
+                if (pc.GetQuest1Target() == null)
+                {
+                    pc.SetQuest1Target(
+                        GetTransformOfNearestNeededShipPiece(
+                            pc.transform,
+                            new(),
+                            pc.GetAvailableShipInventory(),
+                            pc.GetQuest2Target()
+                        )
+                    );
+                }
+                if (pc.GetQuest2Target() == null)
+                {
+                    pc.SetQuest2Target(
+                        GetTransformOfNearestNeededShipPiece(
+                            pc.transform,
+                            new(),
+                            pc.GetAvailableShipInventory(),
+                            pc.GetQuest1Target()
+                        )
+                    );
+                }
             }
         }
         else if (other.CompareTag("Bullet") || other.CompareTag("EvilBullet"))
