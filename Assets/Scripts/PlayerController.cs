@@ -41,9 +41,6 @@ public class PlayerController : Movement
     [SerializeField]
     Ship ship;
 
-    [SerializeField]
-    TextMeshProUGUI numberOfMissingComponents;
-
     PlayerAudio playerAudio;
     public static bool isEndingSequence = false;
 
@@ -86,7 +83,6 @@ public class PlayerController : Movement
         animator = GetComponent<Animator>();
 
 
-        // numberOfMissingComponents.enabled = false;
     }
 
     private void Start()

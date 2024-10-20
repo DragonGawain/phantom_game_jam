@@ -74,6 +74,8 @@ public class Enemy : Movement
 
     protected Animator animator;
 
+    public bool spec = false;
+
     // Start is called before the first frame update
     protected override void OnAwake()
     {
@@ -91,20 +93,24 @@ public class Enemy : Movement
 
     private void FixedUpdate()
     {
-        animator.SetInteger("direction", 0);
+        if (!spec)
+        {
 
-        // left
-        if (rb.velocity.x < -0.2f)
-            animator.SetInteger("direction", 1);
-        // right
-        if (rb.velocity.x > 0.2f)
-            animator.SetInteger("direction", 2);
-        // up
-        if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y > 0.2f)
-            animator.SetInteger("direction", 3);
-        // down
-        if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y < -0.2f)
-            animator.SetInteger("direction", 4);
+            animator.SetInteger("direction", 0);
+
+            // left
+            if (rb.velocity.x < -0.2f)
+                animator.SetInteger("direction", 1);
+            // right
+            if (rb.velocity.x > 0.2f)
+                animator.SetInteger("direction", 2);
+            // up
+            if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y > 0.2f)
+                animator.SetInteger("direction", 3);
+            // down
+            if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y < -0.2f)
+                animator.SetInteger("direction", 4);
+        }
 
         if (target != null)
         {

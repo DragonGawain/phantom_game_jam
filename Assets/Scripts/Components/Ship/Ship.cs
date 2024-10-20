@@ -64,6 +64,8 @@ public class Ship : MonoBehaviour
 
     ShipAudio shipAudio;
 
+    public bool spec = false;
+
     private void Awake()
     {
         shipAudio = GetComponent<ShipAudio>();
@@ -98,7 +100,8 @@ public class Ship : MonoBehaviour
     public bool SetHuman(Human human)
     {
         bool ret = Random.Range(-1f, 1f) < 0;
-        GetComponent<SpriteRenderer>().sprite = ret ? humanShip1 : humanShip2;
+        if (!spec)
+            GetComponent<SpriteRenderer>().sprite = ret ? humanShip1 : humanShip2;
         this.human = human;
         return ret;
     }

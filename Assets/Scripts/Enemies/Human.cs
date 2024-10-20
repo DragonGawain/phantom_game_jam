@@ -39,13 +39,15 @@ public class Human : Enemy
     HumanAudio humanAudio;
     Sprite evilBulletSprite;
 
+    
+
     // Awake is used in the parent 'Enemy', so we'll just use Start instead
     void Start()
     {
         FindNewShipPiece();
         bool version = ship.SetHuman(this);
 
-        if (!version)
+        if (!version && !spec)
             animator.runtimeAnimatorController =
                 Resources.Load("Characters/Human2/Human2") as RuntimeAnimatorController;
         fleePoint = ship.transform.position;
