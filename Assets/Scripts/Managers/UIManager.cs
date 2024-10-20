@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     static GameObject hud;
     static GameObject shipInventoryMenu;
     static GameObject gameOverMenu;
+    static GameObject winCanvas;
 
     static UIAudio uIAudio;
 
@@ -27,7 +28,11 @@ public class UIManager : MonoBehaviour
 
     static TextMeshProUGUI timerText;
 
-    static int winCountdown = 300 * 50;
+    static int winCountdown = 2 * 50;
+
+    static string winText1 = "SHIP TAKEOFF PROCEDURE COMPLETED - LAUNCH SUCCESSFUL.";
+    static string winText2 = "NEW MISSION DIRECTIVES RECEIVED:";
+    static string winText3 = "OPERATION: YOU JUST LOST THE GAME";
 
     // public Gradient gradient;
     // public Image fill;
@@ -47,6 +52,7 @@ public class UIManager : MonoBehaviour
         hud = GameObject.FindGameObjectWithTag("HUD");
         shipInventoryMenu = GameObject.FindGameObjectWithTag("ShipInvMenu");
         gameOverMenu = GameObject.FindGameObjectWithTag("GameOverMenu");
+        winCanvas = GameObject.FindGameObjectWithTag("winMenu");
 
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(mainMenu);
@@ -54,6 +60,7 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(hud);
         DontDestroyOnLoad(shipInventoryMenu);
         DontDestroyOnLoad(gameOverMenu);
+        DontDestroyOnLoad(winCanvas);
 
         hpSlider = hud.transform.Find("HealthBar").GetComponent<Slider>();
 
@@ -70,7 +77,7 @@ public class UIManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (PlayerController.isEndingSequence)
+        if (PlayerController.isEndingSequence && winCountdown >= 0)
             UpdateWinCounter(winCountdown--);
     }
 
@@ -239,6 +246,7 @@ public class UIManager : MonoBehaviour
         hud.SetActive(false);
         shipInventoryMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        winCanvas.SetActive(false);
 
         switch (canvasName)
         {
@@ -257,6 +265,9 @@ public class UIManager : MonoBehaviour
             case "gameOver":
                 gameOverMenu.SetActive(true);
                 break;
+            case "win":
+                winCanvas.SetActive(true);
+                break;
             default:
                 break;
         }
@@ -265,6 +276,7 @@ public class UIManager : MonoBehaviour
     public static void ActivateEndTimer()
     {
         ActivateMenu("hud");
+        AudioManager.PlayBoss();
         hud.transform.Find("TimerRoot").gameObject.SetActive(true);
         hud.transform.Find("OpCollectText").gameObject.SetActive(false);
         hud.transform.Find("OpGoToShipText").gameObject.SetActive(false);
@@ -294,6 +306,7 @@ public class UIManager : MonoBehaviour
 
     public static void SetOperationText(string text)
     {
+        hud.transform.Find("TimerRoot").gameObject.SetActive(false);
         hud.transform.Find("OpCollectText").gameObject.SetActive(false);
         hud.transform.Find("OpGoToShipText").gameObject.SetActive(false);
 
@@ -302,9 +315,13 @@ public class UIManager : MonoBehaviour
 
     public static void UpdateWinCounter(int time)
     {
+        if (time == 0)
+            WinConditionAchieved();
+
         time = Mathf.FloorToInt(time / 50f);
         int min = Mathf.FloorToInt(time / 60f);
         timerText.text = "TIME REMAINING: " + min + ":" + (time - (min * 60));
+        
     }
 
     public static void LoseCondition(string text)
@@ -314,5 +331,39 @@ public class UIManager : MonoBehaviour
         ActivateMenu("gameOver");
         gameOverMenu.transform.Find("GOText").GetComponent<TextMeshProUGUI>().text = text;
 
+    }
+
+    public static void WinConditionAchieved()
+    {
+        ActivateMenu("win");
+        Time.timeScale = 0;
+        instance.StartCoroutine(YouIsWinner());
+    }
+
+    static IEnumerator YouIsWinner()
+    {
+        Debug.Log("test point");
+        TextMeshProUGUI t1 = winCanvas.transform.Find("Text1").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI t2 = winCanvas.transform.Find("Text2").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI t3 = winCanvas.transform.Find("Text3").GetComponent<TextMeshProUGUI>();
+        foreach (char letter in winText1)
+        {
+            t1.text += letter; 
+            yield return new WaitForSecondsRealtime(0.075f); 
+        }
+
+        foreach (char letter in winText2)
+        {
+            t2.text += letter; 
+            yield return new WaitForSecondsRealtime(0.09f); 
+        }
+
+        foreach (char letter in winText3)
+        {
+            t3.text += letter; 
+            yield return new WaitForSecondsRealtime(0.15f); 
+        }
+        yield return new WaitForSecondsRealtime(5);
+        ReturnToMainMenu();
     }
 }
