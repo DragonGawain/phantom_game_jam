@@ -81,7 +81,7 @@ public class AudioManager : MonoBehaviour
 
     static IEnumerator WaitForIntroToFinish()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSecondsRealtime(2);
         while (mainAudioSource.isPlaying)
             yield return null;
         introPlayed = true;

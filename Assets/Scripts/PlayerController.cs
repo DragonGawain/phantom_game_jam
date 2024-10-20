@@ -346,7 +346,8 @@ public class PlayerController : Movement
         damageCooldown = 150; // 3 seconds of I-frames (that sounds like a lot...)
         if (hp <= 0)
         {
-            Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN</color>");
+            Debug.Log("<color=red>THE PLAYER HAS BEEN SLAIN - LOSS CONDITION</color>");
+            UIManager.LoseCondition("You died! But it's OK, the princess is on another planet...");
         }
         uiManager.SetHealth(hp);
     }
@@ -400,8 +401,8 @@ public class PlayerController : Movement
             TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
         else if (other.gameObject.layer == 8)
         {
-            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
-            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+            TakeDamage(other.gameObject.GetComponentInChildren<Enemy>().GetDamage());
+            other.gameObject.GetComponentInChildren<Alien>().PlayAttackSound();
         }
     }
 

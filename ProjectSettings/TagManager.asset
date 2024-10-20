@@ -30,6 +30,7 @@ TagManager:
   - ShipComponent
   - UIManager
   - ShipInvMenu
+  - GameOverMenu
   layers:
   - Default
   - TransparentFX

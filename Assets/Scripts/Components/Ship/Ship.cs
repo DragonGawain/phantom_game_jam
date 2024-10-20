@@ -323,8 +323,8 @@ public class Ship : MonoBehaviour
         }
         else if (other.CompareTag("Alien"))
         {
-            TakeDamage(other.GetComponent<Enemy>().GetDamage());
-            other.GetComponent<Alien>().PlayAttackSound();
+            TakeDamage(other.GetComponentInChildren<Enemy>().GetDamage());
+            other.GetComponentInChildren<Alien>().PlayAttackSound();
         }
     }
 
@@ -334,8 +334,8 @@ public class Ship : MonoBehaviour
         {
             if (iFrameCounter > 0)
                 return;
-            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
-            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+            TakeDamage(other.gameObject.GetComponentInChildren<Enemy>().GetDamage());
+            other.gameObject.GetComponentInChildren<Alien>().PlayAttackSound();
         }
     }
 
@@ -359,6 +359,7 @@ public class Ship : MonoBehaviour
                 Debug.Log(
                     "<color=red>THE PLAYER'S SHIP HAS BEEN DESTROYED - LOSS CONDITION</color>"
                 );
+                UIManager.LoseCondition("Your ship has been blown up!");
             }
             // for simplicity's sake, when a ship dies, it's human will die with it
             if (human != null)

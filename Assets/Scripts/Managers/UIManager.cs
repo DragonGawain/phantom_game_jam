@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     static GameObject pauseMenu;
     static GameObject hud;
     static GameObject shipInventoryMenu;
+    static GameObject gameOverMenu;
 
     static UIAudio uIAudio;
 
@@ -38,7 +39,6 @@ public class UIManager : MonoBehaviour
         if (this != instance)
             Destroy(gameObject);
 
-        Debug.Log("check");
 
         uIAudio = GetComponent<UIAudio>();
 
@@ -46,12 +46,14 @@ public class UIManager : MonoBehaviour
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
         hud = GameObject.FindGameObjectWithTag("HUD");
         shipInventoryMenu = GameObject.FindGameObjectWithTag("ShipInvMenu");
+        gameOverMenu = GameObject.FindGameObjectWithTag("GameOverMenu");
 
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(mainMenu);
         DontDestroyOnLoad(pauseMenu);
         DontDestroyOnLoad(hud);
         DontDestroyOnLoad(shipInventoryMenu);
+        DontDestroyOnLoad(gameOverMenu);
 
         hpSlider = hud.transform.Find("HealthBar").GetComponent<Slider>();
 
@@ -74,7 +76,6 @@ public class UIManager : MonoBehaviour
 
     public void PlayGame()
     {
-        Debug.Log("hit");
         SceneManager.LoadScene("CraigScene");
 
         ActivateMenu("hud");
@@ -83,7 +84,6 @@ public class UIManager : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("hiut2");
         Application.Quit();
     }
 
@@ -119,7 +119,6 @@ public class UIManager : MonoBehaviour
 
     public void SetHealth(int hp)
     {
-        Debug.Log("hit");
         hpSlider.value = hp;
         // fill.color = gradient.Evaluate(hpSlider.normalizedValue);
     }
@@ -239,6 +238,7 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         hud.SetActive(false);
         shipInventoryMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
 
         switch (canvasName)
         {
@@ -253,6 +253,9 @@ public class UIManager : MonoBehaviour
                 break;
             case "shipInv":
                 shipInventoryMenu.SetActive(true);
+                break;
+            case "gameOver":
+                gameOverMenu.SetActive(true);
                 break;
             default:
                 break;
@@ -302,5 +305,14 @@ public class UIManager : MonoBehaviour
         time = Mathf.FloorToInt(time / 50f);
         int min = Mathf.FloorToInt(time / 60f);
         timerText.text = "TIME REMAINING: " + min + ":" + (time - (min * 60));
+    }
+
+    public static void LoseCondition(string text)
+    {
+        Time.timeScale = 0;
+        AudioManager.PlayGameOver();
+        ActivateMenu("gameOver");
+        gameOverMenu.transform.Find("GOText").GetComponent<TextMeshProUGUI>().text = text;
+
     }
 }
