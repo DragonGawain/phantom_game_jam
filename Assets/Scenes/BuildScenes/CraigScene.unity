@@ -1007,7 +1007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2029903249409870790, guid: aeb0661337f299f44bf1d7798f4f9d06, type: 3}
       propertyPath: initialComps.Array.size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2029903249409870790, guid: aeb0661337f299f44bf1d7798f4f9d06, type: 3}
       propertyPath: initialComps.Array.data[1]

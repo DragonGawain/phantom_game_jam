@@ -204,6 +204,9 @@ public class Ship : MonoBehaviour
                 transform.parent = player.transform;
                 transform.localPosition = Vector3.zero;
                 Debug.Log("<color=orange>The player has completed their ship!</color>");
+                GetComponent <ParticleSystem>().Play ();
+                ParticleSystem.EmissionModule em = GetComponent<ParticleSystem>().emission;
+                em.enabled = true;
             }
         }
     }

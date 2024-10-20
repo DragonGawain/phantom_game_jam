@@ -63,7 +63,7 @@ public class ShipPiece : Item
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent<PlayerController>(out PlayerController pc))
+        if (other.TryGetComponent<PlayerController>(out PlayerController pc) && !PlayerController.isEndingSequence)
         {
             if (pc.AddToShipInventory(shipComponentType))
             {

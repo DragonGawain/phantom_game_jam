@@ -136,6 +136,16 @@ public class PlayerController : Movement
 
         // missingComponentsIndicator();
 
+        if (isEndingSequence)
+        {
+            transform.localEulerAngles = new Vector3(
+                0,
+                0,
+                Vector2.SignedAngle(new Vector2(1, 0).normalized, rb.velocity.normalized)
+            );
+
+        }
+
         // ship pointer
         shipPointer.localEulerAngles = new Vector3(
             0,
@@ -408,6 +418,7 @@ public class PlayerController : Movement
 
     public void InitializeEndingSequence()
     {
+        flashlight.gameObject.SetActive(false);
         GetComponent<SpriteRenderer>().enabled = false;
         GameObject[] alienBases = GameObject.FindGameObjectsWithTag("AlienBase");
         foreach (GameObject ab in alienBases)
