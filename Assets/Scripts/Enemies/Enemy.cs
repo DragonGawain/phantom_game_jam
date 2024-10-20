@@ -72,6 +72,8 @@ public class Enemy : Movement
 
     protected int damage = 1;
 
+    protected Animator animator;
+
     // Start is called before the first frame update
     protected override void OnAwake()
     {
@@ -83,10 +85,27 @@ public class Enemy : Movement
 
         preferedTurnDir = (int)Mathf.Sign(Random.Range(-1f, 1f));
         rb = GetComponentInParent<Rigidbody2D>();
+
+        animator = GetComponentInParent<Animator>();
     }
 
     private void FixedUpdate()
     {
+        animator.SetInteger("direction", 0);
+
+        // left
+        if (rb.velocity.x < -0.2f)
+            animator.SetInteger("direction", 1);
+        // right
+        if (rb.velocity.x > 0.2f)
+            animator.SetInteger("direction", 2);
+        // up
+        if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y > 0.2f)
+            animator.SetInteger("direction", 3);
+        // down
+        if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y < -0.2f)
+            animator.SetInteger("direction", 4);
+
         if (target != null)
         {
             VisionCast();

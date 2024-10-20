@@ -156,6 +156,8 @@ public class UIManager : MonoBehaviour
                     + (inventory[sc] >= Ship.GetRequiredInvetory()[sc])
             );
 
+            // can cheat if all else fails -> 2 GO's, one always animated, the other never
+            // enable/disable the desired one
             if (inventory[sc] >= Ship.GetRequiredInvetory()[sc])
             {
                 Debug.Log("hit");

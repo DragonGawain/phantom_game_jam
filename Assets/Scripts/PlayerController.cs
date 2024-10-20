@@ -59,6 +59,8 @@ public class PlayerController : Movement
 
     float rot;
 
+    Animator animator;
+
     // Start is called before the first frame update
     protected override void OnAwake()
     {
@@ -80,6 +82,8 @@ public class PlayerController : Movement
 
         flashlight = transform.Find("Flashlight");
         advFlashlight = transform.Find("AdvancedFlashlight");
+
+        animator = GetComponent<Animator>();
 
         // numberOfMissingComponents.enabled = false;
     }
@@ -106,6 +110,21 @@ public class PlayerController : Movement
         // if (movementInput.magnitude == 0)
         if (rb.velocity.magnitude < 0.15f)
             rb.velocity = Vector2.zero;
+
+        animator.SetInteger("direction", 0);
+
+        // left
+        if (movementInput.x < -0.2f)
+            animator.SetInteger("direction", 1);
+        // right
+        if (movementInput.x > 0.2f)
+            animator.SetInteger("direction", 2);
+        // up
+        if (Mathf.Abs(movementInput.x) < 0.2f && movementInput.y > 0.2f)
+            animator.SetInteger("direction", 3);
+        // down
+        if (Mathf.Abs(movementInput.x) < 0.2f && movementInput.y < -0.2f)
+            animator.SetInteger("direction", 4);
 
         if (damageCooldown > 0)
             damageCooldown--;
@@ -187,7 +206,7 @@ public class PlayerController : Movement
                     UIManager.ActivateHudItem("coin");
                     break;
             }
-            
+
             return true;
         }
         return false;
@@ -229,11 +248,23 @@ public class PlayerController : Movement
     {
         Debug.Log("size: " + size);
         if (questTarget1 != null)
-            if (size + Item.shipComponentSizes[questTarget1.GetComponent<ShipPiece>().GetShipComponentType()] > shipInventorySize)
+            if (
+                size
+                    + Item.shipComponentSizes[
+                        questTarget1.GetComponent<ShipPiece>().GetShipComponentType()
+                    ]
+                > shipInventorySize
+            )
                 SetQuest1Target(null);
-        
+
         if (questTarget2 != null)
-            if (size + Item.shipComponentSizes[questTarget2.GetComponent<ShipPiece>().GetShipComponentType()] > shipInventorySize)
+            if (
+                size
+                    + Item.shipComponentSizes[
+                        questTarget2.GetComponent<ShipPiece>().GetShipComponentType()
+                    ]
+                > shipInventorySize
+            )
                 SetQuest2Target(null);
 
         if (questTarget1 == null && questTarget2 == null)
@@ -329,9 +360,12 @@ public class PlayerController : Movement
     public Transform GetQuest1Target() => questTarget1;
 
     public Transform GetQuest2Target() => questTarget2;
-    
-    public ShipComponents GetQuest1ShipComponentType() => questTarget1.GetComponent<ShipPiece>().GetShipComponentType();
-    public ShipComponents GetQuest2ShipComponentType() => questTarget2.GetComponent<ShipPiece>().GetShipComponentType();
+
+    public ShipComponents GetQuest1ShipComponentType() =>
+        questTarget1.GetComponent<ShipPiece>().GetShipComponentType();
+
+    public ShipComponents GetQuest2ShipComponentType() =>
+        questTarget2.GetComponent<ShipPiece>().GetShipComponentType();
 
     public void SetQuest1Target(Transform target)
     {

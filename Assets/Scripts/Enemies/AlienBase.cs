@@ -72,7 +72,7 @@ public class AlienBase : MonoBehaviour
             ),
             Quaternion.identity
         );
-        Alien al = alo.GetComponent<Alien>();
+        Alien al = alo.GetComponentInChildren<Alien>();
         if (!firstSpawn)
             alienBaseAudio.SpawnSound();
         aliens.Add(al);

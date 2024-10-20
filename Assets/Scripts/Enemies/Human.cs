@@ -43,7 +43,11 @@ public class Human : Enemy
     void Start()
     {
         FindNewShipPiece();
-        ship.SetHuman(this);
+        bool version = ship.SetHuman(this);
+
+        if (!version)
+            animator.runtimeAnimatorController =
+                Resources.Load("Characters/Human2/Human2") as RuntimeAnimatorController;
         fleePoint = ship.transform.position;
 
         bulletObject = Resources.Load<GameObject>("Bullet");

@@ -95,10 +95,12 @@ public class Ship : MonoBehaviour
     //     int availableSPace
     // ) => GetTransformOfNearestNeededShipPiece(source, carrying, availableSPace).position;
 
-    public void SetHuman(Human human)
+    public bool SetHuman(Human human)
     {
-        GetComponent<SpriteRenderer>().sprite = Random.Range(-1f, 1f) < 0 ? humanShip1 : humanShip2;
+        bool ret = Random.Range(-1f, 1f) < 0;
+        GetComponent<SpriteRenderer>().sprite = ret ? humanShip1 : humanShip2;
         this.human = human;
+        return ret;
     }
 
     public void SetPlayer(PlayerController player) => this.player = player;
@@ -284,11 +286,27 @@ public class Ship : MonoBehaviour
                 }
 
                 if (pc.GetQuest1Target() != null && pc.GetQuest2Target() != null)
-                    UIManager.OpenShipInventory(inventory, maxHp, hp, pc.GetQuest1ShipComponentType(), pc.GetQuest2ShipComponentType());
+                    UIManager.OpenShipInventory(
+                        inventory,
+                        maxHp,
+                        hp,
+                        pc.GetQuest1ShipComponentType(),
+                        pc.GetQuest2ShipComponentType()
+                    );
                 else if (pc.GetQuest1Target() != null && pc.GetQuest2Target() == null)
-                    UIManager.OpenShipInventory(inventory, maxHp, hp, pc.GetQuest1ShipComponentType());
+                    UIManager.OpenShipInventory(
+                        inventory,
+                        maxHp,
+                        hp,
+                        pc.GetQuest1ShipComponentType()
+                    );
                 else if (pc.GetQuest1Target() == null && pc.GetQuest2Target() != null)
-                    UIManager.OpenShipInventory(inventory, maxHp, hp, pc.GetQuest2ShipComponentType());
+                    UIManager.OpenShipInventory(
+                        inventory,
+                        maxHp,
+                        hp,
+                        pc.GetQuest2ShipComponentType()
+                    );
                 else if (pc.GetQuest1Target() == null && pc.GetQuest2Target() == null)
                     UIManager.OpenShipInventory(inventory, maxHp, hp);
             }
