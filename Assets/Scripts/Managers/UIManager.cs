@@ -349,17 +349,20 @@ public class UIManager : MonoBehaviour
         foreach (char letter in winText1)
         {
             t1.text += letter; 
+            AudioManager.PlayTyping();
             yield return new WaitForSecondsRealtime(0.075f); 
         }
 
         foreach (char letter in winText2)
         {
+            AudioManager.PlayTyping();
             t2.text += letter; 
             yield return new WaitForSecondsRealtime(0.09f); 
         }
 
         foreach (char letter in winText3)
         {
+            AudioManager.PlayTyping();
             t3.text += letter; 
             yield return new WaitForSecondsRealtime(0.15f); 
         }

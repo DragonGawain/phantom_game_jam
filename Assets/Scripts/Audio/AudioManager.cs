@@ -17,6 +17,8 @@ public class AudioManager : MonoBehaviour
     static AudioClip swampFull;
     static AudioClip asphaltFull;
     static AudioClip forestFull;
+    
+    static AudioClip typingSound;
 
     static TerrainTypes currentTerrain = TerrainTypes.NORMAL;
 
@@ -50,6 +52,8 @@ public class AudioManager : MonoBehaviour
         swampFull = Resources.Load<AudioClip>("Audio/OST/Swamp/OST_swamp_full");
         asphaltFull = Resources.Load<AudioClip>("Audio/OST/Asphalt/OST_asphalt_full");
         forestFull = Resources.Load<AudioClip>("Audio/OST/Forest/OST_forest_full");
+        
+        typingSound = Resources.Load<AudioClip>("Audio/typing");
 
         shipComponentPickupSound = Resources.Load<AudioClip>("Audio/component/ship_component_get");
         playerComponentPickupSound = Resources.Load<AudioClip>(
@@ -139,6 +143,18 @@ public class AudioManager : MonoBehaviour
         while (mainAudioSource.isPlaying)
             yield return null;
         UIManager.ReturnToMainMenu();
+    }
+
+    public static void PlayTyping()
+    {
+        if (mainAudioSource.isPlaying)
+            return;
+        mainAudioSource.PlayOneShot(typingSound);
+    }
+
+    public static void StopAllSounds()
+    {
+        mainAudioSource.Stop();
     }
 
     public static void PlayShipCompGet() =>
