@@ -1346,7 +1346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d76a9db6b40b947869cb5085c7fc8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thePlayer: {fileID: 0}
+  thePlayer: {fileID: 1700929369}
   distanceFromPlayer: 2
 --- !u!212 &1259899750
 SpriteRenderer:
@@ -1590,6 +1590,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5095812a394d5234bbbcfa300b2f9abe, type: 3}
+--- !u!114 &1700929369 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2892900692927608235, guid: 71d7485d9737d5e40a9e530371af144b, type: 3}
+  m_PrefabInstance: {fileID: 6923772770238067984}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d472653a5e3b745946d4e8438e0536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1707897177
 GameObject:
   m_ObjectHideFlags: 0

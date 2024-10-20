@@ -324,6 +324,7 @@ public class Ship : MonoBehaviour
         else if (other.CompareTag("Alien"))
         {
             TakeDamage(other.GetComponentInChildren<Enemy>().GetDamage());
+            if (other.gameObject != null)
             other.GetComponentInChildren<Alien>().PlayAttackSound();
         }
     }
