@@ -22,7 +22,8 @@ public class AlienAudio : MonoBehaviour
 
     public void AttackingSound()
     {
-        attackingSource.PlayOneShot(attackingSounds[Random.Range(0, attackingSounds.Length)]);
+        if (gameObject != null)
+            attackingSource.PlayOneShot(attackingSounds[Random.Range(0, attackingSounds.Length)]);
     }
 
     public void TookDamageSound()
