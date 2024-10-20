@@ -11,7 +11,7 @@ public class TerrainType : MonoBehaviour
     TerrainTypes terrainType;
 
     [SerializeField]
-    bool isSpecificItem = false;
+    bool isSpecificTerrain = false;
 
     Light2D terrainLight;
 
@@ -19,7 +19,7 @@ public class TerrainType : MonoBehaviour
 
     private void Awake()
     {
-        if (!isSpecificItem)
+        if (!isSpecificTerrain)
             terrainType = (TerrainTypes)Random.Range(0, Enum.GetNames(typeof(TerrainTypes)).Length);
         gameObject.tag = terrainType.GetEnumDescription();
         GetComponent<SpriteRenderer>().color = terrainType switch
