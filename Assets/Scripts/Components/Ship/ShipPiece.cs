@@ -67,7 +67,6 @@ public class ShipPiece : Item
         {
             if (pc.AddToShipInventory(shipComponentType))
             {
-                Debug.Log("dingle");
                 AudioManager.PlayShipCompGet();
 
                 if (transform == pc.GetQuest1Target())
