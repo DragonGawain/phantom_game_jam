@@ -85,11 +85,13 @@ public class PlayerController : Movement
 
         animator = GetComponent<Animator>();
 
+
         // numberOfMissingComponents.enabled = false;
     }
 
     private void Start()
     {
+        isEndingSequence = false;
         // UIManager.ActivateMenu("hud");
         uiManager.SetMaxHealth(maxHp);
     }
@@ -277,7 +279,7 @@ public class PlayerController : Movement
             )
                 SetQuest2Target(null);
 
-        if (questTarget1 == null && questTarget2 == null)
+        if (questTarget1 == null && questTarget2 == null && !isEndingSequence)
             UIManager.SetOperationText("OpGoToShipText");
     }
 

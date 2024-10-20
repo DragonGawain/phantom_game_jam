@@ -83,7 +83,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("CraigScene");
+        SceneManager.LoadScene("BuildScene");
 
         ActivateMenu("hud");
         AudioManager.PlayIntro();
@@ -306,6 +306,7 @@ public class UIManager : MonoBehaviour
 
     public static void SetOperationText(string text)
     {
+
         hud.transform.Find("TimerRoot").gameObject.SetActive(false);
         hud.transform.Find("OpCollectText").gameObject.SetActive(false);
         hud.transform.Find("OpGoToShipText").gameObject.SetActive(false);
@@ -320,7 +321,8 @@ public class UIManager : MonoBehaviour
 
         time = Mathf.FloorToInt(time / 50f);
         int min = Mathf.FloorToInt(time / 60f);
-        timerText.text = "TIME REMAINING: " + min + ":" + (time - (min * 60));
+        int sec = time - (min * 60);
+        timerText.text = "TIME REMAINING: " + min + ":" + (sec < 10 ? ("0" + sec) : sec);
         
     }
 

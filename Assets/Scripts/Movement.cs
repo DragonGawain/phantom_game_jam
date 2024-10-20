@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour
 
     protected float swampSpeedModifier = -2f;
     protected float forestSpeedModifier = -0.8f;
-    protected float asphaltSpeedModifier = 1.5f;
+    protected float asphaltSpeedModifier = 2.5f;
 
     [SerializeField, Range(0f, 1f)]
     protected float slowdownDrag = 0.2f;

@@ -16,7 +16,7 @@ public class healthRestore : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent<PlayerController>(out PlayerController pc))
+        if (other.TryGetComponent<PlayerController>(out PlayerController pc) && !PlayerCOntroller.isEndingSequence)
         {
             pc.RestoreHealth(hpRestore);
             AudioManager.HealthSound();
