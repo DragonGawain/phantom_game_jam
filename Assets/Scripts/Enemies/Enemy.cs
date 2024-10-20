@@ -449,8 +449,8 @@ public class Enemy : Movement
     {
         if (!PlayerController.isEndingSequence && other.gameObject.CompareTag("Alien"))
         {
-            TakeDamage(other.gameObject.GetComponent<Enemy>().GetDamage());
-            other.gameObject.GetComponent<Alien>().PlayAttackSound();
+            TakeDamage(other.gameObject.GetComponentInChildren<Enemy>().GetDamage());
+            other.gameObject.GetComponentInChildren<Alien>().PlayAttackSound();
         }
     }
 
