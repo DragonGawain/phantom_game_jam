@@ -22,7 +22,7 @@ public class HumanAudio : MonoBehaviour
 
     public void ShootSound()
     {
-        shootingSource.PlayOneShot(shootingSounds[Random.Range(0, shootingSounds.Length)], 7);
+        shootingSource.PlayOneShot(shootingSounds[Random.Range(0, shootingSounds.Length)], 2);
     }
 
     public void TookDamageSound()

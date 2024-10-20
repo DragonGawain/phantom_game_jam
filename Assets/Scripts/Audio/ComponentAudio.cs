@@ -8,6 +8,9 @@ public class ComponentAudio : MonoBehaviour
 
     AudioClip shipComponentPickupSound;
     AudioClip playerComponentPickupSound;
+    AudioClip healthSound;
+
+    AudioClip sonicSound;
 
     void Awake()
     {
@@ -17,15 +20,15 @@ public class ComponentAudio : MonoBehaviour
         playerComponentPickupSound = Resources.Load<AudioClip>(
             "Audio/component/player_component_get"
         );
+        healthSound = Resources.Load<AudioClip>("Audio/component/hp_pickup");
+        sonicSound = Resources.Load<AudioClip>("Audio/component/sonic_ring");
     }
 
-    public void PlayShipCompGet()
-    {
-        audioSource.PlayOneShot(shipComponentPickupSound);
-    }
+    public void PlayShipCompGet() => audioSource.PlayOneShot(shipComponentPickupSound);
 
-    public void PlayPlayerCompGet()
-    {
-        audioSource.PlayOneShot(playerComponentPickupSound);
-    }
+    public void PlayPlayerCompGet() => audioSource.PlayOneShot(playerComponentPickupSound);
+
+    public void HealthSound() => audioSource.PlayOneShot(healthSound);
+
+    public void SonicSound() => audioSource.PlayOneShot(sonicSound);
 }

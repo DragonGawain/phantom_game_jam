@@ -28,11 +28,11 @@ public abstract class Item : MonoBehaviour
             { PlayerComponents.COIN, 0 },
         };
 
-    protected ComponentAudio componentAudio;
+    // protected ComponentAudio componentAudio;
 
     protected virtual void Awake()
     {
-        componentAudio = GetComponent<ComponentAudio>();
+        // componentAudio = GetComponent<ComponentAudio>();
         OnAwake();
     }
 

@@ -63,10 +63,10 @@ public class PlayerAudio : MonoBehaviour
         };
 
     public void ShootSoundBasic() =>
-        shootingSource.PlayOneShot(shootingSounds[Random.Range(0, 2)], 10);
+        shootingSource.PlayOneShot(shootingSounds[Random.Range(0, 2)], 3);
 
     public void ShootSoundAdvanced() =>
-        shootingSource.PlayOneShot(shootingSounds[Random.Range(2, 4)], 10);
+        shootingSource.PlayOneShot(shootingSounds[Random.Range(2, 4)], 3);
 
     IEnumerator PlayWalkingSound()
     {

@@ -17,7 +17,15 @@ public class PlayerPiece : Item
         {
             if (pc.AddToInventory(playerComponentType))
             {
-                componentAudio.PlayShipCompGet();
+                switch (playerComponentType)
+                {
+                    case PlayerComponents.COIN:
+                        AudioManager.SonicSound();
+                        break;
+                    default:
+                        AudioManager.PlayPlayerCompGet();
+                        break;
+                }
                 Destroy(gameObject);
             }
         }

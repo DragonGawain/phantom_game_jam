@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     public static bool isInPauseMenu = false;
 
     Slider hpSlider;
-    
+
     static GameObject questRoot1;
     static GameObject questRoot2;
 
@@ -52,11 +52,14 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(shipInventoryMenu);
 
         hpSlider = hud.transform.Find("HealthBar").GetComponent<Slider>();
-        
+
         questRoot1 = shipInventoryMenu.transform.Find("Quest1Root").gameObject;
         questRoot2 = shipInventoryMenu.transform.Find("Quest2Root").gameObject;
 
-        timerText = hud.transform.Find("TimerRoot").Find("TimerText").GetComponent<TextMeshProUGUI>();
+        timerText = hud.transform
+            .Find("TimerRoot")
+            .Find("TimerText")
+            .GetComponent<TextMeshProUGUI>();
 
         ActivateMenu("mainMenu");
     }
@@ -72,6 +75,7 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("CraigScene");
 
         ActivateMenu("hud");
+        AudioManager.PlayIntro();
     }
 
     public void QuitGame()
@@ -98,6 +102,8 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         isInPauseMenu = false;
         ActivateMenu("mainMenu");
+        SceneManager.LoadScene("MainMenu");
+        AudioManager.PlayMainMenu();
     }
 
     public void SetMaxHealth(int hp)
@@ -114,11 +120,15 @@ public class UIManager : MonoBehaviour
         // fill.color = gradient.Evaluate(hpSlider.normalizedValue);
     }
 
-    public static void OpenShipInventory(Dictionary<ShipComponents, int> inventory, int maxHp, int hp)
+    public static void OpenShipInventory(
+        Dictionary<ShipComponents, int> inventory,
+        int maxHp,
+        int hp
+    )
     {
         uIAudio.OpenSound();
         isInShipInventory = true;
-        
+
         Transform inventoryCountsParent = shipInventoryMenu.transform.Find("InventoryParent");
         TextMeshProUGUI text;
         foreach (ShipComponents sc in Enum.GetValues(typeof(ShipComponents)))
@@ -139,15 +149,28 @@ public class UIManager : MonoBehaviour
             if (sc == ShipComponents.RCS)
                 text.text = text.text.ToUpper();
 
-            Debug.Log("type: " + sc.GetEnumDescription() + " - val: " + (inventory[sc] >= Ship.GetRequiredInvetory()[sc]));
+            Debug.Log(
+                "type: "
+                    + sc.GetEnumDescription()
+                    + " - val: "
+                    + (inventory[sc] >= Ship.GetRequiredInvetory()[sc])
+            );
 
             if (inventory[sc] >= Ship.GetRequiredInvetory()[sc])
             {
                 Debug.Log("hit");
-                shipInventoryMenu.transform.Find(sc.GetEnumDescription() + "_icon").GetComponent<Animator>().SetBool("isComplete", true);
-                
-                Debug.Log("test: " + shipInventoryMenu.transform.Find(sc.GetEnumDescription() + "_icon").GetComponent<Animator>().GetBool("isComplete"));
-                
+                shipInventoryMenu.transform
+                    .Find(sc.GetEnumDescription() + "_icon")
+                    .GetComponent<Animator>()
+                    .SetBool("isComplete", true);
+
+                Debug.Log(
+                    "test: "
+                        + shipInventoryMenu.transform
+                            .Find(sc.GetEnumDescription() + "_icon")
+                            .GetComponent<Animator>()
+                            .GetBool("isComplete")
+                );
             }
         }
         questRoot1.SetActive(false);
@@ -170,7 +193,9 @@ public class UIManager : MonoBehaviour
     {
         OpenShipInventory(inventory, maxHp, hp);
         questRoot1.SetActive(true);
-        questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
+        questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item
+            .GetEnumDescription()
+            .Replace("_", " ");
     }
 
     public static void OpenShipInventory(
@@ -184,8 +209,12 @@ public class UIManager : MonoBehaviour
         OpenShipInventory(inventory, maxHp, hp);
         questRoot1.SetActive(true);
         questRoot2.SetActive(true);
-        questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item.GetEnumDescription().Replace("_", " ");
-        questRoot2.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q2Item.GetEnumDescription().Replace("_", " ");
+        questRoot1.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q1Item
+            .GetEnumDescription()
+            .Replace("_", " ");
+        questRoot2.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = q2Item
+            .GetEnumDescription()
+            .Replace("_", " ");
     }
 
     public static void CloseShipInventory()
@@ -260,13 +289,12 @@ public class UIManager : MonoBehaviour
         hud.transform.Find("OpGoToShipText").gameObject.SetActive(false);
 
         hud.transform.Find(text).gameObject.SetActive(true);
-        
     }
 
     public static void UpdateWinCounter(int time)
     {
-        time = Mathf.FloorToInt(time/50f);
-        int min = Mathf.FloorToInt(time/60f);
-        timerText.text = "TIME REMAINING: " + min + ":" + (time - (min*60));
+        time = Mathf.FloorToInt(time / 50f);
+        int min = Mathf.FloorToInt(time / 60f);
+        timerText.text = "TIME REMAINING: " + min + ":" + (time - (min * 60));
     }
 }

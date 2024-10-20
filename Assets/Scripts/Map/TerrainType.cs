@@ -61,36 +61,35 @@ public class TerrainType : MonoBehaviour
         {
             case TerrainTypes.NORMAL:
                 movement.SetMaxMoveSpeed(movement.GetOriginalSpeed());
-                if (isPlayer)
-                    other.GetComponent<PlayerAudio>().SetWalkingSound(TerrainTypes.NORMAL);
                 break;
             case TerrainTypes.SWAMP:
                 movement.SetMaxMoveSpeed(
                     movement.GetOriginalSpeed() + movement.GetSwampSpeedModifier()
                 );
-                if (isPlayer)
-                    other.GetComponent<PlayerAudio>().SetWalkingSound(TerrainTypes.SWAMP);
                 break;
             case TerrainTypes.ASPHALT:
                 movement.SetMaxMoveSpeed(
                     movement.GetOriginalSpeed() + movement.GetAsphaltSpeedModifier()
                 );
-                if (isPlayer)
-                    other.GetComponent<PlayerAudio>().SetWalkingSound(TerrainTypes.ASPHALT);
                 break;
             case TerrainTypes.FOREST:
                 movement.SetMaxMoveSpeed(
                     movement.GetOriginalSpeed() + movement.GetForestSpeedModifier()
                 );
-                if (isPlayer)
-                    other.GetComponent<PlayerAudio>().SetWalkingSound(TerrainTypes.FOREST);
                 break;
+        }
+        if (isPlayer)
+        {
+            other.GetComponent<PlayerAudio>().SetWalkingSound(terrainType);
+            AudioManager.SetTerrainType(terrainType);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
-            other.GetComponent<PlayerController>().StartCoroutine(other.GetComponent<PlayerController>().FlashTriggerBox());
+            other
+                .GetComponent<PlayerController>()
+                .StartCoroutine(other.GetComponent<PlayerController>().FlashTriggerBox());
     }
 }
