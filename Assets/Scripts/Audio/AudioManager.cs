@@ -45,7 +45,7 @@ public class AudioManager : MonoBehaviour
 
         mainMenu = Resources.Load<AudioClip>("Audio/OST/main_menu");
         intro = Resources.Load<AudioClip>("Audio/OST/OST_intro");
-        boss = Resources.Load<AudioClip>("Audio/OST/OST_boxx");
+        boss = Resources.Load<AudioClip>("Audio/OST/OST_boss");
         gameOver = Resources.Load<AudioClip>("Audio/OST/game_over");
 
         defaultFull = Resources.Load<AudioClip>("Audio/OST/Normal/OST_default_full");

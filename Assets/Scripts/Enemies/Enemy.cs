@@ -421,7 +421,7 @@ public class Enemy : Movement
         hp -= amt;
         if (hp <= 0)
         {
-            Destroy(this.gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 

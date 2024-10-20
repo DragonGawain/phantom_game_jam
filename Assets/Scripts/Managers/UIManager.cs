@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
 
     static TextMeshProUGUI timerText;
 
-    static int winCountdown = 2 * 50;
+    static int winCountdown = 300 * 50;
 
     static string winText1 = "SHIP TAKEOFF PROCEDURE COMPLETED - LAUNCH SUCCESSFUL.";
     static string winText2 = "NEW MISSION DIRECTIVES RECEIVED:";
