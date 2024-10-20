@@ -63,6 +63,7 @@ public class AudioManager : MonoBehaviour
 
     public static void PlayMainMenu()
     {
+        instance.StopAllCoroutines();
         mainAudioSource.Stop();
         mainAudioSource.PlayOneShot(mainMenu, 2);
         mainAudioSource.loop = true;

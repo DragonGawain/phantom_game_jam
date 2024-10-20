@@ -38,6 +38,8 @@ public class UIManager : MonoBehaviour
         if (this != instance)
             Destroy(gameObject);
 
+        Debug.Log("check");
+
         uIAudio = GetComponent<UIAudio>();
 
         mainMenu = GameObject.FindGameObjectWithTag("MainMenu");
@@ -72,6 +74,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayGame()
     {
+        Debug.Log("hit");
         SceneManager.LoadScene("CraigScene");
 
         ActivateMenu("hud");
@@ -80,6 +83,7 @@ public class UIManager : MonoBehaviour
 
     public void QuitGame()
     {
+        Debug.Log("hiut2");
         Application.Quit();
     }
 
@@ -102,7 +106,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         isInPauseMenu = false;
         ActivateMenu("mainMenu");
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("AltMenu");
         AudioManager.PlayMainMenu();
     }
 
